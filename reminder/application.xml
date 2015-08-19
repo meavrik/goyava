@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application xmlns="http://ns.adobe.com/air/application/18.0">
+  <id>air.reminder</id>
+  <versionNumber>0.1</versionNumber>
+  <supportedProfiles>mobileDevice</supportedProfiles>
+  <filename>reminder</filename>
+  <name>
+    <text xml:lang="en">reminder</text>
+  </name>
+  <android>
+    <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
+	<application>
+		<meta-data android:name="PW_APPID" android:value="C40F4-65680" />
+		<meta-data android:name="PW_PROJECT_ID" android:value="958597314309" />
+		<meta-data android:name="PW_BROADCAST_PUSH" android:value="true" />
+		<receiver android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+			<intent-filter>
+				<!-- Bekommt die aktuelle Nachrichten. -->
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+				<!-- Bekommt die ID der Anmeldung. -->
+				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+				<category android:name="air.reminder" />
+			</intent-filter>
+		</receiver>
+		<!-- AirDatePicker -->
+		<activity android:name="com.freshplanet.datePicker.DatePickerActivity" android:theme="@android:style/Theme.Holo.Dialog"/>
+		<activity android:name="com.arellomobile.android.push.PushWebview" />
+		<activity android:name="com.arellomobile.android.push.MessageActivity" />
+		<activity android:name="com.arellomobile.android.push.PushHandlerActivity" />
+		<activity android:name="com.pushwoosh.nativeExtensions.PushActivity">
+			<intent-filter>
+				<action android:name="air.reminder.MESSAGE" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name="com.freshplanet.nativeExtensions.NotificationActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+
+        <receiver android:name="com.freshplanet.nativeExtensions.C2DMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+
+            <!-- Receive the actual message -->
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="air.reminder" />
+            </intent-filter>
+
+            <!-- Receive the registration id -->
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="air.reminder" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Local notification -->
+        <service android:name="com.freshplanet.nativeExtensions.LocalNotificationService"/>
+        <receiver android:name="com.freshplanet.nativeExtensions.LocalBroadcastReceiver" android:process=":remote"></receiver>
+		
+		<!-- pushwoosh notification -->
+		<service android:name="com.arellomobile.android.push.PushGCMIntentService" />
+		<receiver android:name="com.arellomobile.android.push.AlarmReceiver"></receiver>
+	</application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<!--library-->
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<!-- GCM connects to Google Services. -->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<!-- GCM requires a Google account. -->
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<!-- Keeps the processor from sleeping when a message is received. -->
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<!--
+                  Creates a custom permission so only this app can receive its messages.
+                  
+                  NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
+                        where PACKAGE is the application's package name.
+                 -->
+	<permission android:name="air.reminder.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+	<uses-permission android:name="air.reminder.permission.C2D_MESSAGE" />
+	<!-- This app has permission to register and receive data message. -->
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<!-- GCM requires Android SDK version 2.2 (API level 8 ) or above. -->
+	<!-- The targetSdkVersion is optional, but it's always a good practice
+                      to target higher versions. -->
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="16" />
+</manifest>]]></manifestAdditions>
+    <colorDepth>16bit</colorDepth>
+  </android>
+  <iPhone>
+    <InfoAdditions><![CDATA[<key>UIStatusBarStyle</key>
+<string>UIStatusBarStyleBlackOpaque</string>
+<key>UIRequiresPersistentWiFi</key>
+<string>NO</string>
+<key>UIApplicationExitsOnSuspend</key>
+<true />
+<key>UIDeviceFamily</key>
+<array>
+	<string>1</string>
+</array>]]></InfoAdditions>
+    <requestedDisplayResolution>high</requestedDisplayResolution>
+  </iPhone>
+  <initialWindow>
+    <title>reminder</title>
+    <content>reminder.swf</content>
+    <visible>true</visible>
+    <fullScreen>true</fullScreen>
+    <!--<autoOrients>false</autoOrients>-->
+    <!--<aspectRatio>landscape</aspectRatio>-->
+    <renderMode>direct</renderMode>
+    <depthAndStencil>true</depthAndStencil>
+    <systemChrome>standard</systemChrome>
+  </initialWindow>
+  <icon>
+    <image48x48>icons/icon_48.png</image48x48>
+    <image57x57>icons/icon_57.png</image57x57>
+    <image72x72>icons/icon_72.png</image72x72>
+    <image76x76>icons/icon_76.png</image76x76>
+    <image96x96>icons/icon_96.png</image96x96>
+    <image114x114>icons/icon_114.png</image114x114>
+    <image120x120>icons/icon_120.png</image120x120>
+    <image144x144>icons/icon_144.png</image144x144>
+    <image152x152>icons/icon_152.png</image152x152>
+    <!--<image512x512>icons/icon_512.png</image512x512>-->
+  </icon>
+  <!-- 
+	AIR options:
+	http://livedocs.adobe.com/flex/3/html/File_formats_1.html#1043413
+	
+	AIR mobile options:
+	http://help.adobe.com/en_US/air/build/WSfffb011ac560372f-5d0f4f25128cc9cd0cb-7ffe.html
+	
+	iOS icons guidelines:
+	http://developer.apple.com/library/ios/#documentation/userexperience/conceptual/mobilehig/IconsImages/IconsImages.html
+	
+	Android manifest documentation:
+	http://developer.android.com/guide/topics/manifest/manifest-intro.html
+	-->
+  <description>
+    <text xml:lang="en">
+    </text>
+  </description>
+  <extensions>
+     <extensionID>com.pushwoosh.PushNotification</extensionID>
+	 <extensionID>com.freshplanet.AirDatePicker</extensionID>
+     <extensionID>com.freshplanet.AirPushNotification</extensionID>
+     
+  </extensions>
+</application>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<EmptySentence en="Add my first reminder" 
+				   he="המשימה הראשונה שלי" 
+				   it="Add my first reminder" 
+				   de="Add my first reminder" 
+				   ru="Add my first reminder" 
+				   es="Add my first reminder">
+	</EmptySentence>
+	
+	<DailyTasksTab en="DailyTasks" 
+				   he="DailyTasks" 
+				   it="DailyTasks" 
+				   de="DailyTasks" 
+				   ru="DailyTasks" 
+				   es="DailyTasks">
+	</DailyTasksTab>
+	
+	<EventsTab en="Events" 
+				   he="Events" 
+				   it="Events" 
+				   de="Events" 
+				   ru="Events" 
+				   es="Events">
+	</EventsTab>
+	
+	<ShoppingListTab en="Shopping List" 
+				   he="ShoppingList" 
+				   it="ShoppingList" 
+				   de="ShoppingList" 
+				   ru="ShoppingList" 
+				   es="ShoppingList">
+	</ShoppingListTab>
+</data>

@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<swc xmlns="http://www.adobe.com/flash/swccatalog/9">
+    <versions>
+        <swc version="1.2"/>
+        <compiler name="ActionScript Compiler" version="2.0.0" build="354071"/>
+    </versions>
+    <features>
+        <feature-script-deps/>
+    </features>
+    <libraries>
+        <library path="library.swf">
+            <script name="com/freshplanet/nativeExtensions/PushNotification" mod="1402332646000">
+                <def id="com.freshplanet.nativeExtensions:PushNotification"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Error" type="e"/>
+                <dep id="Function" type="s"/>
+                <dep id="JSON" type="e"/>
+                <dep id="String" type="s"/>
+                <dep id="com.freshplanet.nativeExtensions:PushNotificationEvent" type="e"/>
+                <dep id="flash.events:EventDispatcher" type="i"/>
+                <dep id="flash.events:StatusEvent" type="s"/>
+                <dep id="flash.external:ExtensionContext" type="s"/>
+                <dep id="flash.system:Capabilities" type="e"/>
+                <dep id="int" type="s"/>
+                <dep id="trace" type="e"/>
+            </script>
+            <script name="com/freshplanet/nativeExtensions/PushNotificationEvent" mod="1402332720000">
+                <def id="com.freshplanet.nativeExtensions:PushNotificationEvent"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Object" type="s"/>
+                <dep id="String" type="s"/>
+                <dep id="flash.events:Event" type="i"/>
+            </script>
+            <digests>
+                <digest type="SHA-256" signed="false" value="8d344e0a81167c30e77a6cfc14dc0a7e77a7d93897d94c42ad96afadf61e308a"/>
+            </digests>
+        </library>
+    </libraries>
+</swc>

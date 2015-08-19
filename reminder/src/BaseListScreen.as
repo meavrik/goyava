@@ -1,0 +1,383 @@
+package 
+{
+	import assets.AssetsHelper;
+	import com.gamua.flox.Flox;
+	import feathers.controls.AutoComplete;
+	import feathers.controls.Button;
+	import feathers.controls.Callout;
+	import feathers.controls.Label;
+	import feathers.controls.List;
+	import feathers.controls.Panel;
+	import feathers.controls.PanelScreen;
+	import feathers.controls.renderers.DefaultListItemRenderer;
+	import feathers.controls.renderers.IListItemRenderer;
+	import feathers.controls.text.TextFieldTextRenderer;
+	import feathers.controls.TextInput;
+	import feathers.core.ITextRenderer;
+	import feathers.core.PopUpManager;
+	import feathers.data.ListCollection;
+	import feathers.data.LocalAutoCompleteSource;
+	import feathers.events.FeathersEventType;
+	import starling.display.Image;
+	import starling.events.Event;
+	import starling.textures.Texture;
+	import subPanels.DeleteTaskPanel;
+	import subPanels.EditTaskPanel;
+	import texts.TextLocaleHandler;
+	import texts.TextsEnum;
+	import users.UserGlobal;
+	
+	/**
+	 * ...
+	 * @author Avrik
+	 */
+	public class BaseListScreen extends PanelScreen 
+	{
+		private var _defaultEmptyTaskText:String = "Add my first reminder";
+		
+		private var _addButton:Button;
+		protected var _autoCompleteInput:AutoComplete;
+		private var _tasksList:List;
+		private var _deleteTaskPanel:DeleteTaskPanel;
+		private var _editTaskPanel:EditTaskPanel;
+		private var _currentPanel:Panel;
+		private var _selectedItem:DefaultListItemRenderer;
+		private var editInputTf:TextInput;
+		protected var _listArr:Array;
+		protected var _currentTaskName:String;
+		
+		public function BaseListScreen() 
+		{
+			super();
+			
+		}
+		
+		override protected function initialize():void 
+		{
+			super.initialize();
+			
+			_defaultEmptyTaskText = TextLocaleHandler.getText(TextsEnum.EmptySentence)
+			
+			addNewReminderkButton();
+			addSubPanels()
+			addTaskList();
+			
+			this.y = 90;
+			
+			/*var label:Label = new Label();
+			label.text = _defaultEmptyTaskText;
+
+			Callout.show( label, _addButton, "any", false);*/
+		}
+		
+		private function handleEmptyTaskList():void
+		{
+			
+		}
+		
+		private function addTaskList():void
+		{
+			_tasksList = new List();
+			_tasksList.isSelectable = false;
+			_tasksList.dataProvider = new ListCollection( [ ]);
+			_tasksList.itemRendererFactory = function():IListItemRenderer
+			{
+				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
+				 renderer.labelField = "text";
+				 renderer.iconSourceField = "thumbnail";
+				 renderer.labelOffsetX = -70;
+				 renderer.iconOffsetX = -30;
+				renderer.width = 50;
+				 var deleteButn:Button = new Button();
+				 deleteButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 11));
+				 deleteButn.move(stage.stageWidth - 80, 5);
+				 deleteButn.setSize(70, 70);
+				 deleteButn.alpha = .8;
+				 deleteButn.addEventListener(Event.TRIGGERED, onDeleteItem);
+				 renderer.addChild(deleteButn);
+				 
+				 var editButn:Button = new Button();
+				 editButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 12));
+				 editButn.setSize(70, 70);
+				 editButn.alpha = .8;
+				 editButn.move(stage.stageWidth - 155, 5);
+				 editButn.addEventListener(Event.TRIGGERED, onEditItem);
+				 renderer.addChild(editButn);
+
+				 return renderer;
+			};
+
+			//_tasksList.addEventListener(Event.TRIGGERED, listItemTriggered );
+			_tasksList.itemRendererProperties.height = 80;
+			
+			var iconTexture:Texture;
+			if (listArr.length)
+			{
+				for (var i:int = 0; i < listArr.length; i++) 
+				{
+					if (listArr[i].remindEvery != null)
+					{
+						iconTexture = AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, listArr[i].remindEvery);
+					}
+					
+					if (iconTexture)
+					{
+						_tasksList.dataProvider.addItem( { text: listArr[i].name, thumbnail:iconTexture } );
+					} else
+					{
+						_tasksList.dataProvider.addItem( { text: listArr[i].name } );
+					}
+					
+				}
+			} else
+			{
+				handleEmptyTaskList();
+			}
+
+			this.addChild(_tasksList);
+		}
+		
+		private function onEditItem(e:Event):void 
+		{
+			trace("onEditItem");
+			var button:Button = e.currentTarget as Button;
+			_selectedItem = button.parent as DefaultListItemRenderer
+			
+			_currentPanel = _editTaskPanel;
+			PopUpManager.addPopUp(_currentPanel);
+			
+			_editTaskPanel.editInputTf.text = _selectedItem.label;
+		}
+		
+		private function onDeleteItem(e:Event):void 
+		{
+			var button:Button = e.currentTarget as Button;
+			_selectedItem = button.parent as DefaultListItemRenderer
+			_currentPanel = _deleteTaskPanel;
+			PopUpManager.addPopUp(_currentPanel);
+		}
+		
+		private function addSubPanels():void 
+		{
+			_deleteTaskPanel = new DeleteTaskPanel();
+			_deleteTaskPanel.addEventListener(DeleteTaskPanel.DELETE_ITEN, deleteTask_triggeredHandler);
+			_deleteTaskPanel.addEventListener(Event.CANCEL, cancelEditTask_triggeredHandler);
+
+			_editTaskPanel = new EditTaskPanel();
+			_editTaskPanel.addEventListener(EditTaskPanel.SAVE_ITEN, saveEditTask_triggeredHandler);
+			_editTaskPanel.addEventListener(Event.CANCEL, cancelEditTask_triggeredHandler);
+		}
+		
+		protected function submitNewTask(iconTexture:Texture = null, remindEvery:int = -1):void
+		{
+			_currentTaskName = _autoCompleteInput.text;
+				
+			if (_tasksList.dataProvider.length == 1 && _tasksList.dataProvider.getItemAt(0).text == _defaultEmptyTaskText)
+			{
+				_tasksList.dataProvider.removeItemAt(0);
+			}
+			
+			_tasksList.dataProvider.addItemAt( { text: _currentTaskName, thumbnail:iconTexture } , 0);
+			_autoCompleteInput.text = "";
+
+			var obj:Object = { id:UserGlobal.userPlayer.currentID, name:_currentTaskName };
+			if (remindEvery != -1)
+			{
+				obj.remindEvery = remindEvery;
+			}
+			UserGlobal.userPlayer.currentID++;
+			//listArr.push( { name:taskTitle , remindEvery:_toggleGroup.selectedIndex } );
+			listArr.push(obj);
+			
+			saveTaskList();
+			saveNewAutoCompleteSentence(_currentTaskName);
+		}
+		
+		private function addNewReminderkButton():void 
+		{
+			_autoCompleteInput = new AutoComplete()
+			_autoCompleteInput.move(10, 10);
+			_autoCompleteInput.setSize(stage.stageWidth - 110, 100);
+			_autoCompleteInput.verticalAlign = TextInput.VERTICAL_ALIGN_JUSTIFY;
+			
+			_autoCompleteInput.source= new LocalAutoCompleteSource( new ListCollection(new <String>
+			 [
+				 "Buy",
+				 "Call","Call Dad","Call Mom",
+				 "Drive","Daddy",
+				 "Sell","Set",
+				 "Find","Father",
+				 "Go", "Get", "Give",
+				 "Have",
+				 "Locate",
+				 "Meet","Mom","Mommy","Mother",
+				 "Order",
+				 "Task", "Take","Tell",
+				 "Run",
+				 "Phone",
+			 ]));
+			 
+			addChild(_autoCompleteInput);
+			
+			_addButton = new Button();
+			_addButton.addEventListener(FeathersEventType.CREATION_COMPLETE, onButtonCreationComplete);
+			_addButton.addEventListener(Event.TRIGGERED, onAddTriggred);
+			_addButton.setSize(100, 100);
+			_addButton.move(stage.stageWidth -110, _autoCompleteInput.y);
+			
+			var img:Image = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 9));
+			_addButton.defaultIcon = img;
+			addChild(_addButton);
+			
+			for each (var item:Object in UserGlobal.userPlayer.sentences) 
+			{
+				LocalAutoCompleteSource(_autoCompleteInput.source).dataProvider.push(item)
+			}
+		}
+		
+		private function onButtonCreationComplete(e:Event):void 
+		{
+			_tasksList.move(0, _autoCompleteInput.y + _autoCompleteInput.height + 10);
+			_tasksList.setSize(stage.stageWidth, stage.stageHeight -(this.y + 300));
+		}
+		
+		private function onAddTriggred(e:Event):void 
+		{
+			if (_autoCompleteInput.text.length > 1)
+			{
+				_autoCompleteInput.closeList();
+				showPostTaskPanel();
+			}
+		}
+		
+		protected function showPostTaskPanel():void
+		{
+			submitNewTask();
+			//PopUpManager.addPopUp(_radioPanel);
+		}
+		
+		private function saveNewAutoCompleteSentence(str:String):void 
+		{
+			LocalAutoCompleteSource(_autoCompleteInput.source).dataProvider.push(str)
+			UserGlobal.userPlayer.sentences.push(str);
+			UserGlobal.userPlayer.save(null, null);
+		}
+		
+		private function saveTaskList():void 
+		{
+			updateArr();
+			Flox.logInfo("saveTaskList on player : " + UserGlobal.userPlayer.id);
+			UserGlobal.userPlayer.save(onTaskSaveComplete, onTaskSaveError)
+		}
+		
+		private function onTaskSaveError():void 
+		{
+			Flox.logError(this,"task save error");
+		}
+		
+		private function onTaskSaveComplete():void 
+		{
+			Flox.logEvent("task list save success");
+		}
+		
+		/*private function listItemTriggered(e:Event):void 
+		{
+			PopUpManager.addPopUp(_deleteTaskPanel);
+		}*/
+		
+		private function deleteTask_triggeredHandler():void 
+		{
+			removeSelectedTask();
+			PopUpManager.removePopUp(_currentPanel);
+		}
+		
+		private function cancelEditTask_triggeredHandler():void 
+		{
+			PopUpManager.removePopUp(_currentPanel);
+		}
+		
+		private function saveEditTask_triggeredHandler():void 
+		{
+			var newStr:String = _editTaskPanel.editInputTf.text;
+			var index:int = getItemIndexByText(_selectedItem.label);
+			
+			listArr[index].name = newStr;
+			//_tasksList.dataProvider.getItemAt(index).label = newStr;
+			
+			
+			_tasksList.dataProvider.removeItemAt(index);
+			_tasksList.dataProvider.addItemAt( { text: newStr } , index);
+
+			//_selectedItem.label = newStr;
+			//_selectedItem.ch = newStr;
+
+			saveTaskList();
+			
+			PopUpManager.removePopUp(_currentPanel);
+		}
+		
+		public function clearList():void 
+		{
+			Flox.logInfo("clear task list");
+			
+			_tasksList.dataProvider.removeAll();
+			
+			//UserGlobal.userPlayer.tasks = new Array();
+			listArr = new Array();
+			saveTaskList();
+			handleEmptyTaskList();
+		}
+	
+		protected function updateArr():void
+		{
+			
+		}
+
+		private function removeSelectedTask():void 
+		{
+			Flox.logInfo("remove task :" + _selectedItem.label);
+			var index:int = getItemIndexByText(_selectedItem.label);
+			listArr.splice(index, 1);
+			saveTaskList();
+			//_tasksList.dataProvider.removeItem(_selectedItem);
+			_tasksList.dataProvider.removeItemAt(_selectedItem.index);
+			
+			if (!listArr.length)
+			{
+				handleEmptyTaskList();
+			}
+		}
+		
+		private function getItemIndexByText(name:String):int
+		{
+			for each (var item:Object in listArr) 
+			{
+				if (item.name == name)
+				{
+					return listArr.indexOf(item)
+				}
+			}
+			
+			return -1;
+		}
+		
+		public function get autoCompleteInput():AutoComplete 
+		{
+			return _autoCompleteInput;
+		}
+		
+		public function set listArr(value:Array):void 
+		{
+			_listArr = value;
+			
+			updateArr();
+		}
+		
+		public function get listArr():Array 
+		{
+			return _listArr;
+		}
+		
+	}
+
+}
