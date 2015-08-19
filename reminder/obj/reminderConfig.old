@@ -14,7 +14,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'18/08/2015'</value>
+      <value>'19/08/2015'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -30,25 +30,25 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>D:\work\games\reminder\src</path-element>
-      <path-element>D:\work\games\swc</path-element>
-      <path-element>D:\work\games\ane</path-element>
+      <path-element>D:\work\goyava\reminder\src</path-element>
+      <path-element>D:\work\goyava\swc</path-element>
+      <path-element>D:\work\goyava\ane</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\work\games\swc\starling.swc</path-element>
-      <path-element>D:\work\games\swc\feathers.swc</path-element>
-      <path-element>D:\work\games\swc\MetalWorksMobileTheme.swc</path-element>
-      <path-element>D:\work\games\swc\Starling-Extension-Graphics.swc</path-element>
-      <path-element>D:\work\games\swc\Flox-AS3.swc</path-element>
-      <path-element>D:\work\games\reminder\ext\AirDatePicker.ane</path-element>
-      <path-element>D:\work\games\reminder\ext\AirPushNotification_multiMsg.ane</path-element>
-      <path-element>D:\work\games\reminder\ext\__PushNotification.ane</path-element>
-      <path-element>D:\work\games\reminder\ext\PushNotification.ane</path-element>
+      <path-element>D:\work\goyava\swc\starling.swc</path-element>
+      <path-element>D:\work\goyava\swc\feathers.swc</path-element>
+      <path-element>D:\work\goyava\swc\MetalWorksMobileTheme.swc</path-element>
+      <path-element>D:\work\goyava\swc\Starling-Extension-Graphics.swc</path-element>
+      <path-element>D:\work\goyava\swc\Flox-AS3.swc</path-element>
+      <path-element>D:\work\goyava\reminder\ext\AirDatePicker.ane</path-element>
+      <path-element>D:\work\goyava\reminder\ext\AirPushNotification_multiMsg.ane</path-element>
+      <path-element>D:\work\goyava\reminder\ext\__PushNotification.ane</path-element>
+      <path-element>D:\work\goyava\reminder\ext\PushNotification.ane</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>D:\work\games\reminder\src\Main.as</path-element>
+    <path-element>D:\work\goyava\reminder\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>

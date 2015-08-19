@@ -18,6 +18,7 @@ package
 	import feathers.data.ListCollection;
 	import feathers.data.LocalAutoCompleteSource;
 	import feathers.events.FeathersEventType;
+	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
@@ -43,6 +44,7 @@ package
 		private var _currentPanel:Panel;
 		private var _selectedItem:DefaultListItemRenderer;
 		private var editInputTf:TextInput;
+		private var cachedSkin:Array = new Array();
 		protected var _listArr:Array;
 		protected var _currentTaskName:String;
 		
@@ -87,7 +89,24 @@ package
 				 renderer.iconSourceField = "thumbnail";
 				 renderer.labelOffsetX = -70;
 				 renderer.iconOffsetX = -30;
-				renderer.width = 50;
+				 renderer.itemHasSkin = true;
+				 renderer.skinSourceField = "texture";
+				// renderer.skinField = "background";
+				 renderer.skinFunction = function( item:Object ):DisplayObject
+				 {
+					/*if(item in cachedSkin)
+					{
+						return cachedSkin[item];
+					}*/
+					//var texture:Texture=Texture.fromColor(600, 200, 0xD2D2D2)
+					
+					//var skin:Image = new Image( AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.SKINS_TEXTURES, (Math.random() * 4)));
+					var skin:Image = new Image( AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.SKINS_TEXTURES, renderer.index % 2));
+					//cachedSkin[item] = skin;
+					return skin;
+				 };
+				 
+				//renderer.width = 50;
 				 var deleteButn:Button = new Button();
 				 deleteButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 11));
 				 deleteButn.move(stage.stageWidth - 80, 5);

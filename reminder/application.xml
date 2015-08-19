@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/18.0">
   <id>air.reminder</id>
   <versionNumber>0.1</versionNumber>
@@ -6,6 +6,14 @@
   <filename>reminder</filename>
   <name>
     <text xml:lang="en">reminder</text>
+    <text xml:lang="de">
+    </text>
+    <text xml:lang="it">
+    </text>
+    <text xml:lang="ru">
+    </text>
+    <text xml:lang="es">
+    </text>
   </name>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
@@ -23,7 +31,7 @@
 			</intent-filter>
 		</receiver>
 		<!-- AirDatePicker -->
-		<activity android:name="com.freshplanet.datePicker.DatePickerActivity" android:theme="@android:style/Theme.Holo.Dialog"/>
+		<activity android:name="com.freshplanet.datePicker.DatePickerActivity" android:theme="@android:style/Theme.Holo.Dialog" />
 		<activity android:name="com.arellomobile.android.push.PushWebview" />
 		<activity android:name="com.arellomobile.android.push.MessageActivity" />
 		<activity android:name="com.arellomobile.android.push.PushHandlerActivity" />
@@ -33,29 +41,22 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		
 		<activity android:name="com.freshplanet.nativeExtensions.NotificationActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-
-        <receiver android:name="com.freshplanet.nativeExtensions.C2DMBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-
-            <!-- Receive the actual message -->
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="air.reminder" />
-            </intent-filter>
-
-            <!-- Receive the registration id -->
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-                <category android:name="air.reminder" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Local notification -->
-        <service android:name="com.freshplanet.nativeExtensions.LocalNotificationService"/>
-        <receiver android:name="com.freshplanet.nativeExtensions.LocalBroadcastReceiver" android:process=":remote"></receiver>
-		
+		<receiver android:name="com.freshplanet.nativeExtensions.C2DMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+			<!-- Receive the actual message -->
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+				<category android:name="air.reminder" />
+			</intent-filter>
+			<!-- Receive the registration id -->
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+				<category android:name="air.reminder" />
+			</intent-filter>
+		</receiver>
+		<!-- Local notification -->
+		<service android:name="com.freshplanet.nativeExtensions.LocalNotificationService" />
+		<receiver android:name="com.freshplanet.nativeExtensions.LocalBroadcastReceiver" android:process=":remote"></receiver>
 		<!-- pushwoosh notification -->
 		<service android:name="com.arellomobile.android.push.PushGCMIntentService" />
 		<receiver android:name="com.arellomobile.android.push.AlarmReceiver"></receiver>
@@ -137,13 +138,20 @@
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
   <description>
-    <text xml:lang="en">
+    <text xml:lang="en">this is my description</text>
+    <text xml:lang="de">
+    </text>
+    <text xml:lang="it">
+    </text>
+    <text xml:lang="ru">
+    </text>
+    <text xml:lang="es">
     </text>
   </description>
   <extensions>
-     <extensionID>com.pushwoosh.PushNotification</extensionID>
-	 <extensionID>com.freshplanet.AirDatePicker</extensionID>
-     <extensionID>com.freshplanet.AirPushNotification</extensionID>
-     
+    <extensionID>com.pushwoosh.PushNotification</extensionID>
+    <extensionID>com.freshplanet.AirDatePicker</extensionID>
+    <extensionID>com.freshplanet.AirPushNotification</extensionID>
   </extensions>
+  <supportedLanguages>en de it ru es</supportedLanguages>
 </application>

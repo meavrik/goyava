@@ -3,6 +3,7 @@ package subPanels
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	import controllers.ErrorController;
+	import feathers.controls.Alert;
 	import feathers.controls.Button;
 	import feathers.controls.Callout;
 	import feathers.controls.Label;
@@ -55,18 +56,18 @@ package subPanels
 			this._logoutButn.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
 			addChild(this._logoutButn);
 			
-			this._infoLabel = new Label();
+			/*this._infoLabel = new Label();
 			this._infoLabel.text = "Attach your tasks to an email, so you can recover your data from any device any time";
 			this._infoLabel.wordWrap = true;
 
-			//Callout.show( _infoLabel, _loginButn, Callout.ARROW_POSITION_BOTTOM,false);
+			Callout.show( _infoLabel, _loginButn, Callout.ARROW_POSITION_BOTTOM,false);*/
 		}
 		
 		private function onInputReady(e:Event):void 
 		{
 			this._loginButn.width = this._userInput.width;
 			this._logoutButn.width = this._userInput.width;
-			this._infoLabel.width = this._userInput.width;
+			//this._infoLabel.width = this._userInput.width;
 		}
 		
 		private function onLogoutClick(e:Event):void 
@@ -91,6 +92,9 @@ package subPanels
 		private function onLoginError(error:String):void 
 		{
 			ErrorController.showError(this,"onLoginError " + error);
+			Flox.logError(this, "onLoginError : " + error);
+			
+			Alert.show("Please check your mail for login confirmation", "Login failed");
 		}
 		
 		private function onLoginComplete():void 

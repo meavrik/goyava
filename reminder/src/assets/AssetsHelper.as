@@ -10,12 +10,19 @@ package assets
 	public class AssetsHelper 
 	{
 		static public const TIME_ICONS:String = "timeIcons";
+		static public const SKINS_TEXTURES:String = "skinsTextures";
 		
 		[Embed(source = "../../bin/icons.png")]
 		private var ICONS_IMAGE:Class;
 		
 		[Embed(source = "../../bin/icons.xml", mimeType="application/octet-stream")]
 		private var ICONS_XML:Class;
+		
+		[Embed(source = "../../bin/skins.png")]
+		private var SKINS_IMAGE:Class;
+		
+		[Embed(source = "../../bin/skins.xml", mimeType="application/octet-stream")]
+		private var SKINS_XML:Class;
 		
 		private var _assetManager:AssetManager;
 		
@@ -38,6 +45,9 @@ package assets
 		{
 			var atlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new ICONS_IMAGE(), false), XML(new ICONS_XML()));
 			_assetManager.addTextureAtlas(TIME_ICONS, atlas);
+			
+			var skinsAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new SKINS_IMAGE(), false), XML(new SKINS_XML()));
+			_assetManager.addTextureAtlas(SKINS_TEXTURES, skinsAtlas);
 		}
 		
 		public function getTextureByFrame(assetName:String, index:int):Texture 

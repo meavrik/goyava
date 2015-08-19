@@ -67,6 +67,7 @@ package localStorage
 		public function set userMail(value:String):void 
 		{
 			_userMail = value;
+			saveData();
 		}
 		
 		public function get userLoginToken():String 
