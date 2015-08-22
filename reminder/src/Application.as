@@ -3,24 +3,24 @@ package
 	import assets.AssetsHelper;
 	import com.gamua.flox.Access;
 	import com.gamua.flox.AuthenticationType;
-	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	import controllers.ErrorController;
 	import entities.LocaleEntity;
 	import externalServices.ExternalServicesManager;
 	import feathers.controls.Label;
-	import feathers.controls.Screen;
 	import feathers.events.FeathersEventType;
 	import feathers.themes.MetalWorksMobileTheme;
 	import flash.events.UncaughtErrorEvent;
 	import locale.LocaleCodeEnum;
 	import localStorage.LocalStorageController;
+	import log.LogEventsEnum;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import texts.TextLocaleHandler;
 	import users.FloxPlayer;
 	import users.UserGlobal;
+	
 	
 	/**
 	 * ...
@@ -28,9 +28,13 @@ package
 	 */
 	public class Application extends Sprite
 	{
-		private var _currentScreen:Screen;
+		static public const FLOX_APP_ID:String = "3wqJNGHv61HPcLrH";
+		static public const FLOX_APP_KEY:String = "Zkuxm7hSIbumjuGl";
+		static public const HERO_LOGIN_KEY:String = "in4F7SmQmHfqdTdg";
+		
+		[Embed(source = "../bin/locale.xml", mimeType = "application/octet-stream")]
+		private var localeXmlData:Class
 		private var _loadingLabel:Label;
-		private var _localeEntity:LocaleEntity;
 		
 		public function Application()
 		{
@@ -58,8 +62,13 @@ package
 			addChild(_loadingLabel);
 			
 			ExternalServicesManager.getInstance().init();
+			LocalStorageController.getInstance().loadData();
 			AssetsHelper.getInstance().init();
-			login();
+			
+			Flox.playerClass = FloxPlayer;
+			Flox.init(FLOX_APP_ID, FLOX_APP_KEY);
+			
+			loginHero();
 		}
 		
 		private function onUncaughtError(e:UncaughtErrorEvent):void
@@ -72,21 +81,28 @@ package
 			_loadingLabel.move((this.stage.stageWidth - _loadingLabel.width) / 2, (this.stage.stageHeight - _loadingLabel.height) / 2);
 		}
 		
-		private function login():void
+		private function loginHero():void
 		{
-			LocalStorageController.getInstance().loadData();
+			if (CONFIG::debug == true) {
+				Flox.logInfo("login with admin hero : ");
+				UserGlobal.isAdmin = true;
+				Player.loginWithKey(HERO_LOGIN_KEY, onHeroLoginComplete, onLoginError);
+			} 
+			 
 			
-			Flox.playerClass = FloxPlayer;
-			Flox.init("3wqJNGHv61HPcLrH", "Zkuxm7hSIbumjuGl");
-			
+		}
+		
+		private function loginUser():void
+		{
 			if (LocalStorageController.getInstance().userMail)
 			{
-				Flox.logEvent("login with mail : " + LocalStorageController.getInstance().userMail);
+				Flox.logEvent(LogEventsEnum.LOGIN_WITH_MAIL, LocalStorageController.getInstance().userMail);
 				Player.loginWithEmail(LocalStorageController.getInstance().userMail, onLoginComplete, onLoginError);
 				
-			} else
+			} 
+			else
 			{
-				Flox.logEvent("login with key : " + Player.current.id);
+				Flox.logEvent(LogEventsEnum.LOGIN_WITH_KEY, Player.current.id);
 				Player.login(AuthenticationType.KEY, Player.current.id, null, onLoginComplete, onLoginError);
 			}
 		}
@@ -98,10 +114,73 @@ package
 			ErrorController.showError(this, "login error");
 		}
 		
+		private function onHeroLoginComplete():void 
+		{
+			saveLocaleTexts();
+		}
+		
 		private function onLoginComplete():void
 		{
-			//_loadingLabel.removeFromParent(true);
+			startApplication()
+		}
+		
+		private function saveLocaleTexts():void 
+		{
+			TextLocaleHandler.textsEntity = new LocaleEntity();
+			TextLocaleHandler.textsEntity.id = "localeTexts";
+			TextLocaleHandler.textsEntity.publicAccess = Access.READ_WRITE;
+			TextLocaleHandler.textsEntity.ownerId = Player.current.id;
 			
+			var xml:XML = XML(new localeXmlData());
+			var langObjArr:Array = new Array();
+			
+			for (var i:int = 0; i < xml.children().length(); i++) 
+			{
+				var node:XML = xml.children()[i];
+				var textTitleName:String = node.name();
+				//trace("node = " + textTitleName);
+				
+				for (var j:int = 0; j < node.attributes().length(); j++) 
+				{
+					//var langObj:Object = new Object;
+					var langName:String=node.attributes()[j].name()
+					var text:String = node.attributes()[j]
+					
+					//trace("lange name = " + langName);
+					//trace("text = " + text);
+					if (!langObjArr[langName]) langObjArr[langName] = new Object();
+					langObjArr[langName][textTitleName] = text;
+				}
+			}
+
+			TextLocaleHandler.textsEntity.English = langObjArr[LocaleCodeEnum.ENGLISH];
+			TextLocaleHandler.textsEntity.Hebrew = langObjArr[LocaleCodeEnum.HEBREW];
+			TextLocaleHandler.textsEntity.Spanish = langObjArr[LocaleCodeEnum.SPANISH];
+			//TextLocaleHandler.textsEntity.French = langObjArr["fr"];
+			TextLocaleHandler.textsEntity.Italian = langObjArr[LocaleCodeEnum.ITALIAN];
+			TextLocaleHandler.textsEntity.Russian = langObjArr[LocaleCodeEnum.RUSSIAN];
+			TextLocaleHandler.textsEntity.German = langObjArr[LocaleCodeEnum.GERMAN];
+			
+			TextLocaleHandler.textsEntity.save(onAdminTextsSaveSuccess, onAdminTextsSaveError);
+		}
+		
+		private function onAdminTextsSaveError(message:String):void 
+		{
+			Flox.logInfo("onAdminTextsSaveError :"+message);
+			//startApplication()
+			
+			loginUser()
+		}
+		private function onAdminTextsSaveSuccess():void 
+		{
+			Flox.logInfo("onAdminTextsSaveSuccess ");
+			//startApplication()
+			
+			loginUser()
+		}
+		
+		private function startApplication():void
+		{
 			addChild(MainApp.getInstance())
 			MainApp.getInstance().initNewPlayer();
 		}

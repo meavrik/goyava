@@ -4,8 +4,6 @@ package
 	import com.gamua.flox.Flox;
 	import feathers.controls.AutoComplete;
 	import feathers.controls.Button;
-	import feathers.controls.Callout;
-	import feathers.controls.Label;
 	import feathers.controls.List;
 	import feathers.controls.Panel;
 	import feathers.controls.PanelScreen;
@@ -18,14 +16,11 @@ package
 	import feathers.data.ListCollection;
 	import feathers.data.LocalAutoCompleteSource;
 	import feathers.events.FeathersEventType;
-	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import subPanels.DeleteTaskPanel;
 	import subPanels.EditTaskPanel;
-	import texts.TextLocaleHandler;
-	import texts.TextsEnum;
 	import users.UserGlobal;
 	
 	/**
@@ -44,7 +39,6 @@ package
 		private var _currentPanel:Panel;
 		private var _selectedItem:DefaultListItemRenderer;
 		private var editInputTf:TextInput;
-		private var cachedSkin:Array = new Array();
 		protected var _listArr:Array;
 		protected var _currentTaskName:String;
 		
@@ -57,8 +51,6 @@ package
 		override protected function initialize():void 
 		{
 			super.initialize();
-			
-			_defaultEmptyTaskText = TextLocaleHandler.getText(TextsEnum.EmptySentence)
 			
 			addNewReminderkButton();
 			addSubPanels()
@@ -87,24 +79,24 @@ package
 				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
 				 renderer.labelField = "text";
 				 renderer.iconSourceField = "thumbnail";
-				 renderer.labelOffsetX = -70;
-				 renderer.iconOffsetX = -30;
+				 //renderer.labelOffsetX = -70;
+				 //renderer.iconOffsetX = -30;
 				 renderer.itemHasSkin = true;
-				 renderer.skinSourceField = "texture";
-				// renderer.skinField = "background";
-				 renderer.skinFunction = function( item:Object ):DisplayObject
+				 /*renderer.labelFactory = function():ITextRenderer
 				 {
-					/*if(item in cachedSkin)
-					{
-						return cachedSkin[item];
-					}*/
-					//var texture:Texture=Texture.fromColor(600, 200, 0xD2D2D2)
-					
-					//var skin:Image = new Image( AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.SKINS_TEXTURES, (Math.random() * 4)));
+					 var labelRender:TextFieldTextRenderer = new TextFieldTextRenderer()
+					 labelRender.wordWrap = true;
+					 labelRender.width = 50;
+					 return labelRender
+				 }*/
+
+				 //renderer.skinSourceField = "texture";
+				// renderer.skinField = "background";
+				 /*renderer.skinFunction = function( item:Object ):DisplayObject
+				 {
 					var skin:Image = new Image( AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.SKINS_TEXTURES, renderer.index % 2));
-					//cachedSkin[item] = skin;
 					return skin;
-				 };
+				 };*/
 				 
 				//renderer.width = 50;
 				 var deleteButn:Button = new Button();
@@ -199,12 +191,12 @@ package
 			_tasksList.dataProvider.addItemAt( { text: _currentTaskName, thumbnail:iconTexture } , 0);
 			_autoCompleteInput.text = "";
 
-			var obj:Object = { id:UserGlobal.userPlayer.currentID, name:_currentTaskName };
+			var obj:Object = { id:UserGlobal.userPlayer.currentItemID, name:_currentTaskName };
 			if (remindEvery != -1)
 			{
 				obj.remindEvery = remindEvery;
 			}
-			UserGlobal.userPlayer.currentID++;
+			UserGlobal.userPlayer.currentItemID++;
 			//listArr.push( { name:taskTitle , remindEvery:_toggleGroup.selectedIndex } );
 			listArr.push(obj);
 			
@@ -296,7 +288,7 @@ package
 		
 		private function onTaskSaveComplete():void 
 		{
-			Flox.logEvent("task list save success");
+			Flox.logInfo("task list save success");
 		}
 		
 		/*private function listItemTriggered(e:Event):void 

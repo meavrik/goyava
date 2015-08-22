@@ -6,12 +6,6 @@ package locale
 	 */
 	public class LocaleManager 
 	{
-		/*public static var ENGLISH:String = "en";
-		public static var ITALIAN:String = "it";
-		public static var GERMAN:String = "de";
-		public static var RUSSIAN:String = "ru";
-		public static var HEBREW:String = "he";*/
-		
 		private var _langs:Vector.<Language> = new Vector.<Language>;
 		
 		private static var _instance:LocaleManager = new LocaleManager();
@@ -22,11 +16,12 @@ package locale
 		
 		public function LocaleManager() 
 		{
-			addNewLang("en", "English");
-			addNewLang("he", "עברית");
-			addNewLang("it", "Italian");
-			addNewLang("de", "German");
-			addNewLang("ru", "Russian");
+			addNewLang(LocaleCodeEnum.ENGLISH, "English");
+			addNewLang(LocaleCodeEnum.HEBREW, "עברית");
+			addNewLang(LocaleCodeEnum.ITALIAN, "Italian");
+			addNewLang(LocaleCodeEnum.GERMAN, "German");
+			addNewLang(LocaleCodeEnum.RUSSIAN, "Russian");
+			addNewLang(LocaleCodeEnum.SPANISH, "Russian");
 		}
 		
 		private function addNewLang(code:String, name:String):void 

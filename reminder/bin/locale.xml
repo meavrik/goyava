@@ -9,7 +9,7 @@
 	</EmptySentence>
 	
 	<DailyTasksTab en="DailyTasks" 
-				   he="DailyTasks" 
+				   he="משימות" 
 				   it="DailyTasks" 
 				   de="DailyTasks" 
 				   ru="DailyTasks" 
@@ -17,18 +17,84 @@
 	</DailyTasksTab>
 	
 	<EventsTab en="Events" 
-				   he="Events" 
+				   he="ארועים" 
 				   it="Events" 
 				   de="Events" 
 				   ru="Events" 
 				   es="Events">
 	</EventsTab>
 	
+	
 	<ShoppingListTab en="Shopping List" 
-				   he="ShoppingList" 
+				   he="רשימת קניות" 
 				   it="ShoppingList" 
 				   de="ShoppingList" 
 				   ru="ShoppingList" 
 				   es="ShoppingList">
 	</ShoppingListTab>
+	
+	<removeTaskTitle en="Mission Complete?" 
+				   he="המשימה הושלמה?" 
+				   it="Mission Complete?" 
+				   de="Mission Complete?" 
+				   ru="Mission Complete?" 
+				   es="Mission Complete?">
+	</removeTaskTitle>
+	
+	<TasksPrompt en="Enter new Task" 
+				   he="הכנס את המשימה הבאה" 
+				   it="Enter new Task" 
+				   de="Enter new Task" 
+				   ru="Enter new Task" 
+				   es="Enter new Task">
+	</TasksPrompt>
+	
+	<ShoppingListPrompt en="Enter new shooping item" 
+				   he="הכנס פריט חדש" 
+				   it="Enter new shooping item" 
+				   de="Enter new shooping item" 
+				   ru="Enter new shooping item" 
+				   es="Enter new shooping item">
+	</ShoppingListPrompt>
+	
+	<EventsPrompt en="Enter new Event" 
+				   he="הכנס ארוע לזכור" 
+				   it="Enter new Event" 
+				   de="Enter new Event" 
+				   ru="Enter new Event" 
+				   es="Enter new Event">
+	</EventsPrompt>
+	
+	<LoginPanelTitle en="Login" 
+				   he="כניסה" 
+				   it="Login" 
+				   de="Login" 
+				   ru="Login" 
+				   es="Login">
+	</LoginPanelTitle>
+	
+	<LoginMailPrompt en="E-Mail" 
+				   he="כתובת דוא''ל" 
+				   it="E-Mail" 
+				   de="E-Mail" 
+				   ru="E-Mail" 
+				   es="E-Mail">
+	</LoginMailPrompt>
+	
+	<LoginButtonLabel en="Connect" 
+				   he="התחבר" 
+				   it="Connect" 
+				   de="Connect" 
+				   ru="Connect" 
+				   es="Connect">
+	</LoginButtonLabel>
+	
+	<LogoutButtonLabel en="Logout" 
+				   he="התנתק" 
+				   it="Logout" 
+				   de="Logout" 
+				   ru="Logout" 
+				   es="Logout">
+	</LogoutButtonLabel>
+	
 </data>

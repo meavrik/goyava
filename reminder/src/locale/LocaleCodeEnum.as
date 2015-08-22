@@ -11,6 +11,7 @@ package locale
 		public static var GERMAN:String = "de";
 		public static var RUSSIAN:String = "ru";
 		public static var HEBREW:String = "he";
+		static public const SPANISH:String = "es";
 		
 	}
 
