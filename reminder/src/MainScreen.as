@@ -10,6 +10,8 @@ package
 	import screens.ScreenCodeEnum;
 	import starling.events.Event;
 	import subPanels.LoginPanel;
+	import texts.TextLocaleHandler;
+	import texts.TextsConsts;
 	
 	/**
 	 * ...
@@ -22,7 +24,7 @@ package
 		private var _bottomPanel:MainScreenBottomPanel;
 		
 		private var _taskScreen:RemindTaskScreen;
-		private var _birthdayScreen:RemindBirthdayScreen;
+		private var _birthdayScreen:RemindEventsScreen;
 		private var _shoppingScreen:RemindShoppingScreen;
 		private var _currentScreen:BaseListScreen;
 		
@@ -43,7 +45,7 @@ package
 			//addChild(_loginScreen);
 			
 			_taskScreen = new RemindTaskScreen();
-			_birthdayScreen = new RemindBirthdayScreen();
+			_birthdayScreen = new RemindEventsScreen();
 			_shoppingScreen = new RemindShoppingScreen();
 			
 			_screenNavigator = new ScreenNavigator()
@@ -92,9 +94,9 @@ package
 			_mainTabBar = new TabBar();
 			_mainTabBar.dataProvider = new ListCollection(
 			 [
-				 { label: "Daily tasks" },
-				 { label: "Events" },
-				 { label: "Shopping List" },
+				 { label: TextLocaleHandler.getText(TextsConsts.DailyTasksTab) },
+				 { label: TextLocaleHandler.getText(TextsConsts.EventsTab) },
+				 { label: TextLocaleHandler.getText(TextsConsts.ShoppingListTab) },
 			 ]);
 			 _mainTabBar.selectedIndex = 0;
 			 _mainTabBar.setSize(stage.stageWidth, 80);

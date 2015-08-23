@@ -10,10 +10,13 @@ package subPanels
 	import feathers.controls.text.TextFieldTextRenderer;
 	import feathers.controls.TextInput;
 	import feathers.core.ITextRenderer;
+	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
 	import flash.text.TextFormat;
 	import localStorage.LocalStorageController;
 	import starling.events.Event;
+	import texts.TextLocaleHandler;
+	import texts.TextsConsts;
 	
 	/**
 	 * ...
@@ -35,23 +38,23 @@ package subPanels
 		override protected function initialize():void 
 		{
 			super.initialize();
-			this.title = "E-Mail Login";
+			this.title = TextLocaleHandler.getText(TextsConsts.LoginPanelTitle);;
 			
 			this._userInput = new TextInput();
-			this._userInput.prompt = "E-Mail";
+			this._userInput.prompt = TextLocaleHandler.getText(TextsConsts.LoginMailPrompt);
 			this._userInput.move(5, 10)
 			this._userInput.addEventListener(FeathersEventType.CREATION_COMPLETE, onInputReady);
 			addChild(this._userInput);
 			
 			this._loginButn = new Button();
 			this._loginButn.addEventListener(Event.TRIGGERED, onLoginClick);
-			this._loginButn.label = "Connect";
+			this._loginButn.label = TextLocaleHandler.getText(TextsConsts.LoginButtonLabel);
 			this._loginButn.move(5, 90);
 			addChild(this._loginButn);
 			
 			this._logoutButn = new Button();
 			this._logoutButn.addEventListener(Event.TRIGGERED, onLogoutClick);
-			this._logoutButn.label = "Logout";
+			this._logoutButn.label =TextLocaleHandler.getText(TextsConsts.LogoutButtonLabel);
 			this._logoutButn.move(5, 180);
 			this._logoutButn.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
 			addChild(this._logoutButn);
@@ -94,7 +97,7 @@ package subPanels
 			ErrorController.showError(this,"onLoginError " + error);
 			Flox.logError(this, "onLoginError : " + error);
 			
-			Alert.show("Please check your mail for login confirmation", "Login failed");
+			Alert.show("Please check your mail for login confirmation", "Try again",new ListCollection([ { label: "Refresh" } ]));
 		}
 		
 		private function onLoginComplete():void 

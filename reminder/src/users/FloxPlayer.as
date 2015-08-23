@@ -9,7 +9,7 @@ package users
 	 */
 	public class FloxPlayer extends Player
 	{
-		public var currentID:int;
+		public var currentItemID:int;
 		public var locale:String;
 		public var tasks:Array = new Array();
 		public var sentences:Array = new Array();

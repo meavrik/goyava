@@ -9,8 +9,6 @@ package
 	import starling.events.Event;
 	import subPanels.LanguagePicker;
 	import subPanels.LoginPanel;
-	import texts.TextLocaleHandler;
-	import texts.TextsEnum;
 	import users.UserGlobal;
 	
 	/**
@@ -33,7 +31,6 @@ package
 		{
 			super.initialize();
 			
-			TextLocaleHandler.getText(TextsEnum.MainScreenTitle)
 			setSize(stage.stageWidth, 100);
 			
 			_langPicker = new LanguagePicker();
@@ -59,7 +56,7 @@ package
 		
 		private function onLangChange(e:Event):void 
 		{
-			Flox.logInfo("onLangChange : " + _langPicker.selectedItem.text);
+			Flox.logInfo("onLangChange : " + _langPicker.selectedItem.code);
 			UserGlobal.userPlayer.locale = _langPicker.selectedItem.code;
 			UserGlobal.userPlayer.save(null, null);
 			

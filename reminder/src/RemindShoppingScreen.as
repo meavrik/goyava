@@ -1,6 +1,8 @@
 package 
 {
 	import feathers.controls.PanelScreen;
+	import texts.TextLocaleHandler;
+	import texts.TextsConsts;
 	import users.UserGlobal;
 	
 	/**
@@ -21,7 +23,7 @@ package
 		{
 			super.initialize();
 			
-			_autoCompleteInput.prompt = "enter new item";
+			_autoCompleteInput.prompt = TextLocaleHandler.getText(TextsConsts.ShoppingListPrompt);
 			
 		}
 		

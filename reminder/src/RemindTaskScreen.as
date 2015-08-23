@@ -6,6 +6,8 @@ package
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import subPanels.SubmitTaskPanel;
+	import texts.TextLocaleHandler;
+	import texts.TextsConsts;
 	import users.UserGlobal;
 	/**
 	 * ...
@@ -29,7 +31,7 @@ package
 			_submitTaskPanel = new SubmitTaskPanel();
 			_submitTaskPanel.addEventListener(Event.SELECT, submitButton_triggeredHandler);
 			_submitTaskPanel.addEventListener(Event.CANCEL, cancelButton_triggeredHandler);
-			_autoCompleteInput.prompt = "enter new reminder";
+			_autoCompleteInput.prompt = TextLocaleHandler.getText(TextsConsts.TasksPrompt);
 		}
 		
 		private function cancelButton_triggeredHandler(event:Event):void 

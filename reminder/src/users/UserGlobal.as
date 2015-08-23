@@ -10,6 +10,7 @@ package users
 	{
 		//public static var myLocale:Language;
 		static public var userPlayer:FloxPlayer;
+		static public var isAdmin:Boolean;
 		
 	}
 

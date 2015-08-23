@@ -1,15 +1,12 @@
 package 
 {
-	import assets.AssetsHelper;
 	import com.gamua.flox.Access;
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	import controllers.ErrorController;
 	import entities.LocaleEntity;
-	import feathers.core.PopUpManager;
 	import locale.LocaleCodeEnum;
-	import localStorage.LocalStorageController;
 	import starling.display.Sprite;
 	import texts.TextLocaleHandler;
 	import users.FloxPlayer;
@@ -21,6 +18,7 @@ package
 	 */
 	public class MainApp extends Sprite 
 	{
+		public var firstTimeUser:Boolean;
 		private static var _instance:MainApp = new MainApp();
 		
 		public static function getInstance():MainApp
@@ -56,8 +54,16 @@ package
 		
 		private function onUserDataLoadError(message:String):void 
 		{
-			Flox.logError(this, "on User Data Load Error :" + message);
+			Flox.logError(this, "User Data Load Error or empty:" + message);
+			if (message == "unknown")
+			{
+				Flox.logInfo("new user");
+				firstTimeUser = true;
+			}
+			
 			loadLocaleTexts();
+			
+			//UserGlobal.userPlayer.refresh(onRefreshComplete, onRefreshFail);
 		}
 		
 		private function onUserDataLoadComplete(playerData:FloxPlayer):void 
@@ -79,17 +85,39 @@ package
 		
 		private function onRefreshComplete():void 
 		{
+			/*if (UserGlobal.isAdmin)
+			{
+				loadLocaleTexts();
+			} else
+			{
+				startApp();
+			}*/
+			
+			if (!UserGlobal.isAdmin)
+			{
+				TextLocaleHandler.textsEntity = new LocaleEntity();
+			}
 			loadLocaleTexts();
 		}
 		
 		private function loadLocaleTexts():void
 		{
-			var localeEntity:LocaleEntity = new LocaleEntity();
-			localeEntity.id = "texts";
-			localeEntity.ownerId = UserGlobal.userPlayer.id;
-			localeEntity.publicAccess = Access.READ_WRITE;
-			Entity.load(LocaleEntity, localeEntity.id, onLocaleLoadComplete, onLocaleLoadError);
+			//var localeEntity:LocaleEntity = new LocaleEntity();
+			//localeEntity.id = "localeTexts";
+			//localeEntity.ownerId = UserGlobal.userPlayer.id;
+			//localeEntity.publicAccess = Access.READ;
+			
+			if (!TextLocaleHandler.textsEntity)
+			{
+				TextLocaleHandler.textsEntity = new LocaleEntity();
+				TextLocaleHandler.textsEntity.id = "localeTexts";
+				TextLocaleHandler.textsEntity.ownerId = UserGlobal.userPlayer.id;
+				TextLocaleHandler.textsEntity.publicAccess = Access.READ;
+			}
+			Entity.load(LocaleEntity, TextLocaleHandler.textsEntity.id, onLocaleLoadComplete, onLocaleLoadError);
 			//_localeEntity.save(null, null);
+			
+			//Entity.load(LocaleEntity, TextLocaleHandler.textsEntity.id, onLocaleLoadComplete, onLocaleLoadError);
 		}
 		
 		private function onLocaleLoadError(message:String):void

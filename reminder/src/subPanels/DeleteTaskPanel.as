@@ -5,6 +5,8 @@ package subPanels
 	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import starling.events.Event;
+	import texts.TextLocaleHandler;
+	import texts.TextsConsts;
 	
 	/**
 	 * ...
@@ -24,7 +26,7 @@ package subPanels
 		{
 			super.initialize();
 			
-			title = "remove task?"
+			title = TextLocaleHandler.getText(TextsConsts.removeTaskTitle);
 			
 			var group:ButtonGroup = new ButtonGroup();
 			 group.dataProvider = new ListCollection(

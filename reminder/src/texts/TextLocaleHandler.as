@@ -10,7 +10,7 @@ package texts
 	 */
 	public class TextLocaleHandler 
 	{
-		static public var textsEntity:LocaleEntity;
+		static public var textsEntity:LocaleEntity;		
 		
 		static public function getText(str:String):String
 		{
@@ -18,15 +18,31 @@ package texts
 			
 			try 
 			{
-				localeStr= textsEntity[str][UserGlobal.userPlayer.locale];
+				/*localeStr= textsEntity[str][UserGlobal.userPlayer.locale];
 				if (!localeStr)
 				{
 					localeStr = textsEntity[str][LocaleCodeEnum.ENGLISH];
+				}*/
+				
+				switch (UserGlobal.userPlayer.locale) 
+				{
+					case LocaleCodeEnum.HEBREW:
+						localeStr = textsEntity.Hebrew[str];
+						break;
+					case LocaleCodeEnum.ITALIAN:
+						localeStr = textsEntity.Italian[str];
+						break;
+					case LocaleCodeEnum.GERMAN:
+						localeStr = textsEntity.German[str];
+						break;
+					default:
+						localeStr = textsEntity.English[str];
+						break;
 				}
 			}
 			catch (err:Error)
 			{
-				Flox.logError("TextLocaleHandler", "no text found " + err.message);
+				Flox.logWarning("TextLocaleHandler", "no text found " + err.message);
 			}
 			
 			return localeStr;
