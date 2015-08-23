@@ -6,6 +6,7 @@ package
 	import com.gamua.flox.Player;
 	import controllers.ErrorController;
 	import entities.LocaleEntity;
+	import flash.system.Capabilities;
 	import locale.LocaleCodeEnum;
 	import starling.display.Sprite;
 	import texts.TextLocaleHandler;
@@ -71,7 +72,8 @@ package
 			Flox.logInfo("onUserDataLoadComplete " + playerData.locale);
 			if (!playerData.locale)
 			{
-				playerData.locale = LocaleCodeEnum.ENGLISH;
+				//playerData.locale = LocaleCodeEnum.ENGLISH;
+				playerData.locale = Capabilities.language;
 				playerData.save(null, null);
 			}
 			UserGlobal.userPlayer.refresh(onRefreshComplete, onRefreshFail);

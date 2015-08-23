@@ -7,6 +7,7 @@ package
 	import feathers.controls.TabBar;
 	import feathers.data.ListCollection;
 	import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
+	import screens.events.ScreenEvent;
 	import screens.ScreenCodeEnum;
 	import starling.events.Event;
 	import subPanels.LoginPanel;
@@ -45,14 +46,21 @@ package
 			//addChild(_loginScreen);
 			
 			_taskScreen = new RemindTaskScreen();
+			_taskScreen.addEventListener(ScreenEvent.CLEAR, onClearList);
+			_taskScreen.addEventListener(ScreenEvent.ADD_FIRST_ITEM, onAddFirstItem);
 			_birthdayScreen = new RemindEventsScreen();
+			_birthdayScreen.addEventListener(ScreenEvent.CLEAR, onClearList);
+			_birthdayScreen.addEventListener(ScreenEvent.ADD_FIRST_ITEM, onAddFirstItem);
 			_shoppingScreen = new RemindShoppingScreen();
+			_shoppingScreen.addEventListener(ScreenEvent.CLEAR, onClearList);
+			_shoppingScreen.addEventListener(ScreenEvent.ADD_FIRST_ITEM, onAddFirstItem);
 			
 			_screenNavigator = new ScreenNavigator()
 			//_screenNavigator.addScreen(ScreenCodeEnum.LOGIN, new ScreenNavigatorItem(_loginScreen));
 			_screenNavigator.addScreen(ScreenCodeEnum.TASKS, new ScreenNavigatorItem(_taskScreen));
 			_screenNavigator.addScreen(ScreenCodeEnum.EVENTS, new ScreenNavigatorItem(_birthdayScreen));
 			_screenNavigator.addScreen(ScreenCodeEnum.SHOPPING_LIST, new ScreenNavigatorItem(_shoppingScreen));
+			_screenNavigator.addEventListener(Event.CHANGE, onScreenChange);
 			//_screenNavigator.transition = Fade.createFadeInTransition();
 			new ScreenSlidingStackTransitionManager(_screenNavigator);
 			
@@ -69,6 +77,20 @@ package
 			
 			//var currentDate : Date = new Date();
 			//AirDatePicker.getInstance().displayDatePicker(currentDate, onDatePick);
+		}
+		
+		private function onScreenChange(e:Event):void 
+		{
+			_bottomPanel.clearAllButton.visible = _currentScreen.gotItems;
+		}
+		
+		private function onAddFirstItem(e:Event):void 
+		{
+			_bottomPanel.clearAllButton.visible = true;
+		}
+		private function onClearList(e:Event):void 
+		{
+			_bottomPanel.clearAllButton.visible = false;
 		}
 		
 		private function onDatePick(selectedDate:String):void 

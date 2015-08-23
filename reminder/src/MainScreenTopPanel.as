@@ -42,7 +42,7 @@ package
 			_settingsButton.setSize(60, 100);
 			
 			_settingsButton.x = this.stage.stageWidth - 60;
-			_settingsButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 14));
+			_settingsButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS,2));
 			_settingsButton.addEventListener(Event.TRIGGERED, onSettingsClick);
 			_settingsButton.styleName = Button.ALTERNATE_NAME_QUIET_BUTTON
 			addChild(_settingsButton);

@@ -16,6 +16,8 @@ package
 	import feathers.data.ListCollection;
 	import feathers.data.LocalAutoCompleteSource;
 	import feathers.events.FeathersEventType;
+	import screens.events.ScreenEvent;
+	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
@@ -66,7 +68,7 @@ package
 		
 		private function handleEmptyTaskList():void
 		{
-			
+			dispatchEvent(new Event(ScreenEvent.CLEAR));
 		}
 		
 		private function addTaskList():void
@@ -92,15 +94,15 @@ package
 
 				 //renderer.skinSourceField = "texture";
 				// renderer.skinField = "background";
-				 /*renderer.skinFunction = function( item:Object ):DisplayObject
+				 renderer.skinFunction = function( item:Object ):DisplayObject
 				 {
-					var skin:Image = new Image( AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.SKINS_TEXTURES, renderer.index % 2));
+					var skin:Image = new Image( AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.SKINS_TEXTURES, 0));
 					return skin;
-				 };*/
+				 };
 				 
 				//renderer.width = 50;
 				 var deleteButn:Button = new Button();
-				 deleteButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 11));
+				 deleteButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 3));
 				 deleteButn.move(stage.stageWidth - 80, 5);
 				 deleteButn.setSize(70, 70);
 				 deleteButn.alpha = .8;
@@ -108,7 +110,7 @@ package
 				 renderer.addChild(deleteButn);
 				 
 				 var editButn:Button = new Button();
-				 editButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 12));
+				 editButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 4));
 				 editButn.setSize(70, 70);
 				 editButn.alpha = .8;
 				 editButn.move(stage.stageWidth - 155, 5);
@@ -183,10 +185,11 @@ package
 		{
 			_currentTaskName = _autoCompleteInput.text;
 				
-			if (_tasksList.dataProvider.length == 1 && _tasksList.dataProvider.getItemAt(0).text == _defaultEmptyTaskText)
+			/*if (_tasksList.dataProvider.length == 1 && _tasksList.dataProvider.getItemAt(0).text == _defaultEmptyTaskText)
 			{
 				_tasksList.dataProvider.removeItemAt(0);
-			}
+			}*/
+			
 			
 			_tasksList.dataProvider.addItemAt( { text: _currentTaskName, thumbnail:iconTexture } , 0);
 			_autoCompleteInput.text = "";
@@ -202,6 +205,11 @@ package
 			
 			saveTaskList();
 			saveNewAutoCompleteSentence(_currentTaskName);
+			
+			if (_tasksList.dataProvider.length == 1)
+			{
+				dispatchEvent(new Event(ScreenEvent.ADD_FIRST_ITEM));
+			}
 		}
 		
 		private function addNewReminderkButton():void 
@@ -236,7 +244,7 @@ package
 			_addButton.setSize(100, 100);
 			_addButton.move(stage.stageWidth -110, _autoCompleteInput.y);
 			
-			var img:Image = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 9));
+			var img:Image = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
 			_addButton.defaultIcon = img;
 			addChild(_addButton);
 			
@@ -337,6 +345,11 @@ package
 			listArr = new Array();
 			saveTaskList();
 			handleEmptyTaskList();
+		}
+		
+		public function get gotItems():Boolean 
+		{
+			return _tasksList.dataProvider.length?true:false;
 		}
 	
 		protected function updateArr():void

@@ -66,7 +66,7 @@ package subPanels
 		{
 			super.validate();
 			
-			 button.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 10));
+			 button.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
 
 		}
 		

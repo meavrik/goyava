@@ -53,6 +53,11 @@ package
 			_clearAllButton.move(10, this.stage.stageHeight - (_nagSwitch.height + 10));
 		}
 		
+		public function get clearAllButton():Button 
+		{
+			return _clearAllButton;
+		}
+		
 	}
 
 }

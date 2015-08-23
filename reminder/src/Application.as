@@ -21,7 +21,7 @@ package
 	import users.FloxPlayer;
 	import users.UserGlobal;
 	
-	
+	import flash.system.Capabilities
 	/**
 	 * ...
 	 * @author Avrik
@@ -68,6 +68,8 @@ package
 			Flox.playerClass = FloxPlayer;
 			Flox.init(FLOX_APP_ID, FLOX_APP_KEY);
 			
+			Flox.logInfo("LANG DETECTED : " + Capabilities.language);
+			
 			loginHero();
 		}
 		
@@ -87,9 +89,10 @@ package
 				Flox.logInfo("login with admin hero : ");
 				UserGlobal.isAdmin = true;
 				Player.loginWithKey(HERO_LOGIN_KEY, onHeroLoginComplete, onLoginError);
-			} 
-			 
-			
+			} else
+			{
+				startApplication();
+			}
 		}
 		
 		private function loginUser():void
