@@ -1,0 +1,21 @@
+dist/
+*.zip
+
+*.log
+
+
+#Flash files
+*.swf
+!playerProductInstall.swf
+
+
+#Mobile install files
+*.apk
+*.ipa
+
+
+#Subversion files
+.svn
+
+RECOVER*
+
