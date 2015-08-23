@@ -19,3 +19,5 @@ dist/
 
 RECOVER*
 
+/reminder/dist
+/reminder/bat/SetupSDK.bat
