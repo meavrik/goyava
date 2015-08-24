@@ -6,9 +6,16 @@ package
 	import com.gamua.flox.Player;
 	import controllers.ErrorController;
 	import entities.LocaleEntity;
+	import flash.desktop.NativeApplication;
+	import flash.display.NativeMenu;
+	import flash.display.NativeMenuItem;
 	import flash.system.Capabilities;
+	import flash.ui.Keyboard;
 	import locale.LocaleCodeEnum;
+	import popups.PopupsController;
+	import starling.core.Starling;
 	import starling.display.Sprite;
+	import starling.events.KeyboardEvent;
 	import texts.TextLocaleHandler;
 	import users.FloxPlayer;
 	import users.UserGlobal;
@@ -33,6 +40,14 @@ package
 		{
 			super();
 			
+			
+		}
+		
+		public function refreshApp():void 
+		{
+			Starling.juggler.purge();
+			PopupsController.removeCurrentPopup(true);
+			initNewPlayer()
 		}
 		
 		public function initNewPlayer():void
@@ -55,11 +70,14 @@ package
 		
 		private function onUserDataLoadError(message:String):void 
 		{
-			Flox.logError(this, "User Data Load Error or empty:" + message);
+			Flox.logInfo("User Data Load Error or empty:" + message);
 			if (message == "unknown")
 			{
 				Flox.logInfo("new user");
 				firstTimeUser = true;
+			} else
+			{
+				Flox.logError(this, "onUserDataLoadError & not new user");
 			}
 			
 			loadLocaleTexts();
@@ -70,40 +88,37 @@ package
 		private function onUserDataLoadComplete(playerData:FloxPlayer):void 
 		{
 			Flox.logInfo("onUserDataLoadComplete " + playerData.locale);
-			if (!playerData.locale)
-			{
-				//playerData.locale = LocaleCodeEnum.ENGLISH;
-				playerData.locale = Capabilities.language;
-				playerData.save(null, null);
-			}
-			UserGlobal.userPlayer.refresh(onRefreshComplete, onRefreshFail);
 			
+			//UserGlobal.userPlayer.refresh(onRefreshComplete, onRefreshFail);
+			
+			loadLocaleTexts();
 		}
 		
-		private function onRefreshFail():void 
+		/*private function onRefreshFail():void 
 		{
 			loadLocaleTexts();
 		}
 		
 		private function onRefreshComplete():void 
 		{
-			/*if (UserGlobal.isAdmin)
-			{
-				loadLocaleTexts();
-			} else
-			{
-				startApp();
-			}*/
-			
 			if (!UserGlobal.isAdmin)
 			{
 				TextLocaleHandler.textsEntity = new LocaleEntity();
 			}
 			loadLocaleTexts();
-		}
+		}*/
 		
 		private function loadLocaleTexts():void
 		{
+			if (!UserGlobal.userPlayer.locale)
+			{
+				Flox.logInfo("LANG DETECTED : " + Capabilities.language);
+				
+				//UserGlobal.userPlayer.locale = Capabilities.language;
+				UserGlobal.userPlayer.locale = LocaleCodeEnum.ENGLISH;
+				UserGlobal.userPlayer.save(null, null);
+			}
+			
 			//var localeEntity:LocaleEntity = new LocaleEntity();
 			//localeEntity.id = "localeTexts";
 			//localeEntity.ownerId = UserGlobal.userPlayer.id;

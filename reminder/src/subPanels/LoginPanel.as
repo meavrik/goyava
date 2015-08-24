@@ -77,7 +77,7 @@ package subPanels
 		{
 			LocalStorageController.getInstance().userMail = "";
 			Player.logout();
-			MainApp.getInstance().initNewPlayer();
+			MainApp.getInstance().refreshApp();
 		}
 		
 		private function onLoginClick(e:Event):void 
@@ -107,7 +107,7 @@ package subPanels
 			LocalStorageController.getInstance().userMail = this._userInput.text;
 			//LocalStorageController.getInstance().saveData();
 			
-			MainApp.getInstance().initNewPlayer();
+			MainApp.getInstance().refreshApp();
 		}
 		
 		override public function dispose():void 

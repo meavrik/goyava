@@ -2,7 +2,6 @@ package subPanels
 {
 	import feathers.controls.ButtonGroup;
 	import feathers.controls.Panel;
-	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import starling.events.Event;
 	import texts.TextLocaleHandler;

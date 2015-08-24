@@ -38,6 +38,11 @@ package subPanels
 
 		private function onCloseClick(e:Event):void 
 		{
+			closeMe()
+		}
+		
+		protected function closeMe():void
+		{
 			removeFromParent();
 		}
 		

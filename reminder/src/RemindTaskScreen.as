@@ -2,7 +2,7 @@ package
 {
 	import assets.AssetsHelper;
 	import externalServices.ExternalServicesManager;
-	import feathers.core.PopUpManager;
+	import popups.PopupsController;
 	import starling.events.Event;
 	import starling.textures.Texture;
 	import subPanels.SubmitTaskPanel;
@@ -36,13 +36,13 @@ package
 		
 		private function cancelButton_triggeredHandler(event:Event):void 
 		{
-			PopUpManager.removePopUp(_submitTaskPanel)
+			PopupsController.removePopUp(_submitTaskPanel)
 		}
 		
 		private function submitButton_triggeredHandler(event:Event):void 
 		{
 			var index:int = _submitTaskPanel.selectedIndex;
-			PopUpManager.removePopUp(_submitTaskPanel);
+			PopupsController.removePopUp(_submitTaskPanel);
 			var iconTexture:Texture = AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, index);
 			submitNewTask(iconTexture, index);
 			
@@ -55,7 +55,7 @@ package
 		
 		override protected function showPostTaskPanel():void 
 		{
-			PopUpManager.addPopUp(_submitTaskPanel);
+			PopupsController.addPopUp(_submitTaskPanel);
 		}
 		
 		override protected function updateArr():void 

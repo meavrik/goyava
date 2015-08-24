@@ -42,7 +42,7 @@ set DIST_PATH=dist
 set DIST_NAME=reminder
 
 :: Debugging using a custom IP
-set DEBUG_IP=
+set DEBUG_IP=10.0.0.202
 
 :validation
 findstr /C:"<id>%APP_ID%</id>" "%APP_XML%" > NUL

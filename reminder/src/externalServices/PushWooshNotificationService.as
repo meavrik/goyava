@@ -76,7 +76,13 @@ package externalServices
 				}
 				catch (err:Error)
 				{
-					Flox.logWarning("scheduleLocalNotification error :" + err.message);
+					if (CONFIG::debug == true) {
+						Flox.logWarning("scheduleLocalNotification warning :" + err.message);
+					} else
+					{
+						Flox.logError(this, "scheduleLocalNotification error {0}", err.message);
+					}
+					
 				}
 				
 			}

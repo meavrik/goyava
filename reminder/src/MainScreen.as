@@ -10,7 +10,6 @@ package
 	import screens.events.ScreenEvent;
 	import screens.ScreenCodeEnum;
 	import starling.events.Event;
-	import subPanels.LoginPanel;
 	import texts.TextLocaleHandler;
 	import texts.TextsConsts;
 	
@@ -31,7 +30,6 @@ package
 		
 		private var _mainTabBar:TabBar;
 		private var _screenNavigator:ScreenNavigator;
-		private var _loginScreen:subPanels.LoginPanel;
 		
 		public function MainScreen() 
 		{
@@ -41,9 +39,6 @@ package
 		override protected function initialize():void 
 		{
 			super.initialize();
-			
-			_loginScreen = new subPanels.LoginPanel();
-			//addChild(_loginScreen);
 			
 			_taskScreen = new RemindTaskScreen();
 			_taskScreen.addEventListener(ScreenEvent.CLEAR, onClearList);
@@ -56,7 +51,6 @@ package
 			_shoppingScreen.addEventListener(ScreenEvent.ADD_FIRST_ITEM, onAddFirstItem);
 			
 			_screenNavigator = new ScreenNavigator()
-			//_screenNavigator.addScreen(ScreenCodeEnum.LOGIN, new ScreenNavigatorItem(_loginScreen));
 			_screenNavigator.addScreen(ScreenCodeEnum.TASKS, new ScreenNavigatorItem(_taskScreen));
 			_screenNavigator.addScreen(ScreenCodeEnum.EVENTS, new ScreenNavigatorItem(_birthdayScreen));
 			_screenNavigator.addScreen(ScreenCodeEnum.SHOPPING_LIST, new ScreenNavigatorItem(_shoppingScreen));
@@ -146,6 +140,21 @@ package
 		
 		override public function dispose():void 
 		{
+			_currentScreen = null;
+			_screenNavigator.removeAllScreens();
+			
+			_taskScreen.removeEventListeners();
+			_taskScreen.removeFromParent(true);
+			_taskScreen = null;
+			_birthdayScreen.removeEventListeners();
+			_birthdayScreen.removeFromParent(true);
+			_birthdayScreen = null;
+			_shoppingScreen.removeEventListeners();
+			_shoppingScreen.removeFromParent(true);
+			_shoppingScreen= null;
+			
+			_screenNavigator.removeEventListeners();
+			_screenNavigator.removeFromParent(true);
 			_topPanel.removeFromParent(true);
 			_bottomPanel.removeFromParent(true);
 			_mainTabBar.removeFromParent(true);

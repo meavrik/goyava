@@ -3,6 +3,7 @@ package
 	import assets.AssetsHelper;
 	import com.gamua.flox.Access;
 	import com.gamua.flox.AuthenticationType;
+	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	import controllers.ErrorController;
@@ -11,17 +12,24 @@ package
 	import feathers.controls.Label;
 	import feathers.events.FeathersEventType;
 	import feathers.themes.MetalWorksMobileTheme;
+	import flash.desktop.NativeApplication;
+	import flash.display.NativeMenu;
+	import flash.display.NativeMenuItem;
 	import flash.events.UncaughtErrorEvent;
+	import flash.ui.Keyboard;
 	import locale.LocaleCodeEnum;
 	import localStorage.LocalStorageController;
 	import log.LogEventsEnum;
+	import popups.PopupsController;
+	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import flash.events.KeyboardEvent;
+	import subPanels.ExitAppPanel;
 	import texts.TextLocaleHandler;
 	import users.FloxPlayer;
 	import users.UserGlobal;
 	
-	import flash.system.Capabilities
 	/**
 	 * ...
 	 * @author Avrik
@@ -46,12 +54,15 @@ package
 		private function onAddedToStage(e:Event):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			
+			this.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 			init()
 		}
 		
 		private function init():void
 		{
-			this.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
+			
 			new MetalWorksMobileTheme(false);
 			
 			_loadingLabel = new Label();
@@ -68,10 +79,45 @@ package
 			Flox.playerClass = FloxPlayer;
 			Flox.init(FLOX_APP_ID, FLOX_APP_KEY);
 			
-			Flox.logInfo("LANG DETECTED : " + Capabilities.language);
-			
 			loginHero();
 		}
+		
+		
+		private function onKeyPress(event:KeyboardEvent):void 
+		{
+			
+			switch (event.keyCode) 
+			{ 
+				case Keyboard.BACK: 
+					event.preventDefault();
+					
+					if (PopupsController.currentPopup)
+					{
+						PopupsController.removeCurrentPopup();
+					} else
+					{
+						PopupsController.addPopUp(new ExitAppPanel());
+					}
+					
+					break; 
+				case Keyboard.MENU: 
+					/*if (this._lobbyController && this._lobbyController.active)
+					{
+						LobbyPopupHelper.PushSettingsPopup();
+						PopupManager.Instance.Start();
+					}*/
+					var menu:NativeMenu = new NativeMenu();
+					menu.addItem(new NativeMenuItem("settings"));
+					NativeApplication.nativeApplication.menu = menu;
+					menu.display(Starling.current.nativeStage, 0, 0);
+					break; 
+				case Keyboard.SEARCH: 
+					break; 
+			}
+		}
+		
+		
+		
 		
 		private function onUncaughtError(e:UncaughtErrorEvent):void
 		{
@@ -91,23 +137,24 @@ package
 				Player.loginWithKey(HERO_LOGIN_KEY, onHeroLoginComplete, onLoginError);
 			} else
 			{
-				startApplication();
+				//startApplication();
+				loginUser();
 			}
 		}
 		
 		private function loginUser():void
 		{
-			if (LocalStorageController.getInstance().userMail)
+			/*if (LocalStorageController.getInstance().userMail)
 			{
 				Flox.logEvent(LogEventsEnum.LOGIN_WITH_MAIL, LocalStorageController.getInstance().userMail);
 				Player.loginWithEmail(LocalStorageController.getInstance().userMail, onLoginComplete, onLoginError);
-				
 			} 
 			else
 			{
 				Flox.logEvent(LogEventsEnum.LOGIN_WITH_KEY, Player.current.id);
 				Player.login(AuthenticationType.KEY, Player.current.id, null, onLoginComplete, onLoginError);
-			}
+			}*/
+			startApplication();
 		}
 		
 		private function onLoginError():void
