@@ -72,8 +72,8 @@ package
 			Flox.logInfo("onUserDataLoadComplete " + playerData.locale);
 			if (!playerData.locale)
 			{
-				//playerData.locale = LocaleCodeEnum.ENGLISH;
-				playerData.locale = Capabilities.language;
+				playerData.locale = LocaleCodeEnum.ENGLISH;
+				//playerData.locale = Capabilities.language;
 				playerData.save(null, null);
 			}
 			UserGlobal.userPlayer.refresh(onRefreshComplete, onRefreshFail);
