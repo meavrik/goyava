@@ -97,4 +97,37 @@
 				   es="Logout">
 	</LogoutButtonLabel>
 	
+	<ExitAppTitle en="Exit App" 
+				   he="יציאה" 
+				   it="Exit App" 
+				   de="Exit App" 
+				   ru="Exit App" 
+				   es="Exit App">
+	</ExitAppTitle>
+	
+	<ExitAppMessage en="Are you sure?" 
+				   he="אתה בטוח שברצונך לצאת?" 
+				   it="Are you sure?" 
+				   de="Are you sure?" 
+				   ru="Are you sure?" 
+				   es="Are you sure?">
+	</ExitAppMessage>
+	
+	
+	<ExitAppYesButtonLabel en="Yes" 
+				   he="כן" 
+				   it="Yes" 
+				   de="Yes" 
+				   ru="Yes" 
+				   es="Yes">
+	</ExitAppYesButtonLabel>
+	
+	<ExitAppNoButtonLabel en="No" 
+				   he="לא" 
+				   it="No" 
+				   de="No" 
+				   ru="No" 
+				   es="No">
+	</ExitAppNoButtonLabel>
+	
 </data>

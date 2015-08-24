@@ -9,13 +9,11 @@ package
 	import feathers.controls.PanelScreen;
 	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
-	import feathers.controls.text.TextFieldTextRenderer;
 	import feathers.controls.TextInput;
-	import feathers.core.ITextRenderer;
-	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.data.LocalAutoCompleteSource;
 	import feathers.events.FeathersEventType;
+	import popups.PopupsController;
 	import screens.events.ScreenEvent;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -157,7 +155,7 @@ package
 			_selectedItem = button.parent as DefaultListItemRenderer
 			
 			_currentPanel = _editTaskPanel;
-			PopUpManager.addPopUp(_currentPanel);
+			PopupsController.addPopUp(_currentPanel);
 			
 			_editTaskPanel.editInputTf.text = _selectedItem.label;
 		}
@@ -167,7 +165,7 @@ package
 			var button:Button = e.currentTarget as Button;
 			_selectedItem = button.parent as DefaultListItemRenderer
 			_currentPanel = _deleteTaskPanel;
-			PopUpManager.addPopUp(_currentPanel);
+			PopupsController.addPopUp(_currentPanel);
 		}
 		
 		private function addSubPanels():void 
@@ -307,12 +305,12 @@ package
 		private function deleteTask_triggeredHandler():void 
 		{
 			removeSelectedTask();
-			PopUpManager.removePopUp(_currentPanel);
+			PopupsController.removePopUp(_currentPanel);
 		}
 		
 		private function cancelEditTask_triggeredHandler():void 
 		{
-			PopUpManager.removePopUp(_currentPanel);
+			PopupsController.removePopUp(_currentPanel);
 		}
 		
 		private function saveEditTask_triggeredHandler():void 
@@ -332,7 +330,7 @@ package
 
 			saveTaskList();
 			
-			PopUpManager.removePopUp(_currentPanel);
+			PopupsController.removePopUp(_currentPanel);
 		}
 		
 		public function clearList():void 
@@ -400,6 +398,28 @@ package
 		public function get listArr():Array 
 		{
 			return _listArr;
+		}
+		
+		override public function dispose():void 
+		{
+			_currentPanel = null;
+			
+			_tasksList.removeEventListeners();
+			_tasksList.removeFromParent(true);
+			_tasksList = null;
+			
+			if (_autoCompleteInput)
+			{
+				_autoCompleteInput.removeFromParent(true);
+				_autoCompleteInput = null;
+			}
+			
+			if (_addButton)
+			{
+				_addButton.removeFromParent(true);
+				_addButton = null;
+			}
+			super.dispose();
 		}
 		
 	}

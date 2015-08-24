@@ -20,6 +20,10 @@ package texts
 		static public var LoginMailPrompt:String="LoginMailPrompt";
 		static public var LoginButtonLabel:String = "LoginButtonLabel";
 		static public var LogoutButtonLabel:String = "LogoutButtonLabel";
+		static public var ExitAppYesButtonLabel:String = "ExitAppYesButtonLabel";
+		static public var ExitAppNoButtonLabel:String = "ExitAppNoButtonLabel";
+		static public var ExitAppTitle:String = "ExitAppTitle";
+		static public var ExitAppMessage:String = "ExitAppMessage";
 		
 	}
 

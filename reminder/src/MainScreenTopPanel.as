@@ -4,7 +4,7 @@ package
 	import com.gamua.flox.Flox;
 	import feathers.controls.Button;
 	import feathers.controls.Header;
-	import feathers.core.PopUpManager;
+	import popups.PopupsController;
 	import starling.display.Image;
 	import starling.events.Event;
 	import subPanels.LanguagePicker;
@@ -50,8 +50,9 @@ package
 		
 		private function onSettingsClick(e:Event):void 
 		{
+			removeLogin();
 			_loginPanel = new LoginPanel();
-			PopUpManager.addPopUp(_loginPanel);
+			PopupsController.addPopUp(new LoginPanel());
 		}
 		
 		private function onLangChange(e:Event):void 
@@ -60,20 +61,29 @@ package
 			UserGlobal.userPlayer.locale = _langPicker.selectedItem.code;
 			UserGlobal.userPlayer.save(null, null);
 			
-			MainApp.getInstance().initNewPlayer();
+			removeFromParent(true);
+			MainApp.getInstance().refreshApp();
+		}
+		
+		private function removeLogin():void
+		{
+			if (_loginPanel)
+			{
+				PopupsController.removePopUp(_loginPanel);
+				_loginPanel.removeFromParent(true);
+				_loginPanel = null;
+			}
 		}
 		
 		override public function dispose():void 
 		{
-			if (_loginPanel)
-			{
-				PopUpManager.removePopUp(_loginPanel);
-				_loginPanel.removeFromParent(true);
-				_loginPanel = null;
-			}
+			removeLogin();
 			
+			_langPicker.removeEventListeners();
 			_langPicker.removeFromParent(true);
+			_langPicker = null;
 			_settingsButton.removeFromParent(true);
+			_settingsButton = null;
 			super.dispose();
 		}
 		

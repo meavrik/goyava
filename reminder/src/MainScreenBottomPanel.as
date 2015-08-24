@@ -58,6 +58,23 @@ package
 			return _clearAllButton;
 		}
 		
+		override public function dispose():void 
+		{
+			if (_clearAllButton)
+			{
+				_clearAllButton.removeFromParent(true);
+				_clearAllButton = null;
+			}
+			
+			if (_nagSwitch)
+			{
+				_nagSwitch.removeFromParent(true);
+				_nagSwitch = null;
+			}
+			
+			super.dispose();
+		}
+		
 	}
 
 }
