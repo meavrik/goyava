@@ -34,27 +34,28 @@ package subPanels
 			this._messageLabel.styleNameList.add( Label.ALTERNATE_STYLE_NAME_HEADING);
 			this._messageLabel.wordWrap = true;
 			this._messageLabel.addEventListener(FeathersEventType.CREATION_COMPLETE, onLabelReady);
+			this._messageLabel.width = this.width - 20;
 			addChild(this._messageLabel);
 			
 			this._yesButn = new Button();
 			this._yesButn.addEventListener(Event.TRIGGERED, onYesClick);
 			this._yesButn.label = TextLocaleHandler.getText(TextsConsts.ExitAppYesButtonLabel);
 			
-			this._yesButn.width = 150;
+			this._yesButn.width = this.width - 20;
 			addChild(this._yesButn);
 			
-			this._noButn = new Button();
+			/*this._noButn = new Button();
 			this._noButn.addEventListener(Event.TRIGGERED, onNoClick);
 			this._noButn.label = TextLocaleHandler.getText(TextsConsts.ExitAppNoButtonLabel);
 			
 			this._noButn.width = 150;
-			addChild(this._noButn);
+			addChild(this._noButn);*/
 		}
 		
 		private function onLabelReady(e:Event):void 
 		{
-			this._yesButn.move(5, this._messageLabel.bounds.bottom + 20);
-			this._noButn.move(160, this._messageLabel.bounds.bottom + 20);
+			this._yesButn.move(0, this._messageLabel.bounds.bottom + 20);
+			//this._noButn.move(160, this._messageLabel.bounds.bottom + 20);
 		}
 		
 		private function onNoClick(e:Event):void 
@@ -75,11 +76,11 @@ package subPanels
 				_yesButn = null;
 			}
 			
-			if (_noButn)
+			/*if (_noButn)
 			{
 				_noButn.removeFromParent(true);
 				_noButn = null;
-			}
+			}*/
 			super.dispose();
 		}
 		

@@ -11,7 +11,6 @@ package subPanels
 	import locale.LocaleManager;
 	import starling.display.Image;
 	import starling.events.Event;
-	import starling.events.TouchEvent;
 	import users.UserGlobal;
 	
 	/**
@@ -27,7 +26,7 @@ package subPanels
 
 			setSize(100, 100);
 			dataProvider = new ListCollection( [ ]);
-
+			
 			 var item:Language;
 			 for (var i:int = 0; i < LocaleManager.getInstance().langs.length; i++) 
 			 {
@@ -44,6 +43,7 @@ package subPanels
 			 {
 				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
 				 renderer.labelField = "text";
+			
 				 //renderer.iconSourceField = "thumbnail";
 				 return renderer;
 			 };
@@ -59,7 +59,7 @@ package subPanels
 				 button.defaultIcon = img;
 				 return button;
 			 };*/
-			 
+			 addEventListener(Event.CHANGE, onLangChange);
 		}
 		
 		override public function validate():void 
@@ -67,7 +67,14 @@ package subPanels
 			super.validate();
 			
 			button.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
-
+		}
+		
+		private function onLangChange(e:Event):void 
+		{
+			Flox.logInfo("onLangChange : " + selectedItem.code);
+			UserGlobal.userPlayer.locale = selectedItem.code;
+			UserGlobal.userPlayer.save(null, null);
+			MainApp.getInstance().refreshApp();
 		}
 		
 	}

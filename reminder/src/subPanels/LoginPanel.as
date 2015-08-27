@@ -77,6 +77,7 @@ package subPanels
 		{
 			LocalStorageController.getInstance().userMail = "";
 			Player.logout();
+			closeMe();
 			MainApp.getInstance().refreshApp();
 		}
 		
@@ -106,7 +107,7 @@ package subPanels
 			
 			LocalStorageController.getInstance().userMail = this._userInput.text;
 			//LocalStorageController.getInstance().saveData();
-			
+			closeMe();
 			MainApp.getInstance().refreshApp();
 		}
 		

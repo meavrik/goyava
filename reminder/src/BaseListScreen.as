@@ -4,16 +4,21 @@ package
 	import com.gamua.flox.Flox;
 	import feathers.controls.AutoComplete;
 	import feathers.controls.Button;
+	import feathers.controls.Label;
 	import feathers.controls.List;
 	import feathers.controls.Panel;
 	import feathers.controls.PanelScreen;
 	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
+	import feathers.controls.text.TextFieldTextRenderer;
 	import feathers.controls.TextInput;
+	import feathers.core.ITextRenderer;
 	import feathers.data.ListCollection;
 	import feathers.data.LocalAutoCompleteSource;
 	import feathers.events.FeathersEventType;
+	import flash.text.TextFormat;
 	import popups.PopupsController;
+	import renderers.UrikaTextFieldTextRenderer;
 	import screens.events.ScreenEvent;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -74,52 +79,57 @@ package
 			_tasksList = new List();
 			_tasksList.isSelectable = false;
 			_tasksList.dataProvider = new ListCollection( [ ]);
+
 			_tasksList.itemRendererFactory = function():IListItemRenderer
 			{
-				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
-				 renderer.labelField = "text";
-				 renderer.iconSourceField = "thumbnail";
+				var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
+				renderer.labelField = "text";
+				renderer.iconSourceField = "thumbnail";
 				 //renderer.labelOffsetX = -70;
 				 //renderer.iconOffsetX = -30;
-				 renderer.itemHasSkin = true;
-				 /*renderer.labelFactory = function():ITextRenderer
-				 {
-					 var labelRender:TextFieldTextRenderer = new TextFieldTextRenderer()
-					 labelRender.wordWrap = true;
-					 labelRender.width = 50;
-					 return labelRender
-				 }*/
+				renderer.itemHasSkin = true;
+				renderer.hasLabelTextRenderer = true;
+				 
+				 
 
 				 //renderer.skinSourceField = "texture";
 				// renderer.skinField = "background";
-				 renderer.skinFunction = function( item:Object ):DisplayObject
-				 {
+				renderer.skinFunction = function( item:Object ):DisplayObject
+				{
 					var skin:Image = new Image( AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.SKINS_TEXTURES, 0));
 					return skin;
-				 };
+				};
 				 
 				//renderer.width = 50;
-				 var deleteButn:Button = new Button();
-				 deleteButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 3));
-				 deleteButn.move(stage.stageWidth - 80, 5);
-				 deleteButn.setSize(70, 70);
-				 deleteButn.alpha = .8;
-				 deleteButn.addEventListener(Event.TRIGGERED, onDeleteItem);
-				 renderer.addChild(deleteButn);
+				var deleteButn:Button = new Button();
+				deleteButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 3));
+				deleteButn.move(stage.stageWidth - 70, 10);
+				deleteButn.setSize(60, 50);
+				deleteButn.alpha = .8;
+				deleteButn.addEventListener(Event.TRIGGERED, onDeleteItem);
+				renderer.addChild(deleteButn);
 				 
-				 var editButn:Button = new Button();
-				 editButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 4));
-				 editButn.setSize(70, 70);
-				 editButn.alpha = .8;
-				 editButn.move(stage.stageWidth - 155, 5);
-				 editButn.addEventListener(Event.TRIGGERED, onEditItem);
-				 renderer.addChild(editButn);
+				var editButn:Button = new Button();
+				editButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 4));
+				editButn.setSize(60, 50);
+				editButn.alpha = .8;
+				editButn.move(stage.stageWidth - 140, 10);
+				editButn.addEventListener(Event.TRIGGERED, onEditItem);
+				renderer.addChild(editButn);
 
-				 return renderer;
+				
+				/*renderer.labelFunction = function():ITextRenderer
+				 {
+					 var labelRender:UrikaTextFieldTextRenderer = new UrikaTextFieldTextRenderer()
+					 return labelRender
+				 }*/
+				
+				 
+				return renderer;
 			};
 
 			//_tasksList.addEventListener(Event.TRIGGERED, listItemTriggered );
-			_tasksList.itemRendererProperties.height = 80;
+			_tasksList.itemRendererProperties.height = 70;
 			
 			var iconTexture:Texture;
 			if (listArr.length)
@@ -402,11 +412,29 @@ package
 		
 		override public function dispose():void 
 		{
+			_selectedItem = null;
 			_currentPanel = null;
+
+			if (_deleteTaskPanel)
+			{
+				_deleteTaskPanel.removeEventListeners();
+				_deleteTaskPanel.removeFromParent(true);
+				_deleteTaskPanel = null;
+			}
 			
-			_tasksList.removeEventListeners();
-			_tasksList.removeFromParent(true);
-			_tasksList = null;
+			if (_editTaskPanel)
+			{
+				_editTaskPanel.removeEventListeners();
+				_editTaskPanel.removeFromParent(true);
+				_editTaskPanel = null;
+			}
+			
+			if (_tasksList)
+			{
+				_tasksList.removeEventListeners();
+				_tasksList.removeFromParent(true);
+				_tasksList = null;
+			}
 			
 			if (_autoCompleteInput)
 			{

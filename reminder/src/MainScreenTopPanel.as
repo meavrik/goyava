@@ -4,6 +4,7 @@ package
 	import com.gamua.flox.Flox;
 	import feathers.controls.Button;
 	import feathers.controls.Header;
+	import feathers.controls.PickerList;
 	import popups.PopupsController;
 	import starling.display.Image;
 	import starling.events.Event;
@@ -18,7 +19,7 @@ package
 	public class MainScreenTopPanel extends Header 
 	{
 		private var _langPicker:LanguagePicker;
-		private var _settingsButton:Button;
+		private var _loginButton:Button;
 		private var _loginPanel:LoginPanel;
 		
 		public function MainScreenTopPanel() 
@@ -34,35 +35,23 @@ package
 			setSize(stage.stageWidth, 100);
 			
 			_langPicker = new LanguagePicker();
-			//_langPicker.x = 10;
-			_langPicker.addEventListener(Event.CHANGE, onLangChange);
 			addChild(_langPicker);
 			
-			_settingsButton = new Button();
-			_settingsButton.setSize(60, 100);
+			_loginButton = new Button();
+			_loginButton.setSize(60, 100);
 			
-			_settingsButton.x = this.stage.stageWidth - 60;
-			_settingsButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS,2));
-			_settingsButton.addEventListener(Event.TRIGGERED, onSettingsClick);
-			_settingsButton.styleName = Button.ALTERNATE_NAME_QUIET_BUTTON
-			addChild(_settingsButton);
+			_loginButton.x = this.stage.stageWidth - 60;
+			_loginButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS,2));
+			_loginButton.addEventListener(Event.TRIGGERED, onLoginClick);
+			_loginButton.styleName = Button.ALTERNATE_NAME_QUIET_BUTTON
+			addChild(_loginButton);
 		}
 		
-		private function onSettingsClick(e:Event):void 
+		private function onLoginClick(e:Event):void 
 		{
 			removeLogin();
 			_loginPanel = new LoginPanel();
 			PopupsController.addPopUp(new LoginPanel());
-		}
-		
-		private function onLangChange(e:Event):void 
-		{
-			Flox.logInfo("onLangChange : " + _langPicker.selectedItem.code);
-			UserGlobal.userPlayer.locale = _langPicker.selectedItem.code;
-			UserGlobal.userPlayer.save(null, null);
-			
-			removeFromParent(true);
-			MainApp.getInstance().refreshApp();
 		}
 		
 		private function removeLogin():void
@@ -82,8 +71,8 @@ package
 			_langPicker.removeEventListeners();
 			_langPicker.removeFromParent(true);
 			_langPicker = null;
-			_settingsButton.removeFromParent(true);
-			_settingsButton = null;
+			_loginButton.removeFromParent(true);
+			_loginButton = null;
 			super.dispose();
 		}
 		

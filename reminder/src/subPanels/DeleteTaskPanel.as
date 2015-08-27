@@ -2,7 +2,10 @@ package subPanels
 {
 	import feathers.controls.ButtonGroup;
 	import feathers.controls.Panel;
+	import feathers.controls.Radio;
+	import feathers.core.ToggleGroup;
 	import feathers.data.ListCollection;
+	import starling.display.Sprite;
 	import starling.events.Event;
 	import texts.TextLocaleHandler;
 	import texts.TextsConsts;
@@ -36,6 +39,28 @@ package subPanels
 			addChild( group );
 			group.direction = ButtonGroup.DIRECTION_HORIZONTAL;
 			group.setSize(this.stage.stageWidth - 50, 50);
+			
+			
+			
+			
+			/*var rateGroup:ToggleGroup = new ToggleGroup();
+			rateGroup.addEventListener( Event.CHANGE, rateGroup_changeHandler );
+
+			var radio:Radio 
+			for (var i:int = 0; i < 3; i++) 
+			{
+				radio = new Radio();
+				radio.label = String(i + 1);
+				radio.toggleGroup = rateGroup;
+				radio.move(i * 100 + 20, 50);
+				addChild(radio);
+			}
+			 */
+		}
+		
+		private function rateGroup_changeHandler(e:Event):void 
+		{
+			
 		}
 		
 		private function deleteTask_triggeredHandler():void 

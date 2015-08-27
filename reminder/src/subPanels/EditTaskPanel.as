@@ -1,5 +1,6 @@
 package subPanels 
 {
+	import feathers.controls.Button;
 	import feathers.controls.ButtonGroup;
 	import feathers.controls.Panel;
 	import feathers.controls.TextInput;
@@ -10,10 +11,11 @@ package subPanels
 	 * ...
 	 * @author Avrik
 	 */
-	public class EditTaskPanel extends Panel 
+	public class EditTaskPanel extends SubPanel 
 	{
 		static public const SAVE_ITEN:String = "saveIten";
 		private var _editInputTf:TextInput;
+		private var _saveButton:Button;
 		
 		public function EditTaskPanel() 
 		{
@@ -28,22 +30,31 @@ package subPanels
 			title = "Edit"
 			
 			editInputTf = new TextInput();
-			editInputTf.width = this.stage.stageWidth - 30;
-			editInputTf.x = 10;
+			editInputTf.width = this.width - 20;
+			editInputTf.move(0, 10);
+			addChild( editInputTf );
 			
-			 var group:ButtonGroup = new ButtonGroup();
+			/* var group:ButtonGroup = new ButtonGroup();
 			 group.dataProvider = new ListCollection(
 			 [
 				 { label: "Save", triggered: saveEditTask_triggeredHandler },
 				 { label: "Cancel", triggered: cancelEditTask_triggeredHandler },
 			 ]);
 			 
-			 addChild( editInputTf );
+			 
 			 addChild( group );
 			
 			group.direction = ButtonGroup.DIRECTION_HORIZONTAL;
 			group.setSize(this.stage.stageWidth - 20, 50);
-			group.move(5, 100)
+			group.move(5, 100)*/
+			
+			
+			_saveButton = new Button();
+			_saveButton.label = "Save";
+			_saveButton.addEventListener(Event.TRIGGERED, saveEditTask_triggeredHandler);
+			_saveButton.width = this.width - 20;
+			_saveButton.move(0, 100);
+			addChild(_saveButton);
 		}
 		
 		private function saveEditTask_triggeredHandler():void 

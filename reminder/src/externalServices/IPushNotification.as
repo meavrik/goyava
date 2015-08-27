@@ -12,6 +12,8 @@ package externalServices
 		function scheduleNotification(seconds:int, txt:String, repeat:int):void;
 		
 		function removeNotification(id:int):void;
+		
+		function removeAllNotifications():void;
 	}
 	
 }

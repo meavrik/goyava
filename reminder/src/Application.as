@@ -101,15 +101,14 @@ package
 					
 					break; 
 				case Keyboard.MENU: 
-					/*if (this._lobbyController && this._lobbyController.active)
+					/*if (NativeApplication.supportsMenu)
 					{
-						LobbyPopupHelper.PushSettingsPopup();
-						PopupManager.Instance.Start();
+						var menu:NativeMenu = new NativeMenu();
+						menu.addItem(new NativeMenuItem("settings"));
+						NativeApplication.nativeApplication.menu = menu;
+						menu.display(Starling.current.nativeStage, 0, 0);
 					}*/
-					var menu:NativeMenu = new NativeMenu();
-					menu.addItem(new NativeMenuItem("settings"));
-					NativeApplication.nativeApplication.menu = menu;
-					menu.display(Starling.current.nativeStage, 0, 0);
+					MainApp.getInstance().openQuickList();
 					break; 
 				case Keyboard.SEARCH: 
 					break; 
@@ -138,13 +137,15 @@ package
 			} else
 			{
 				//startApplication();
-				loginUser();
+				//loginUser();
+				
+				startApplication();
 			}
 		}
 		
 		private function loginUser():void
 		{
-			/*if (LocalStorageController.getInstance().userMail)
+			if (LocalStorageController.getInstance().userMail)
 			{
 				Flox.logEvent(LogEventsEnum.LOGIN_WITH_MAIL, LocalStorageController.getInstance().userMail);
 				Player.loginWithEmail(LocalStorageController.getInstance().userMail, onLoginComplete, onLoginError);
@@ -153,8 +154,8 @@ package
 			{
 				Flox.logEvent(LogEventsEnum.LOGIN_WITH_KEY, Player.current.id);
 				Player.login(AuthenticationType.KEY, Player.current.id, null, onLoginComplete, onLoginError);
-			}*/
-			startApplication();
+			}
+			//startApplication();
 		}
 		
 		private function onLoginError():void
@@ -231,6 +232,7 @@ package
 		
 		private function startApplication():void
 		{
+			_loadingLabel.removeFromParent(true);
 			addChild(MainApp.getInstance())
 			MainApp.getInstance().initNewPlayer();
 		}

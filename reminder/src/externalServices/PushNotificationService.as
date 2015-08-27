@@ -155,6 +155,16 @@ package externalServices
 		{
 
 		}
+		
+		/* INTERFACE externalServices.IPushNotification */
+		
+		public function removeAllNotifications():void 
+		{
+			if (_push)
+			{
+				_push
+			}
+		}
 	}
 
 }

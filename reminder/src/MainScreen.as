@@ -1,12 +1,15 @@
 package 
 {
 	//import com.freshplanet.ane.AirDatePicker.AirDatePicker;
+	import com.freshplanet.ane.AirDatePicker.AirDatePicker;
 	import feathers.controls.Screen;
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
 	import feathers.controls.TabBar;
 	import feathers.data.ListCollection;
 	import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
+	import flash.desktop.NativeApplication;
+	import flash.geom.Rectangle;
 	import screens.events.ScreenEvent;
 	import screens.ScreenCodeEnum;
 	import starling.events.Event;
@@ -67,10 +70,20 @@ package
 			
 			_currentScreen = _taskScreen;
 			_screenNavigator.showScreen(ScreenCodeEnum.TASKS);
-			_topPanel.title = _currentScreen.title;
+			//_topPanel.title = _currentScreen.title;
+			_topPanel.title = "Mission Control";
 			
-			//var currentDate : Date = new Date();
-			//AirDatePicker.getInstance().displayDatePicker(currentDate, onDatePick);
+			trace("AirDatePicker supported : " + AirDatePicker.isSupported);
+			if (AirDatePicker.isSupported)
+			{
+				var currentDate : Date = new Date();
+				AirDatePicker.getInstance().displayDatePicker(currentDate, onDatePick, new Rectangle(0, 0, 100, 200));
+			}
+		}
+		
+		private function onDatePick(selectedDate:String):void 
+		{
+			trace("selected date = ", selectedDate.toString());
 		}
 		
 		private function onScreenChange(e:Event):void 
@@ -87,10 +100,7 @@ package
 			_bottomPanel.clearAllButton.visible = false;
 		}
 		
-		private function onDatePick(selectedDate:String):void 
-		{
-			trace("selected date = ", selectedDate.toString());
-		}
+		
 		
 		private function addBottomPanel():void 
 		{
@@ -129,7 +139,7 @@ package
 			var screenItem:ScreenNavigatorItem = _screenNavigator.getScreen(id);
 			
 			_currentScreen = screenItem.screen as BaseListScreen;
-			_topPanel.title = _currentScreen.title;
+			//_topPanel.title = _currentScreen.title;
 			_screenNavigator.showScreen(id);
 		}
 
@@ -140,7 +150,7 @@ package
 		
 		override public function dispose():void 
 		{
-			_currentScreen = null;
+			/*_currentScreen = null;
 			_screenNavigator.removeAllScreens();
 			
 			_taskScreen.removeEventListeners();
@@ -151,13 +161,13 @@ package
 			_birthdayScreen = null;
 			_shoppingScreen.removeEventListeners();
 			_shoppingScreen.removeFromParent(true);
-			_shoppingScreen= null;
+			_shoppingScreen = null;
 			
 			_screenNavigator.removeEventListeners();
 			_screenNavigator.removeFromParent(true);
 			_topPanel.removeFromParent(true);
 			_bottomPanel.removeFromParent(true);
-			_mainTabBar.removeFromParent(true);
+			_mainTabBar.removeFromParent(true);*/
 			super.dispose();
 		}
 		

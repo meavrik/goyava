@@ -19,8 +19,9 @@
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
 	<application>
 		<meta-data android:name="PW_APPID" android:value="C40F4-65680" />
-		<meta-data android:name="PW_PROJECT_ID" android:value="958597314309" />
+		<meta-data android:name="PW_PROJECT_ID" android:value="A958597314309" />
 		<meta-data android:name="PW_BROADCAST_PUSH" android:value="true" />
+		
 		<receiver android:name="com.google.android.gcm.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
 			<intent-filter>
 				<!-- Bekommt die aktuelle Nachrichten. -->
@@ -57,6 +58,7 @@
 		<!-- Local notification -->
 		<service android:name="com.freshplanet.nativeExtensions.LocalNotificationService" />
 		<receiver android:name="com.freshplanet.nativeExtensions.LocalBroadcastReceiver" android:process=":remote"></receiver>
+		
 		<!-- pushwoosh notification -->
 		<service android:name="com.arellomobile.android.push.PushGCMIntentService" />
 		<receiver android:name="com.arellomobile.android.push.AlarmReceiver"></receiver>
@@ -151,7 +153,7 @@
   <extensions>
     <extensionID>com.pushwoosh.PushNotification</extensionID>
     <extensionID>com.freshplanet.AirDatePicker</extensionID>
-    <extensionID>com.freshplanet.AirPushNotification</extensionID>
+    <!--<extensionID>com.freshplanet.AirPushNotification</extensionID>-->
   </extensions>
   <supportedLanguages>en de it ru es</supportedLanguages>
 </application>

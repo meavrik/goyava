@@ -35,6 +35,7 @@ package externalServices
 					_pushwoosh.addEventListener(PushNotificationEvent.PERMISSION_GIVEN_WITH_TOKEN_EVENT, onToken);
 					_pushwoosh.addEventListener(PushNotificationEvent.PERMISSION_REFUSED_EVENT, onError);
 					_pushwoosh.addEventListener(PushNotificationEvent.PUSH_NOTIFICATION_RECEIVED_EVENT, onPushReceived);
+					_pushwoosh.setMultiNotificationMode();
 					_pushwoosh.onDeviceReady();
 				} else
 				{
@@ -43,7 +44,7 @@ package externalServices
 				
 				// local push test
 				//_pushwoosh.scheduleLocalNotification(10, "{\"alertBody\": \"Time to collect coins!\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
-				_pushwoosh.setMultiNotificationMode();
+				
 			} catch (error:Error)
 			{
 				Flox.logWarning("init pushwoosh error : " + error.message);
@@ -53,38 +54,41 @@ package externalServices
 		
 		public function scheduleNotification(seconds:int, txt:String, repeat:int):void
 		{
-			var addToSentenceArr:Array = [
-				"Just reminding you about ",
-				"Reminding you again about ",
-				"Don't forget to ",
-				"When are you going to ",
-				"It's about time you "
-			]	
-			
-			var newTxt:String;
-			var newSeconds:Number;
-			for (var i:int = 0; i < repeat; i++) 
+			if (_pushwoosh.isPushNotificationSupported)
 			{
-				newTxt = i < repeat?addToSentenceArr[i]:addToSentenceArr[(addToSentenceArr.length - 1)];
-				newTxt = newTxt + txt;
-				newSeconds = seconds * (i + 1);
-				try
+				var addToSentenceArr:Array = [
+					"Just reminding you about ",
+					"Reminding you again about ",
+					"Don't forget to ",
+					"When are you going to ",
+					"It's about time you "
+				]	
+				
+				var newTxt:String;
+				var newSeconds:Number;
+				for (var i:int = 0; i < repeat; i++) 
 				{
-					Flox.logInfo("scheduleNotification every " + newSeconds + " seconds with the text : " + newTxt);
-
-					_pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"'" + newTxt + "'\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
-				}
-				catch (err:Error)
-				{
-					if (CONFIG::debug == true) {
-						Flox.logWarning("scheduleLocalNotification warning :" + err.message);
-					} else
+					newTxt = i < repeat?addToSentenceArr[i]:addToSentenceArr[(addToSentenceArr.length - 1)];
+					newTxt = newTxt + txt;
+					newSeconds = seconds * (i + 1);
+					try
 					{
-						Flox.logError(this, "scheduleLocalNotification error {0}", err.message);
+						Flox.logInfo("scheduleNotification every " + newSeconds + " seconds with the text : " + newTxt);
+
+						_pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+					}
+					catch (err:Error)
+					{
+						if (CONFIG::debug == true) {
+							Flox.logWarning("scheduleLocalNotification warning :" + err.getStackTrace());
+						} else
+						{
+							Flox.logError(this, "scheduleLocalNotification error {0}", err.message);
+						}
+						
 					}
 					
 				}
-				
 			}
 			
 		}
@@ -131,6 +135,17 @@ package externalServices
 		public function removeNotification(id:int):void 
 		{
 			
+		}
+		
+		/* INTERFACE externalServices.IPushNotification */
+		
+		public function removeAllNotifications():void 
+		{
+			Flox.logInfo("removeAllNotifications ");
+			if (_pushwoosh && _pushwoosh.isPushNotificationSupported)
+			{
+				_pushwoosh.clearLocalNotifications();
+			}
 		}
 	}
 

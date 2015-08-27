@@ -25,6 +25,7 @@ package subPanels
 				 var closeButton:Button = new Button();
 				 closeButton.label = "X";
 				 closeButton.addEventListener( Event.TRIGGERED, onCloseClick );
+				 //closeButton.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
 				 header.rightItems = new <DisplayObject>[ closeButton ];
 				 return header;
 			 };
@@ -34,6 +35,7 @@ package subPanels
 		{
 			super.initialize();
 			
+			width = this.stage.stageWidth - 100;
 		}
 
 		private function onCloseClick(e:Event):void 
@@ -43,6 +45,7 @@ package subPanels
 		
 		protected function closeMe():void
 		{
+			dispatchEvent(new Event(Event.CLOSE));
 			removeFromParent();
 		}
 		

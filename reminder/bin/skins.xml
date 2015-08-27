@@ -2,5 +2,5 @@
 <TextureAtlas imagePath="skins.png">
 	<!-- Created with Adobe Flash Professional version 15.0.0.173 -->
 	<!-- http://www.adobe.com/products/flash.html -->
-	<SubTexture name="skins instance 10000" x="5" y="5" width="300" height="50" pivotX="150" pivotY="25"/>
+	<SubTexture name="skins instance 10000" x="0" y="0" width="454" height="74" pivotX="0" pivotY="0"/>
 </TextureAtlas>

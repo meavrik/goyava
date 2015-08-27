@@ -6,16 +6,17 @@ package
 	import com.gamua.flox.Player;
 	import controllers.ErrorController;
 	import entities.LocaleEntity;
-	import flash.desktop.NativeApplication;
-	import flash.display.NativeMenu;
-	import flash.display.NativeMenuItem;
+	import feathers.controls.ProgressBar;
+	import feathers.core.PopUpManager;
+	import feathers.events.FeathersEventType;
+	import progress.MainProgressBar;
+	import starling.events.Event;
 	import flash.system.Capabilities;
-	import flash.ui.Keyboard;
 	import locale.LocaleCodeEnum;
 	import popups.PopupsController;
 	import starling.core.Starling;
 	import starling.display.Sprite;
-	import starling.events.KeyboardEvent;
+	import subPanels.QuickMenuList;
 	import texts.TextLocaleHandler;
 	import users.FloxPlayer;
 	import users.UserGlobal;
@@ -34,37 +35,50 @@ package
 			return _instance;
 		}
 		
-		private var _currentScreen:MainScreen;
+		private var _mainScreen:MainScreen;
+		private var _progressBar:MainProgressBar;
 		
 		public function MainApp() 
 		{
 			super();
-			
-			
 		}
 		
 		public function refreshApp():void 
 		{
 			Starling.juggler.purge();
+			
 			PopupsController.removeCurrentPopup(true);
+
+			if (_mainScreen)
+			{
+				_mainScreen.removeFromParent();
+				//_mainScreen = null;
+			}
+			
 			initNewPlayer()
 		}
 		
 		public function initNewPlayer():void
 		{
-			if (_currentScreen)
-			{
-				_currentScreen.removeFromParent(true);
-			}
-			
 			Flox.logInfo("login player success " + Player.current);
 			UserGlobal.userPlayer = Player.current as FloxPlayer;
+			
+			_progressBar = new MainProgressBar();
+			addChild(_progressBar);
 			
 			loadUserData();
 		}
 		
+		public function openQuickList():void 
+		{
+			var quickMenu:QuickMenuList = new QuickMenuList();
+			addChild(quickMenu);
+		}
+		
 		private function loadUserData():void 
 		{
+			_progressBar.value = 10;
+			
 			Entity.load(FloxPlayer, UserGlobal.userPlayer.id, onUserDataLoadComplete, onUserDataLoadError)
 		}
 		
@@ -90,7 +104,7 @@ package
 			Flox.logInfo("onUserDataLoadComplete " + playerData.locale);
 			
 			//UserGlobal.userPlayer.refresh(onRefreshComplete, onRefreshFail);
-			
+			_progressBar.value = 50;
 			loadLocaleTexts();
 		}
 		
@@ -133,7 +147,6 @@ package
 			}
 			Entity.load(LocaleEntity, TextLocaleHandler.textsEntity.id, onLocaleLoadComplete, onLocaleLoadError);
 			//_localeEntity.save(null, null);
-			
 			//Entity.load(LocaleEntity, TextLocaleHandler.textsEntity.id, onLocaleLoadComplete, onLocaleLoadError);
 		}
 		
@@ -147,17 +160,34 @@ package
 		{
 			Flox.logInfo("on Locale Load Complete ");
 			TextLocaleHandler.textsEntity = entity;
-
-			startApp();
+			_progressBar.value = 100
+			
+			Starling.juggler.delayCall(startApp, 0.1);
+		}
+		
+		private function removeProgressBar():void
+		{
+			if (_progressBar)
+			{
+				_progressBar.removeFromParent(true);
+				_progressBar = null;
+			}
 		}
 		
 		private function startApp():void
 		{
 			//_loadingLabel.removeFromParent(true);
 			
+			removeProgressBar()
 			
-			_currentScreen = new MainScreen();
-			addChild(_currentScreen);
+			if (_mainScreen)
+			{
+				_mainScreen.removeFromParent();
+				//_mainScreen = null;
+			}
+			
+			_mainScreen = new MainScreen();
+			addChild(_mainScreen);
 		}
 		
 	}

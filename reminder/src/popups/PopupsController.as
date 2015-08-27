@@ -3,6 +3,7 @@ package popups
 	import feathers.controls.Panel;
 	import feathers.core.PopUpManager;
 	import starling.display.DisplayObject;
+	import starling.events.Event;
 	
 	/**
 	 * ...
@@ -15,12 +16,21 @@ package popups
 		public static function addPopUp(popUp:DisplayObject, isModal:Boolean = true):void
 		{
 			_currentPopup = popUp
+			_currentPopup.addEventListener(Event.CLOSE, onPopupClose);
 			PopUpManager.addPopUp(popUp, isModal);
+		}
+		
+		static private function onPopupClose(e:Event):void 
+		{
+			var popup:DisplayObject = e.currentTarget as DisplayObject;
+			popup.removeEventListener(Event.CLOSE, onPopupClose);
+			
+			removeCurrentPopup();
 		}
 		
 		public static function removeCurrentPopup(dispose:Boolean = false):void
 		{
-			if (_currentPopup)
+			if (_currentPopup && PopUpManager.isPopUp(_currentPopup))
 			{
 				PopUpManager.removePopUp(_currentPopup, dispose);
 				_currentPopup = null;
