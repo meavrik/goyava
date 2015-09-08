@@ -33,8 +33,11 @@ package subPanels
 			var group:ButtonGroup = new ButtonGroup();
 			 group.dataProvider = new ListCollection(
 			 [
-				 { label: "Yes, it's done!", triggered: deleteTask_triggeredHandler },
-				 { label: "Cancel", triggered: cancelEditTask_triggeredHandler },
+				 //{ label: "Yes, it's done!", triggered: deleteTask_triggeredHandler },
+				 //{ label: "Cancel", triggered: cancelEditTask_triggeredHandler },
+				 
+				 { label: TextLocaleHandler.getText(TextsConsts.RemoveTaskButtonLabel) , triggered: deleteTask_triggeredHandler },
+				 { label: TextLocaleHandler.getText(TextsConsts.CancelButtonLabel), triggered: cancelEditTask_triggeredHandler },
 			 ]);
 			addChild( group );
 			group.direction = ButtonGroup.DIRECTION_HORIZONTAL;

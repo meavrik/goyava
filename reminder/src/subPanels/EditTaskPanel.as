@@ -6,6 +6,8 @@ package subPanels
 	import feathers.controls.TextInput;
 	import feathers.data.ListCollection;
 	import starling.events.Event;
+	import texts.TextLocaleHandler;
+	import texts.TextsConsts;
 	
 	/**
 	 * ...
@@ -27,11 +29,14 @@ package subPanels
 		{
 			super.initialize();
 			
-			title = "Edit"
+			width = this.stage.stageWidth - 100;
+			
+			title = TextLocaleHandler.getText(TextsConsts.EditTaskPanelTitle);
 			
 			editInputTf = new TextInput();
 			editInputTf.width = this.width - 20;
 			editInputTf.move(0, 10);
+			editInputTf.setFocus();
 			addChild( editInputTf );
 			
 			/* var group:ButtonGroup = new ButtonGroup();
@@ -50,11 +55,13 @@ package subPanels
 			
 			
 			_saveButton = new Button();
-			_saveButton.label = "Save";
+			_saveButton.label = TextLocaleHandler.getText(TextsConsts.SaveButtonLabel);
 			_saveButton.addEventListener(Event.TRIGGERED, saveEditTask_triggeredHandler);
 			_saveButton.width = this.width - 20;
 			_saveButton.move(0, 100);
 			addChild(_saveButton);
+			
+			
 		}
 		
 		private function saveEditTask_triggeredHandler():void 

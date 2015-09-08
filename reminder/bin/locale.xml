@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
+	
+	<MainAppTitle en="Mission Control" 
+				   he="ניהול תזכורות" 
+				   it="Mission Control" 
+				   de="Mission Control" 
+				   ru="Mission Control" 
+				   es="Mission Control">
+	</MainAppTitle>
+	
 	<EmptySentence en="Add my first reminder" 
 				   he="המשימה הראשונה שלי" 
 				   it="Add my first reminder" 
@@ -129,5 +138,85 @@
 				   ru="No" 
 				   es="No">
 	</ExitAppNoButtonLabel>
+	
+	<ClearlistButtonLabel en="Clear List" 
+				   he="נקה רשימה" 
+				   it="Clear List" 
+				   de="Clear List" 
+				   ru="Clear List" 
+				   es="Clear List">
+	</ClearlistButtonLabel>
+	
+	<NagButtonLabel en="Nag" 
+				   he="נודניק" 
+				   it="Nag" 
+				   de="Nag" 
+				   ru="Nag" 
+				   es="Nag">
+	</NagButtonLabel>
+	
+	<NoNagButtonLabel en="No Nag" 
+				   he="בלי נודניק" 
+				   it="No Nag" 
+				   de="No Nag" 
+				   ru="No Nag" 
+				   es="No Nag">
+	</NoNagButtonLabel>
+	
+	<SaveButtonLabel en="Save" 
+				   he="שמור" 
+				   it="Save" 
+				   de="Save" 
+				   ru="Save" 
+				   es="Save">
+	</SaveButtonLabel>
+	
+	<RemoveTaskButtonLabel en="Yes, it's done!" 
+				   he="כן, השלמתי את המשימה" 
+				   it="Yes, it's done!" 
+				   de="Yes, it's done!" 
+				   ru="Yes, it's done!" 
+				   es="Yes, it's done!">
+	</RemoveTaskButtonLabel>
+	
+	<CancelButtonLabel en="Cancel" 
+				   he="בטל" 
+				   it="Cancel" 
+				   de="Cancel" 
+				   ru="Cancel" 
+				   es="Cancel">
+	</CancelButtonLabel>
+	
+	<EditTaskPanelTitle en="Edit task" 
+				   he="ערוך משימה" 
+				   it="Edit task" 
+				   de="Edit task" 
+				   ru="Edit task" 
+				   es="Edit task">
+	</EditTaskPanelTitle>
+	
+	<LanguageButtonLabel en="Change language" 
+				   he="בחר שפה" 
+				   it="Change language" 
+				   de="Change language" 
+				   ru="Change language" 
+				   es="Change language">
+	</LanguageButtonLabel>
+	
+	<RemoveAdsButtonLabel en="Remove ads" 
+				   he="הסר פרסומות" 
+				   it="Remove ads" 
+				   de="Remove ads" 
+				   ru="Remove ads" 
+				   es="Remove ads">
+	</RemoveAdsButtonLabel>
+	
+	<QuickMenuTitle en="Menu" 
+				   he="תפריט" 
+				   it="Menu" 
+				   de="Menu" 
+				   ru="Menu" 
+				   es="Menu">
+	</QuickMenuTitle>
 	
 </data>

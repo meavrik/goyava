@@ -8,6 +8,8 @@ package subPanels
 	import popups.PopupsController;
 	import starling.core.RenderSupport;
 	import starling.events.Event;
+	import texts.TextLocaleHandler;
+	import texts.TextsConsts;
 	
 	/**
 	 * ...
@@ -27,7 +29,7 @@ package subPanels
 		{
 			super.initialize();
 			
-			title = "Menu";
+			title = TextLocaleHandler.getText(TextsConsts.QuickMenuTitle);
 			this._list = new List();
 			this._list.itemRendererFactory = function():IListItemRenderer
 			{
@@ -37,9 +39,14 @@ package subPanels
 			}
 			
 			_list.dataProvider = new ListCollection( [ 
-					{ text: "Login" }, 
-					{ text: "Change Laguage" }, 
-					{ text: "Remove ads" } 
+					//{ text: "Login" }, 
+					//{ text: "Change Language" }, 
+					//{ text: "Remove ads" } 
+					
+					
+					{ text: TextLocaleHandler.getText(TextsConsts.LoginButtonLabel) }, 
+					{ text: TextLocaleHandler.getText(TextsConsts.LanguageButtonLabel) }, 
+					{ text: TextLocaleHandler.getText(TextsConsts.RemoveAdsButtonLabel) }
 					]);
 					
 			_list.addEventListener(Event.TRIGGERED, listItemTriggered );

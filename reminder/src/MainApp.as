@@ -9,6 +9,7 @@ package
 	import feathers.controls.ProgressBar;
 	import feathers.core.PopUpManager;
 	import feathers.events.FeathersEventType;
+	import locale.LocaleManager;
 	import progress.MainProgressBar;
 	import starling.events.Event;
 	import flash.system.Capabilities;
@@ -37,6 +38,7 @@ package
 		
 		private var _mainScreen:MainScreen;
 		private var _progressBar:MainProgressBar;
+		private var _noConnection:Boolean;
 		
 		public function MainApp() 
 		{
@@ -91,6 +93,7 @@ package
 				firstTimeUser = true;
 			} else
 			{
+				_noConnection = true;
 				Flox.logError(this, "onUserDataLoadError & not new user");
 			}
 			
@@ -133,24 +136,39 @@ package
 				UserGlobal.userPlayer.save(null, null);
 			}
 			
-			//var localeEntity:LocaleEntity = new LocaleEntity();
-			//localeEntity.id = "localeTexts";
-			//localeEntity.ownerId = UserGlobal.userPlayer.id;
-			//localeEntity.publicAccess = Access.READ;
-			
-			if (!TextLocaleHandler.textsEntity)
+			/*if (!TextLocaleHandler.textsEntity)
 			{
 				TextLocaleHandler.textsEntity = new LocaleEntity();
 				TextLocaleHandler.textsEntity.id = "localeTexts";
 				TextLocaleHandler.textsEntity.ownerId = UserGlobal.userPlayer.id;
 				TextLocaleHandler.textsEntity.publicAccess = Access.READ;
+			}*/
+			
+			LocaleManager.getInstance().addEventListener(LocaleManager.LOAD_TEXTS_COMPLETE, onLocaleLoadComplete);
+			
+			if (_noConnection)
+			{
+				LocaleManager.getInstance().loadLocaleFromLocal();
+			} else
+			{
+				
+				LocaleManager.getInstance().loadLocaleFromServer();
+				//Entity.load(LocaleEntity, TextLocaleHandler.textsEntity.id, onLocaleLoadComplete, onLocaleLoadError);
 			}
-			Entity.load(LocaleEntity, TextLocaleHandler.textsEntity.id, onLocaleLoadComplete, onLocaleLoadError);
+			
 			//_localeEntity.save(null, null);
 			//Entity.load(LocaleEntity, TextLocaleHandler.textsEntity.id, onLocaleLoadComplete, onLocaleLoadError);
 		}
 		
-		private function onLocaleLoadError(message:String):void
+		private function onLocaleLoadComplete(e:Event):void 
+		{
+			LocaleManager.getInstance().removeEventListener(LocaleManager.LOAD_TEXTS_COMPLETE, onLocaleLoadComplete);
+			_progressBar.value = 100
+			
+			Starling.juggler.delayCall(startApp, 0.1);
+		}
+		
+		/*private function onLocaleLoadError(message:String):void
 		{
 			ErrorController.showError(this, "on Locale Load Error :" + message);
 			startApp();
@@ -163,7 +181,7 @@ package
 			_progressBar.value = 100
 			
 			Starling.juggler.delayCall(startApp, 0.1);
-		}
+		}*/
 		
 		private function removeProgressBar():void
 		{

@@ -35,7 +35,7 @@ package subPanels
 		{
 			super.initialize();
 			
-			width = this.stage.stageWidth - 100;
+			//width = this.stage.stageWidth - 100;
 		}
 
 		private function onCloseClick(e:Event):void 

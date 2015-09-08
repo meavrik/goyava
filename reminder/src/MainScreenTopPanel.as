@@ -39,8 +39,8 @@ package
 			
 			_loginButton = new Button();
 			_loginButton.setSize(60, 100);
-			
-			_loginButton.x = this.stage.stageWidth - 60;
+			_loginButton.x = stage.stageWidth - (_loginButton.width + 10);
+
 			_loginButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS,2));
 			_loginButton.addEventListener(Event.TRIGGERED, onLoginClick);
 			_loginButton.styleName = Button.ALTERNATE_NAME_QUIET_BUTTON

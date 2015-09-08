@@ -2,19 +2,19 @@
 <TextureAtlas imagePath="buttonIcons.png">
 	<!-- Created with Adobe Flash Professional version 15.0.0.173 -->
 	<!-- http://www.adobe.com/products/flash.html -->
-	<SubTexture name="iconsMC instance 10000" x="0" y="0" width="62" height="116" pivotX="50" pivotY="57.85" frameX="-19" frameY="0" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10001" x="62" y="0" width="64" height="64" frameX="-18" frameY="-26" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10002" x="0" y="116" width="100" height="100" frameX="0" frameY="-8" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10003" x="0" y="216" width="34" height="34" frameX="-33" frameY="-41" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10004" x="34" y="216" width="40" height="40" frameX="-30" frameY="-38" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10005" x="34" y="216" width="40" height="40" frameX="-30" frameY="-38" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10006" x="0" y="0" width="62" height="116" frameX="-19" frameY="0" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10007" x="62" y="0" width="64" height="64" frameX="-18" frameY="-26" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10008" x="0" y="116" width="100" height="100" frameX="0" frameY="-8" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10009" x="0" y="216" width="34" height="34" frameX="-33" frameY="-41" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10010" x="34" y="216" width="40" height="40" frameX="-30" frameY="-38" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10011" x="34" y="216" width="40" height="40" frameX="-30" frameY="-38" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10012" x="0" y="0" width="62" height="116" frameX="-19" frameY="0" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10013" x="62" y="0" width="64" height="64" frameX="-18" frameY="-26" frameWidth="100" frameHeight="116"/>
-	<SubTexture name="iconsMC instance 10014" x="0" y="116" width="100" height="100" frameX="0" frameY="-8" frameWidth="100" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10000" x="5" y="5" width="62" height="116" pivotX="35" pivotY="57.85" frameX="-4" frameY="0" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10001" x="72" y="5" width="64" height="64" frameX="-3" frameY="-26" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10002" x="141" y="5" width="70" height="70" frameX="0" frameY="-24" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10003" x="5" y="126" width="46" height="46" frameX="-15" frameY="-36" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10004" x="56" y="126" width="40" height="40" frameX="-15" frameY="-38" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10005" x="56" y="126" width="40" height="40" frameX="-15" frameY="-38" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10006" x="5" y="5" width="62" height="116" frameX="-4" frameY="0" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10007" x="72" y="5" width="64" height="64" frameX="-3" frameY="-26" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10008" x="141" y="5" width="70" height="70" frameX="0" frameY="-24" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10009" x="5" y="126" width="46" height="46" frameX="-15" frameY="-36" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10010" x="56" y="126" width="40" height="40" frameX="-15" frameY="-38" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10011" x="56" y="126" width="40" height="40" frameX="-15" frameY="-38" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10012" x="5" y="5" width="62" height="116" frameX="-4" frameY="0" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10013" x="72" y="5" width="64" height="64" frameX="-3" frameY="-26" frameWidth="70" frameHeight="116"/>
+	<SubTexture name="iconsMC instance 10014" x="141" y="5" width="70" height="70" frameX="0" frameY="-24" frameWidth="70" frameHeight="116"/>
 </TextureAtlas>

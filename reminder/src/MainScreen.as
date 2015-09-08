@@ -1,14 +1,13 @@
 package 
 {
-	//import com.freshplanet.ane.AirDatePicker.AirDatePicker;
 	import com.freshplanet.ane.AirDatePicker.AirDatePicker;
 	import feathers.controls.Screen;
 	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScreenNavigatorItem;
 	import feathers.controls.TabBar;
 	import feathers.data.ListCollection;
+	import feathers.events.FeathersEventType;
 	import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
-	import flash.desktop.NativeApplication;
 	import flash.geom.Rectangle;
 	import screens.events.ScreenEvent;
 	import screens.ScreenCodeEnum;
@@ -23,16 +22,16 @@ package
 	
 	public class MainScreen extends Screen 
 	{
-		private var _topPanel:MainScreenTopPanel;
-		private var _bottomPanel:MainScreenBottomPanel;
-		
-		private var _taskScreen:RemindTaskScreen;
-		private var _birthdayScreen:RemindEventsScreen;
-		private var _shoppingScreen:RemindShoppingScreen;
-		private var _currentScreen:BaseListScreen;
-		
-		private var _mainTabBar:TabBar;
+		private var _mainTabBar		:TabBar;
 		private var _screenNavigator:ScreenNavigator;
+		
+		private var _topPanel		:MainScreenTopPanel;
+		private var _bottomPanel	:MainScreenBottomPanel;
+		
+		private var _taskScreen		:RemindTaskScreen;
+		private var _birthdayScreen	:RemindEventsScreen;
+		private var _shoppingScreen	:RemindShoppingScreen;
+		private var _currentScreen	:BaseListScreen;
 		
 		public function MainScreen() 
 		{
@@ -68,10 +67,10 @@ package
 			addBottomPanel();
 			addMainTabPanel();
 			
-			_currentScreen = _taskScreen;
+			currentScreen = _taskScreen;
 			_screenNavigator.showScreen(ScreenCodeEnum.TASKS);
 			//_topPanel.title = _currentScreen.title;
-			_topPanel.title = "Mission Control";
+			_topPanel.title = TextLocaleHandler.getText(TextsConsts.MainAppTitle);
 			
 			trace("AirDatePicker supported : " + AirDatePicker.isSupported);
 			if (AirDatePicker.isSupported)
@@ -138,11 +137,28 @@ package
 			var id:String = _mainTabBar.selectedIndex.toString();
 			var screenItem:ScreenNavigatorItem = _screenNavigator.getScreen(id);
 			
-			_currentScreen = screenItem.screen as BaseListScreen;
+			currentScreen = screenItem.screen as BaseListScreen;
 			//_topPanel.title = _currentScreen.title;
 			_screenNavigator.showScreen(id);
 		}
 
+		public function set currentScreen(value:BaseListScreen):void 
+		{
+			_currentScreen = value;
+			/*if (_currentScreen.isInitialized)
+			{
+				_currentScreen.setFocus();
+			} else
+			{
+				_currentScreen.addEventListener(FeathersEventType.INITIALIZE, onScreenInitialize);
+			}*/
+		}
+		
+		/*private function onScreenInitialize(e:Event):void 
+		{
+			_currentScreen.setFocus();
+		}*/
+		
 		private function onClearAllTrigered(e:Event):void 
 		{
 			_currentScreen.clearList();
@@ -150,26 +166,10 @@ package
 		
 		override public function dispose():void 
 		{
-			/*_currentScreen = null;
-			_screenNavigator.removeAllScreens();
-			
-			_taskScreen.removeEventListeners();
-			_taskScreen.removeFromParent(true);
-			_taskScreen = null;
-			_birthdayScreen.removeEventListeners();
-			_birthdayScreen.removeFromParent(true);
-			_birthdayScreen = null;
-			_shoppingScreen.removeEventListeners();
-			_shoppingScreen.removeFromParent(true);
-			_shoppingScreen = null;
-			
-			_screenNavigator.removeEventListeners();
-			_screenNavigator.removeFromParent(true);
-			_topPanel.removeFromParent(true);
-			_bottomPanel.removeFromParent(true);
-			_mainTabBar.removeFromParent(true);*/
 			super.dispose();
 		}
+		
+	
 		
 	}
 

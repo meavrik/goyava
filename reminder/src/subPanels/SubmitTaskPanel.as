@@ -2,7 +2,7 @@ package subPanels
 {
 	import feathers.controls.Button;
 	import feathers.controls.ButtonGroup;
-	import feathers.controls.Panel;
+	import feathers.controls.Check;
 	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.controls.SpinnerList;
@@ -15,7 +15,7 @@ package subPanels
 	 * ...
 	 * @author Avrik
 	 */
-	public class SubmitTaskPanel extends Panel 
+	public class SubmitTaskPanel extends SubPanel 
 	{
 		private var _toggleGroup:ToggleGroup;
 		private var _spinnerList:SpinnerList;
@@ -23,6 +23,9 @@ package subPanels
 		private var _spinnerListAmount:SpinnerList;
 		private var _spinnerListRepeat:SpinnerList;
 		private var _closeButn:Button;
+		private var _nagCheck:Check;
+		
+		private static var doNag:Boolean = true;
 		
 		public function SubmitTaskPanel() 
 		{
@@ -39,16 +42,20 @@ package subPanels
 			_buttonGroup = new ButtonGroup();
 			 _buttonGroup.dataProvider = new ListCollection(
 			 [
-				 { label: "OK", triggered: submitButton_triggeredHandler },
-				 { label: "No Nag", triggered: noNagButton_triggeredHandler },
-				 { label: "Cancel", triggered: cancelButton_triggeredHandler },
+				 { label: "Set new task", triggered: submitButton_triggeredHandler },
+				// { label: "No Nag", triggered: noNagButton_triggeredHandler },
+				// { label: "Cancel", triggered: cancelButton_triggeredHandler },
 			 ]);
 			 addChild( _buttonGroup );
 			_buttonGroup.direction = ButtonGroup.DIRECTION_HORIZONTAL;
 			_buttonGroup.setSize(this.stage.stageWidth - 50, 50);
 			
 			
-			
+			_nagCheck = new Check();
+			_nagCheck.label = "Nag";
+			_nagCheck.isSelected = doNag
+			_nagCheck.addEventListener(Event.CHANGE, onNagChange);
+			addChild(_nagCheck);
 			/*
 			 _toggleGroup = new ToggleGroup();
 			 var arr:Array = ["10 minutes", "hour", "day", "week", "month", "year"];
@@ -76,6 +83,30 @@ package subPanels
 			_spinnerList.selectedIndex = 0;
 			_spinnerListAmount.selectedIndex = 0;
 			_spinnerListRepeat.selectedIndex = 3;
+			updateSpinner();
+			
+			this.width = stage.stageWidth - 50;
+			var newWidth:Number = (this.width -10) / 3;
+			_spinnerList.width = newWidth;
+			_spinnerListAmount.width = newWidth;
+			_spinnerListRepeat.width = newWidth;
+		}
+		
+		private function updateSpinner():void
+		{
+			_spinnerList.isEnabled = doNag;
+			_spinnerListAmount.isEnabled = doNag;
+			_spinnerListRepeat.isEnabled = doNag;
+			
+			_spinnerList.alpha = doNag?1:.2;
+			_spinnerListAmount.alpha = doNag?1:.2;
+			_spinnerListRepeat.alpha = doNag?1:.2;
+		}
+		
+		private function onNagChange(e:Event):void 
+		{
+			doNag = _nagCheck.isSelected;
+			updateSpinner()
 		}
 		
 		private function addNewSpinnerList(listArr:Array):SpinnerList 
@@ -100,18 +131,21 @@ package subPanels
 				// renderer.iconSourceField = "thumbnail";
 				 return renderer;
 			 };
-			 this.addChild(newSpinner);
-			 return newSpinner;
+			this.addChild(newSpinner);
+			return newSpinner;
 		}
 		
 		private function onListCreationComplete(e:Event):void 
 		{
-			_buttonGroup.move(5, _spinnerList.bounds.bottom + 10);
-			_spinnerList.x = _spinnerListAmount.bounds.right;
-			_spinnerListRepeat.x = _spinnerList.bounds.right;
+			_spinnerList.move(_spinnerListAmount.bounds.right, 10);
+			_spinnerListRepeat.move(_spinnerList.bounds.right, 10);
+			_spinnerListAmount.move(0, 10);
+			_nagCheck.move(5, _spinnerList.bounds.bottom + 10);
+			
+			_buttonGroup.move(5, _nagCheck.bounds.bottom + 10);
 		}
 		
-		private function cancelButton_triggeredHandler(event:Event):void 
+		/*private function cancelButton_triggeredHandler(event:Event):void 
 		{
 			dispatchEvent(new Event(Event.CANCEL));
 		}
@@ -119,7 +153,7 @@ package subPanels
 		private function noNagButton_triggeredHandler(event:Event):void
 		{
 			dispatchEvent(new Event(Event.SELECT));
-		}
+		}*/
 		
 		private function submitButton_triggeredHandler(event:Event):void 
 		{

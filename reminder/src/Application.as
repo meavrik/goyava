@@ -1,32 +1,25 @@
 package
 {
 	import assets.AssetsHelper;
-	import com.gamua.flox.Access;
 	import com.gamua.flox.AuthenticationType;
-	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	import controllers.ErrorController;
-	import entities.LocaleEntity;
 	import externalServices.ExternalServicesManager;
 	import feathers.controls.Label;
 	import feathers.events.FeathersEventType;
 	import feathers.themes.MetalWorksMobileTheme;
 	import flash.desktop.NativeApplication;
-	import flash.display.NativeMenu;
-	import flash.display.NativeMenuItem;
+	import flash.events.KeyboardEvent;
 	import flash.events.UncaughtErrorEvent;
 	import flash.ui.Keyboard;
-	import locale.LocaleCodeEnum;
+	import locale.LocaleManager;
 	import localStorage.LocalStorageController;
 	import log.LogEventsEnum;
 	import popups.PopupsController;
-	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import flash.events.KeyboardEvent;
 	import subPanels.ExitAppPanel;
-	import texts.TextLocaleHandler;
 	import users.FloxPlayer;
 	import users.UserGlobal;
 	
@@ -40,9 +33,8 @@ package
 		static public const FLOX_APP_KEY:String = "Zkuxm7hSIbumjuGl";
 		static public const HERO_LOGIN_KEY:String = "in4F7SmQmHfqdTdg";
 		
-		[Embed(source = "../bin/locale.xml", mimeType = "application/octet-stream")]
-		private var localeXmlData:Class
 		private var _loadingLabel:Label;
+		static public var noConnection:Boolean;
 		
 		public function Application()
 		{
@@ -62,7 +54,6 @@ package
 		
 		private function init():void
 		{
-			
 			new MetalWorksMobileTheme(false);
 			
 			_loadingLabel = new Label();
@@ -81,7 +72,6 @@ package
 			
 			loginHero();
 		}
-		
 		
 		private function onKeyPress(event:KeyboardEvent):void 
 		{
@@ -115,9 +105,6 @@ package
 			}
 		}
 		
-		
-		
-		
 		private function onUncaughtError(e:UncaughtErrorEvent):void
 		{
 			ErrorController.showError(this, "onUncaughtError : " + e.error);
@@ -136,9 +123,6 @@ package
 				Player.loginWithKey(HERO_LOGIN_KEY, onHeroLoginComplete, onLoginError);
 			} else
 			{
-				//startApplication();
-				//loginUser();
-				
 				startApplication();
 			}
 		}
@@ -155,79 +139,35 @@ package
 				Flox.logEvent(LogEventsEnum.LOGIN_WITH_KEY, Player.current.id);
 				Player.login(AuthenticationType.KEY, Player.current.id, null, onLoginComplete, onLoginError);
 			}
-			//startApplication();
 		}
 		
-		private function onLoginError():void
+		private function onLoginError(message:String):void
 		{
 			_loadingLabel.removeFromParent(true);
 			
-			ErrorController.showError(this, "login error");
+			Flox.logError(this, "onLoginError : {0}" + message);
+			noConnection = true;
+			
+			startApplication();
 		}
 		
 		private function onHeroLoginComplete():void 
 		{
-			saveLocaleTexts();
+			LocaleManager.getInstance().addEventListener(LocaleManager.SAVE_TEXTS_COMPLETE, onSaveLocaleTextsComplete);
+			LocaleManager.getInstance().addEventListener(LocaleManager.SAVE_TEXTS_ERROR, onSaveLocaleTextsComplete);
+			LocaleManager.getInstance().saveLocaleTexts();
+		}
+		
+		private function onSaveLocaleTextsComplete(e:Event):void 
+		{
+			LocaleManager.getInstance().removeEventListener(LocaleManager.SAVE_TEXTS_COMPLETE, onSaveLocaleTextsComplete);
+			LocaleManager.getInstance().removeEventListener(LocaleManager.SAVE_TEXTS_ERROR, onSaveLocaleTextsComplete);
+			loginUser()
 		}
 		
 		private function onLoginComplete():void
 		{
 			startApplication()
-		}
-		
-		private function saveLocaleTexts():void 
-		{
-			TextLocaleHandler.textsEntity = new LocaleEntity();
-			TextLocaleHandler.textsEntity.id = "localeTexts";
-			TextLocaleHandler.textsEntity.publicAccess = Access.READ_WRITE;
-			TextLocaleHandler.textsEntity.ownerId = Player.current.id;
-			
-			var xml:XML = XML(new localeXmlData());
-			var langObjArr:Array = new Array();
-			
-			for (var i:int = 0; i < xml.children().length(); i++) 
-			{
-				var node:XML = xml.children()[i];
-				var textTitleName:String = node.name();
-				//trace("node = " + textTitleName);
-				
-				for (var j:int = 0; j < node.attributes().length(); j++) 
-				{
-					//var langObj:Object = new Object;
-					var langName:String=node.attributes()[j].name()
-					var text:String = node.attributes()[j]
-					
-					//trace("lange name = " + langName);
-					//trace("text = " + text);
-					if (!langObjArr[langName]) langObjArr[langName] = new Object();
-					langObjArr[langName][textTitleName] = text;
-				}
-			}
-
-			TextLocaleHandler.textsEntity.English = langObjArr[LocaleCodeEnum.ENGLISH];
-			TextLocaleHandler.textsEntity.Hebrew = langObjArr[LocaleCodeEnum.HEBREW];
-			TextLocaleHandler.textsEntity.Spanish = langObjArr[LocaleCodeEnum.SPANISH];
-			//TextLocaleHandler.textsEntity.French = langObjArr["fr"];
-			TextLocaleHandler.textsEntity.Italian = langObjArr[LocaleCodeEnum.ITALIAN];
-			TextLocaleHandler.textsEntity.Russian = langObjArr[LocaleCodeEnum.RUSSIAN];
-			TextLocaleHandler.textsEntity.German = langObjArr[LocaleCodeEnum.GERMAN];
-			
-			TextLocaleHandler.textsEntity.save(onAdminTextsSaveSuccess, onAdminTextsSaveError);
-		}
-		
-		private function onAdminTextsSaveError(message:String):void 
-		{
-			Flox.logInfo("onAdminTextsSaveError :"+message);
-			//startApplication()
-			
-			loginUser()
-		}
-		private function onAdminTextsSaveSuccess():void 
-		{
-			Flox.logInfo("onAdminTextsSaveSuccess ");
-			//startApplication()
-			
-			loginUser()
 		}
 		
 		private function startApplication():void

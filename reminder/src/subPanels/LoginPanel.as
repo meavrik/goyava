@@ -5,14 +5,10 @@ package subPanels
 	import controllers.ErrorController;
 	import feathers.controls.Alert;
 	import feathers.controls.Button;
-	import feathers.controls.Callout;
 	import feathers.controls.Label;
-	import feathers.controls.text.TextFieldTextRenderer;
 	import feathers.controls.TextInput;
-	import feathers.core.ITextRenderer;
 	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
-	import flash.text.TextFormat;
 	import localStorage.LocalStorageController;
 	import starling.events.Event;
 	import texts.TextLocaleHandler;
@@ -38,18 +34,23 @@ package subPanels
 		override protected function initialize():void 
 		{
 			super.initialize();
+			
+			this.width = stage.stageWidth - 50;
 			this.title = TextLocaleHandler.getText(TextsConsts.LoginPanelTitle);;
 			
 			this._userInput = new TextInput();
 			this._userInput.prompt = TextLocaleHandler.getText(TextsConsts.LoginMailPrompt);
 			this._userInput.move(5, 10)
+			this._userInput.width = this.width - 30;
 			this._userInput.addEventListener(FeathersEventType.CREATION_COMPLETE, onInputReady);
+			this._userInput.setFocus();
 			addChild(this._userInput);
 			
 			this._loginButn = new Button();
 			this._loginButn.addEventListener(Event.TRIGGERED, onLoginClick);
 			this._loginButn.label = TextLocaleHandler.getText(TextsConsts.LoginButtonLabel);
 			this._loginButn.move(5, 90);
+			this._loginButn.width = this._userInput.width;
 			addChild(this._loginButn);
 			
 			this._logoutButn = new Button();
@@ -57,6 +58,7 @@ package subPanels
 			this._logoutButn.label =TextLocaleHandler.getText(TextsConsts.LogoutButtonLabel);
 			this._logoutButn.move(5, 180);
 			this._logoutButn.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
+			this._logoutButn.width = this._userInput.width;
 			addChild(this._logoutButn);
 			
 			/*this._infoLabel = new Label();
@@ -113,12 +115,6 @@ package subPanels
 		
 		override public function dispose():void 
 		{
-			/*if (_registerPanel)
-			{
-				_registerPanel.removeFromParent(true);
-				PopUpManager.removePopUp(_registerPanel);
-			}*/
-			
 			super.dispose();
 		}
 		

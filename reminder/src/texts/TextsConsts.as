@@ -24,6 +24,17 @@ package texts
 		static public var ExitAppNoButtonLabel:String = "ExitAppNoButtonLabel";
 		static public var ExitAppTitle:String = "ExitAppTitle";
 		static public var ExitAppMessage:String = "ExitAppMessage";
+		static public var MainAppTitle:String = "MainAppTitle";
+		static public var ClearlistButtonLabel:String = "ClearlistButtonLabel";
+		static public var NagButtonLabel:String = "NagButtonLabel";
+		static public var NoNagButtonLabel:String = "NoNagButtonLabel";
+		static public var SaveButtonLabel:String = "SaveButtonLabel";
+		static public var RemoveTaskButtonLabel:String = "RemoveTaskButtonLabel";
+		static public var CancelButtonLabel:String = "CancelButtonLabel";
+		static public var EditTaskPanelTitle:String = "EditTaskPanelTitle";
+		static public var LanguageButtonLabel:String = "LanguageButtonLabel";
+		static public var RemoveAdsButtonLabel:String = "RemoveAdsButtonLabel";
+		static public var QuickMenuTitle:String = "QuickMenuTitle";
 		
 	}
 

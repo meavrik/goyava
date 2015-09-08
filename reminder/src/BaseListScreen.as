@@ -69,6 +69,15 @@ package
 			Callout.show( label, _addButton, "any", false);*/
 		}
 		
+		public function setFocus():void 
+		{
+			if (_autoCompleteInput)
+			{
+				_autoCompleteInput.setFocus();
+			}
+			
+		}
+		
 		private function handleEmptyTaskList():void
 		{
 			dispatchEvent(new Event(ScreenEvent.CLEAR));
@@ -96,7 +105,8 @@ package
 				// renderer.skinField = "background";
 				renderer.skinFunction = function( item:Object ):DisplayObject
 				{
-					var skin:Image = new Image( AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.SKINS_TEXTURES, 0));
+					var index:int = 0;// Math.random() * 2;
+					var skin:Image = new Image( AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.SKINS_TEXTURES, index));
 					return skin;
 				};
 				 
@@ -329,14 +339,10 @@ package
 			var index:int = getItemIndexByText(_selectedItem.label);
 			
 			listArr[index].name = newStr;
-			//_tasksList.dataProvider.getItemAt(index).label = newStr;
-			
-			
-			_tasksList.dataProvider.removeItemAt(index);
-			_tasksList.dataProvider.addItemAt( { text: newStr } , index);
 
-			//_selectedItem.label = newStr;
-			//_selectedItem.ch = newStr;
+			_tasksList.dataProvider.removeItemAt(index);
+			var item:Object = _tasksList.dataProvider.getItemAt(index);
+			_tasksList.dataProvider.addItemAt( { text: newStr,thumbnail:item.thumbnail } , index);
 
 			saveTaskList();
 			
@@ -449,6 +455,8 @@ package
 			}
 			super.dispose();
 		}
+		
+		
 		
 	}
 

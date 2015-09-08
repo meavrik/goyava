@@ -8,6 +8,8 @@ package
 	import popups.PopupsController;
 	import starling.events.Event;
 	import subPanels.AreYouSurePanel;
+	import texts.TextLocaleHandler;
+	import texts.TextsConsts;
 	
 	/**
 	 * ...
@@ -33,15 +35,15 @@ package
 			setSize(stage.stageWidth, 200);
 			
 			_nagSwitch = new ToggleSwitch();
-			_nagSwitch.onText = "Nag";
-			_nagSwitch.offText = "No Nag";
+			_nagSwitch.onText = TextLocaleHandler.getText(TextsConsts.NagButtonLabel);
+			_nagSwitch.offText = TextLocaleHandler.getText(TextsConsts.NoNagButtonLabel);
 			_nagSwitch.addEventListener(FeathersEventType.CREATION_COMPLETE, onSwitchCreationComplete);
 			_nagSwitch.addEventListener(Event.CHANGE, onSwitchChange);
 			_nagSwitch.isSelected = true;
 			this.addChild(_nagSwitch);
 			
 			_clearAllButton = new Button();
-			_clearAllButton.label = "Clear list";
+			_clearAllButton.label = TextLocaleHandler.getText(TextsConsts.ClearlistButtonLabel);
 			_clearAllButton.addEventListener(Event.TRIGGERED, onClearAllTrigered);
 			this.addChild(_clearAllButton);
 		}

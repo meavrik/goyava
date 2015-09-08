@@ -26,6 +26,8 @@ package subPanels
 		override protected function initialize():void 
 		{
 			super.initialize();
+			this.width = stage.stageWidth - 50;
+			
 			title = TextLocaleHandler.getText(TextsConsts.ExitAppTitle);
 			
 			this._messageLabel = new Label();
@@ -50,6 +52,8 @@ package subPanels
 			
 			this._noButn.width = 150;
 			addChild(this._noButn);*/
+			
+			
 		}
 		
 		private function onLabelReady(e:Event):void 
