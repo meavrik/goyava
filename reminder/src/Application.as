@@ -32,6 +32,7 @@ package
 		static public const FLOX_APP_ID:String = "3wqJNGHv61HPcLrH";
 		static public const FLOX_APP_KEY:String = "Zkuxm7hSIbumjuGl";
 		static public const HERO_LOGIN_KEY:String = "in4F7SmQmHfqdTdg";
+		static public const GAME_VERSION:String = "2.1";
 		
 		private var _loadingLabel:Label;
 		static public var noConnection:Boolean;
@@ -68,7 +69,7 @@ package
 			AssetsHelper.getInstance().init();
 			
 			Flox.playerClass = FloxPlayer;
-			Flox.init(FLOX_APP_ID, FLOX_APP_KEY);
+			Flox.init(FLOX_APP_ID, FLOX_APP_KEY, GAME_VERSION);
 			
 			loginHero();
 		}

@@ -1,19 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<application xmlns="http://ns.adobe.com/air/application/17.0">
+<application xmlns="http://ns.adobe.com/air/application/19.0">
   <id>air.reminder</id>
-  <versionNumber>0.1</versionNumber>
+  <versionNumber>0.2</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>reminder</filename>
   <name>
+    <text xml:lang="he">תזכורת</text>
     <text xml:lang="en">reminder</text>
-    <text xml:lang="de">
-    </text>
-    <text xml:lang="it">
-    </text>
-    <text xml:lang="ru">
-    </text>
-    <text xml:lang="es">
-    </text>
+    <text xml:lang="de">reminder</text>
+    <text xml:lang="it">reminder</text>
+    <text xml:lang="ru">reminder</text>
+    <text xml:lang="es">reminder</text>
   </name>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
@@ -140,19 +137,16 @@
 	http://developer.android.com/guide/topics/manifest/manifest-intro.html
 	-->
   <description>
-    <text xml:lang="en">this is my description</text>
-    <text xml:lang="de">
-    </text>
-    <text xml:lang="it">
-    </text>
-    <text xml:lang="ru">
-    </text>
-    <text xml:lang="es">
-    </text>
+    <text xml:lang="he">reminder application - manage your tasks and events easily</text>
+    <text xml:lang="en">reminder application - manage your tasks and events easily</text>
+    <text xml:lang="de">reminder application - manage your tasks and events easily</text>
+    <text xml:lang="it">reminder application - manage your tasks and events easily </text>
+    <text xml:lang="ru">reminder application - manage your tasks and events easily</text>
+    <text xml:lang="es">reminder application - manage your tasks and events easily</text>
   </description>
   <extensions>
-    <extensionID>com.pushwoosh.PushNotification</extensionID>
-    <extensionID>com.freshplanet.AirDatePicker</extensionID>
+  <extensionID>com.pushwoosh.PushNotification</extensionID>
+   <!-- <extensionID>com.freshplanet.AirDatePicker</extensionID>-->
     <!--<extensionID>com.freshplanet.AirPushNotification</extensionID>-->
   </extensions>
   <supportedLanguages>en de it ru es</supportedLanguages>

@@ -9,7 +9,7 @@ package externalServices
 	{
 		function ArmPushNotifications():void;
 		
-		function scheduleNotification(seconds:int, txt:String, repeat:int):void;
+		function scheduleNotification(seconds:int, txt:String, repeat:int):int;
 		
 		function removeNotification(id:int):void;
 		
