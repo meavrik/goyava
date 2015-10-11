@@ -3,6 +3,10 @@ package screens
 	import feathers.controls.Button;
 	import feathers.controls.PanelScreen;
 	import feathers.data.ListCollection;
+	import panels.GroupDetailsPanel;
+	import panels.GroupDetailsPanel;
+	import popups.PopupsController;
+	import starling.events.Event;
 	
 	/**
 	 * ...
@@ -12,6 +16,7 @@ package screens
 	{
 		private var _addButton:Button;
 		private var _listScreen:BaseListScreen;
+		private var _groupDetailsPanel:GroupDetailsPanel;
 		
 		public function ScreenGroups() 
 		{
@@ -22,6 +27,8 @@ package screens
 		override protected function initialize():void 
 		{
 			super.initialize();
+			_groupDetailsPanel = new GroupDetailsPanel();
+			
 			
 			title = "חפש אנשים למטרות משותפות"
 			
@@ -44,8 +51,14 @@ package screens
 			 
 			_listScreen.move(0, this._addButton.bounds.bottom + 10);
 			_listScreen.setSize(this.width, stage.stageHeight - this.y);
+			_listScreen.addEventListener(Event.TRIGGERED, onItemClick);
 
 			addChild(_listScreen);
+		}
+		
+		private function onItemClick(e:Event):void 
+		{
+			PopupsController.addPopUp(_groupDetailsPanel);
 		}
 		
 	}

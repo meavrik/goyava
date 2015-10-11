@@ -53,7 +53,7 @@
 		<!--<autoOrients>false</autoOrients>-->
 		<!--<aspectRatio>landscape</aspectRatio>-->
 		<renderMode>direct</renderMode>
-		<!--<depthAndStencil>true</depthAndStencil>--> <!-- required for 3D -->
+		<depthAndStencil>true</depthAndStencil>-->
 	</initialWindow>
 	
 	<icon>

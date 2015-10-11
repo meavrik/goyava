@@ -77,8 +77,7 @@ package
 			screen2.setSize(this.stage.stageWidth - _mainTabBar.bounds.width, this.stage.stageHeight - 270);
 			var screen6:PanelScreen = new ScreenBusiness();
 			screen6.setSize(this.stage.stageWidth - _mainTabBar.bounds.width, this.stage.stageHeight - 270);
-			
-			
+		
 			_screenNavigator = new ScreenNavigator();
 			_screenNavigator.addScreen("0", new ScreenNavigatorItem(screen1));
 			_screenNavigator.addScreen("1", new ScreenNavigatorItem(screen2));

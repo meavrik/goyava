@@ -16,6 +16,7 @@ package
 	import popups.PopupsController;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import ui.UiGenerator;
 	import users.FloxPlayer;
 	import users.UserGlobal;
 
@@ -64,7 +65,7 @@ package
 			ExternalServicesManager.getInstance().init();
 			LocalStorageController.getInstance().loadData();
 			AssetsHelper.getInstance().init();*/
-			
+			UiGenerator.getInstance().init(this.stage);
 			Flox.playerClass = FloxPlayer;
 			Flox.init(FLOX_APP_ID, FLOX_APP_KEY, GAME_VERSION);
 			

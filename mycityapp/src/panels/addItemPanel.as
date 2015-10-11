@@ -36,7 +36,7 @@ package panels
 		{
 			super.initialize();
 			title = "הוספת פריט חדש";
-			var fieldHeight:Number = 60;
+			var fieldHeight:Number = Math.round(this.stage.stageHeight / 15);
 			var fieldWidth:Number = this.stage.stageWidth - 60;
 			
 			_inputLabel = new TextInput();
@@ -47,7 +47,7 @@ package panels
 			
 			var currencyLabel:Label = new Label();
 			currencyLabel.text = "₪";
-			currencyLabel.move(10, _inputLabel.bounds.bottom + 25);
+			currencyLabel.move(10, _inputLabel.bounds.bottom + fieldHeight / 2);
 			addChild(currencyLabel);
 			
 			_priceLabel = new TextInput();

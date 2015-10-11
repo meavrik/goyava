@@ -10,8 +10,10 @@ package users
 	public class FloxPlayer extends Player
 	{
 		//public var currentItemID:int;
-		//public var locale:String;
-		public var sentences:Array = new Array();
+		public var name:String;
+		public var address:String;
+		public var myGroups:Array = new Array();
+		public var mySales:Array = new Array();
 		
 		public function FloxPlayer()
 		{

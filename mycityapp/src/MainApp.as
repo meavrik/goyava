@@ -3,10 +3,13 @@ package
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
+	import entities.ResidentsEntity;
+	import panels.LoginPanel;
 	import popups.PopupsController;
 	import progress.MainProgressBar;
 	import starling.core.Starling;
 	import starling.display.Sprite;
+	import starling.events.Event;
 	import users.FloxPlayer;
 	import users.UserGlobal;
 	
@@ -27,6 +30,7 @@ package
 		private var _mainScreen:MainScreen;
 		private var _progressBar:MainProgressBar;
 		private var _noConnection:Boolean;
+		private var _loginPanel:LoginPanel;
 		
 		public function MainApp() 
 		{
@@ -49,8 +53,11 @@ package
 		
 		public function initNewPlayer():void
 		{
+			_loginPanel = new LoginPanel()
 			Flox.logInfo("login player success " + Player.current);
 			UserGlobal.userPlayer = Player.current as FloxPlayer;
+			UserGlobal.residents = new ResidentsEntity();
+			UserGlobal.residents.id = "residents";
 			
 			_progressBar = new MainProgressBar();
 			addChild(_progressBar);
@@ -84,16 +91,32 @@ package
 				Flox.logError(this, "onUserDataLoadError & not new user");
 			}
 			
+			
+			
 			//UserGlobal.userPlayer.refresh(onRefreshComplete, onRefreshFail);
 		}
 		
 		private function onUserDataLoadComplete(playerData:FloxPlayer):void 
 		{
-			//Flox.logInfo("onUserDataLoadComplete " + playerData.locale);
+			Flox.logInfo("onUserDataLoadComplete " + playerData.name);
 			
-			//UserGlobal.userPlayer.refresh(onRefreshComplete, onRefreshFail);
-			_progressBar.value = 50;
+			_progressBar.value = 100;
+			if (!playerData.name)
+			{
+				_loginPanel.addEventListener(Event.COMPLETE, onLoginComplete);
+				PopupsController.addPopUp(_loginPanel);
+			}else
+			{
+				startApp()
+			}
 			
+		}
+		
+		private function onLoginComplete(e:Event):void 
+		{
+			_loginPanel.removeEventListener(Event.COMPLETE, onLoginComplete);
+			_loginPanel.removeFromParent(true);
+			_loginPanel = null;
 			startApp()
 		}
 		
