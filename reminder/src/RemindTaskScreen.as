@@ -1,6 +1,7 @@
 package 
 {
 	import assets.AssetsHelper;
+	import com.gamua.flox.Flox;
 	import externalServices.ExternalServicesManager;
 	import popups.PopupsController;
 	import starling.events.Event;
@@ -44,13 +45,31 @@ package
 			var index:int = _submitTaskPanel.selectedIndex;
 			PopupsController.removePopUp(_submitTaskPanel);
 			var iconTexture:Texture = AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, index);
-			submitNewTask(iconTexture, index);
+			
+			var notificationID:int = ExternalServicesManager.getInstance().pushNotification.scheduleNotification(_submitTaskPanel.getTotalSecondsNag(), _currentTaskName, 5);
+			Flox.logEvent("new notification id == " + notificationID);
+			
+			
+			submitNewTask(iconTexture, index, notificationID);
 			
 			//HOUR , DAY , WEEK , MONTH , YEAR , RANDOM
 			//var secondsArr:Array = [3600, 86400, 604800, 2419200, 29030400, Math.round(Math.random() * 604800)];
 			//var secondsArr:Array = [600, 3600, 86400, 604800, 2419200, 29030400];
 			//ExternalServicesManager.getInstance().pushNotification.scheduleNotification(secondsArr[index], _currentTaskName, 5);
-			ExternalServicesManager.getInstance().pushNotification.scheduleNotification(_submitTaskPanel.getTotalSecondsNag(), _currentTaskName, 5);
+			
+			
+			
+		}
+		
+		
+		override protected function removeSelectedTask():void 
+		{
+			var index:int = getItemIndexByText(_selectedItem.label);
+			var id:int = listArr[index].notificationID;
+			Flox.logInfo("try to remove notfication : " + id);
+			ExternalServicesManager.getInstance().pushNotification.removeNotification(id);
+
+			super.removeSelectedTask();
 		}
 		
 		override protected function showPostTaskPanel():void 

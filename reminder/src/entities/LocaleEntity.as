@@ -8,9 +8,6 @@ package entities
 	 */
 	public class LocaleEntity extends Entity 
 	{
-		//public var MainScreenTitle:Object;
-		//public var EmptySentence:Object;
-		
 		public var English:Object;
 		public var Hebrew:Object;
 		public var Spanish:Object;

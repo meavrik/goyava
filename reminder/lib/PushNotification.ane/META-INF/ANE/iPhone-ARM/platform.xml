@@ -16,11 +16,12 @@
 //  
 //////////////////////////////////////////////////////////////////////////////////////-->
 
-<platform xmlns="http://ns.adobe.com/air/extension/3.1">
+<platform xmlns="http://ns.adobe.com/air/extension/14.0">
     <sdkVersion>7.0</sdkVersion>
     <linkerOptions>
     	<option>-framework StoreKit</option>
     	<option>-framework Security</option>
+    	<option>-framework ImageIO</option>
     	<option>-ObjC</option>
     </linkerOptions>
 </platform>

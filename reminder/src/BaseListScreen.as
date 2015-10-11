@@ -42,7 +42,7 @@ package
 		private var _deleteTaskPanel:DeleteTaskPanel;
 		private var _editTaskPanel:EditTaskPanel;
 		private var _currentPanel:Panel;
-		private var _selectedItem:DefaultListItemRenderer;
+		protected var _selectedItem:DefaultListItemRenderer;
 		private var editInputTf:TextInput;
 		protected var _listArr:Array;
 		protected var _currentTaskName:String;
@@ -199,9 +199,9 @@ package
 			_editTaskPanel.addEventListener(Event.CANCEL, cancelEditTask_triggeredHandler);
 		}
 		
-		protected function submitNewTask(iconTexture:Texture = null, remindEvery:int = -1):void
+		protected function submitNewTask(iconTexture:Texture = null, remindEvery:int = -1, notificationId:int = -1):void
 		{
-			_currentTaskName = _autoCompleteInput.text;
+			//_currentTaskName = _autoCompleteInput.text;
 				
 			/*if (_tasksList.dataProvider.length == 1 && _tasksList.dataProvider.getItemAt(0).text == _defaultEmptyTaskText)
 			{
@@ -216,6 +216,12 @@ package
 			if (remindEvery != -1)
 			{
 				obj.remindEvery = remindEvery;
+				
+			}
+			
+			if (notificationId != -1)
+			{
+				obj.notificationId = notificationId;
 			}
 			UserGlobal.userPlayer.currentItemID++;
 			//listArr.push( { name:taskTitle , remindEvery:_toggleGroup.selectedIndex } );
@@ -282,6 +288,7 @@ package
 		{
 			if (_autoCompleteInput.text.length > 1)
 			{
+				_currentTaskName = _autoCompleteInput.text;
 				_autoCompleteInput.closeList();
 				showPostTaskPanel();
 			}
@@ -371,7 +378,7 @@ package
 			
 		}
 
-		private function removeSelectedTask():void 
+		protected function removeSelectedTask():void 
 		{
 			Flox.logInfo("remove task :" + _selectedItem.label);
 			var index:int = getItemIndexByText(_selectedItem.label);
@@ -386,7 +393,7 @@ package
 			}
 		}
 		
-		private function getItemIndexByText(name:String):int
+		protected function getItemIndexByText(name:String):int
 		{
 			for each (var item:Object in listArr) 
 			{

@@ -10,13 +10,7 @@
   </features>
   <libraries>
     <library path="library.swf">
-      <script name="_f4490ff182de9ac1291459097d03ab64ac708f1bd236b4d30ef567be0ab3165c_flash_display_Sprite" mod="1417192900846" signatureChecksum="1926920827" >
-        <def id="_f4490ff182de9ac1291459097d03ab64ac708f1bd236b4d30ef567be0ab3165c_flash_display_Sprite" /> 
-        <dep id="flash.system:Security" type="e" /> 
-        <dep id="AS3" type="n" /> 
-        <dep id="flash.display:Sprite" type="i" /> 
-      </script>
-      <script name="com/pushwoosh/nativeExtensions/PushNotification" mod="1409737731000" signatureChecksum="442737827" >
+      <script name="com/pushwoosh/nativeExtensions/PushNotification" mod="1442497504000" signatureChecksum="3618550487" >
         <def id="com.pushwoosh.nativeExtensions:PushNotification" /> 
         <dep id="flash.events:Event" type="e" /> 
         <dep id="com.pushwoosh.nativeExtensions:PushNotificationEvent" type="e" /> 
@@ -41,8 +35,14 @@
         <dep id="AS3" type="n" /> 
         <dep id="flash.events:Event" type="i" /> 
       </script>
+      <script name="_2f2666771e3c4b586e25d56645593510402a13a0aa8b24dc6f45f789102bba3b_flash_display_Sprite" mod="1442497518968" signatureChecksum="114522261" >
+        <def id="_2f2666771e3c4b586e25d56645593510402a13a0aa8b24dc6f45f789102bba3b_flash_display_Sprite" /> 
+        <dep id="flash.system:Security" type="e" /> 
+        <dep id="AS3" type="n" /> 
+        <dep id="flash.display:Sprite" type="i" /> 
+      </script>
       <digests>
-        <digest type="SHA-256" signed="false" value="969a9da891e1fff4eed06756d1d70c7a8323358e2f815e38ef12b1f746bc8a8a"   />
+        <digest type="SHA-256" signed="false" value="e2ce662ab3e37dba51da2c79037be31ccef23a801aa646f5f297c8544c6035f5"   />
       </digests>
     </library>
   </libraries>

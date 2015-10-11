@@ -43,7 +43,7 @@ package externalServices
 				}
 				
 				// local push test
-				//_pushwoosh.scheduleLocalNotification(10, "{\"alertBody\": \"Time to collect coins!\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+				_pushwoosh.scheduleLocalNotification(10, "{\"alertBody\": \"Time to collect coins!\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
 				
 			} catch (error:Error)
 			{
@@ -52,8 +52,9 @@ package externalServices
 		}
 		
 		
-		public function scheduleNotification(seconds:int, txt:String, repeat:int):void
+		public function scheduleNotification(seconds:int, txt:String, repeat:int):int
 		{
+			var id:int = 0;
 			if (_pushwoosh.isPushNotificationSupported)
 			{
 				var addToSentenceArr:Array = [
@@ -64,19 +65,22 @@ package externalServices
 					"It's about time you "
 				]	
 				
-				var newTxt:String;
-				var newSeconds:Number;
+				//var newTxt:String = "";
+				var newTxt:String = txt;
+				var newSeconds:int;
 				for (var i:int = 0; i < repeat; i++) 
 				{
-					newTxt = i < repeat?addToSentenceArr[i]:addToSentenceArr[(addToSentenceArr.length - 1)];
-					newTxt = newTxt + txt;
+					//newTxt = i < addToSentenceArr.length?addToSentenceArr[i]:addToSentenceArr[(addToSentenceArr.length - 1)];
+					//newTxt = newTxt + txt;
 					newSeconds = seconds * (i + 1);
-					try
-					{
-						Flox.logInfo("scheduleNotification every " + newSeconds + " seconds with the text : " + newTxt);
+					//try
+					//{
+						Flox.logEvent("scheduleNotification every " + newSeconds + " seconds with the text : " + newTxt);
 
-						_pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
-					}
+						//id = _pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+						id = _pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"test\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+						//_pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+					/*}
 					catch (err:Error)
 					{
 						if (CONFIG::debug == true) {
@@ -86,11 +90,11 @@ package externalServices
 							Flox.logError(this, "scheduleLocalNotification error {0}", err.message);
 						}
 						
-					}
+					}*/
 					
 				}
 			}
-			
+			return id;
 		}
 		
 		public function onToken(e:PushNotificationEvent):void{
@@ -134,7 +138,10 @@ package externalServices
 		
 		public function removeNotification(id:int):void 
 		{
-			
+			if (_pushwoosh.isPushNotificationSupported)
+			{
+				_pushwoosh.clearLocalNotification(id);
+			}
 		}
 		
 		/* INTERFACE externalServices.IPushNotification */

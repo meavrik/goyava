@@ -11,6 +11,7 @@ package subPanels
 	import locale.LocaleManager;
 	import starling.display.Image;
 	import starling.events.Event;
+	import starling.textures.Texture;
 	import users.UserGlobal;
 	
 	/**
@@ -28,10 +29,13 @@ package subPanels
 			dataProvider = new ListCollection( [ ]);
 			
 			 var item:Language;
+			 
+			 var img:Texture = AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 7);
+			 
 			 for (var i:int = 0; i < LocaleManager.getInstance().langs.length; i++) 
 			 {
 				 item = LocaleManager.getInstance().langs[i];
-				 dataProvider.addItem( { text:item.name, code:item.code } );
+				 dataProvider.addItem( { text:item.name, code:item.code, thumbnail:img } );
 
 				if (item.code == UserGlobal.userPlayer.locale)
 				{
@@ -43,22 +47,13 @@ package subPanels
 			 {
 				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
 				 renderer.labelField = "text";
-			
-				 //renderer.iconSourceField = "thumbnail";
+				 renderer.iconSourceField = "thumbnail";
+				 
 				 return renderer;
 			 };
 			 
 			customButtonStyleName = Button.ALTERNATE_NAME_QUIET_BUTTON
-			
 			 
-			 //refreshButtonProperties();
-			/* var img:Image = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 10));
-			 _langPicker.buttonFactory = function():Button
-			 {
-				 var button:Button = new Button();
-				 button.defaultIcon = img;
-				 return button;
-			 };*/
 			 addEventListener(Event.CHANGE, onLangChange);
 		}
 		
@@ -66,7 +61,8 @@ package subPanels
 		{
 			super.validate();
 			
-			button.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
+			button.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 6 + selectedIndex));
+			button.label = "";
 		}
 		
 		private function onLangChange(e:Event):void 

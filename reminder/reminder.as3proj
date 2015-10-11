@@ -12,12 +12,14 @@
     <movie minorVersion="0" />
     <movie platform="AIR Mobile" />
     <movie background="#FFFFFF" />
+    <movie preferredSDK="AIR 19.0.0;19.0.0;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
     <class path="..\swc" />
     <class path="..\ane" />
+    <class path="..\com" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -59,11 +61,12 @@
     <element path="..\swc\MetalWorksMobileTheme.swc" />
     <element path="..\swc\Starling-Extension-Graphics.swc" />
     <element path="..\swc\Flox-AS3.swc" />
+    <element path="ext\AirDatePicker.ane" />
     <element path="ext\PushNotification.ane" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
-    <element path="ext\AirDatePicker.ane" />
+    <!-- example: <element path="..." /> -->
   </externalLibraryPaths>
   <!-- Runtime Shared Libraries -->
   <rslPaths>

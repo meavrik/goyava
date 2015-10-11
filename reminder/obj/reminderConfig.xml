@@ -6,15 +6,15 @@
   <compiler>
     <define append="true">
       <name>CONFIG::debug</name>
-      <value>true</value>
-    </define>
-    <define append="true">
-      <name>CONFIG::release</name>
       <value>false</value>
     </define>
     <define append="true">
+      <name>CONFIG::release</name>
+      <value>true</value>
+    </define>
+    <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'07/09/2015'</value>
+      <value>'06/10/2015'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -28,22 +28,23 @@
       <name>CONFIG::desktop</name>
       <value>false</value>
     </define>
-    <verbose-stacktraces>true</verbose-stacktraces>
+    <optimize>true</optimize>
+    <omit-trace-statements>true</omit-trace-statements>
+    <verbose-stacktraces>false</verbose-stacktraces>
     <source-path append="true">
       <path-element>D:\work\testing\reminder\src</path-element>
       <path-element>D:\work\testing\swc</path-element>
       <path-element>D:\work\testing\ane</path-element>
+      <path-element>D:\work\testing\com</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
-    <external-library-path append="true">
-      <path-element>D:\work\testing\reminder\ext\AirDatePicker.ane</path-element>
-    </external-library-path>
     <library-path append="true">
       <path-element>D:\work\testing\swc\starling.swc</path-element>
       <path-element>D:\work\testing\swc\feathers.swc</path-element>
       <path-element>D:\work\testing\swc\MetalWorksMobileTheme.swc</path-element>
       <path-element>D:\work\testing\swc\Starling-Extension-Graphics.swc</path-element>
       <path-element>D:\work\testing\swc\Flox-AS3.swc</path-element>
+      <path-element>D:\work\testing\reminder\ext\AirDatePicker.ane</path-element>
       <path-element>D:\work\testing\reminder\ext\PushNotification.ane</path-element>
     </library-path>
   </compiler>

@@ -100,6 +100,7 @@ package externalServices
 					//var timeStamp:Number = new Date().time + newSeconds * 1000;
 					trace("TIME STAMP === " + timeStamp);
 					_push.sendLocalNotification(newTxt, timeStamp, "Remember!", PushNotification.DEFAULT_LOCAL_NOTIFICATION_ID, i);
+					_push(newTxt, timeStamp, "Remember!", PushNotification.DEFAULT_LOCAL_NOTIFICATION_ID, i);
 				}
 				catch (err:Error)
 				{
