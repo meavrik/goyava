@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="buttonIcons.png">
+	<!-- Created with Adobe Flash Professional version 15.0.0.173 -->
+	<!-- http://www.adobe.com/products/flash.html -->
+	<SubTexture name="iconsMC instance 10000" x="5" y="5" width="52" height="52" pivotX="0" pivotY="0"/>
+	<SubTexture name="iconsMC instance 10001" x="62" y="5" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10002" x="5" y="62" width="52" height="52"/>
+</TextureAtlas>

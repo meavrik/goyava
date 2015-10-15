@@ -1,35 +1,34 @@
 package panels 
 {
-	import entities.ResidentsEntity;
+	import data.GlobalDataProvider;
 	import feathers.controls.Button;
+	import feathers.controls.Callout;
+	import feathers.controls.Label;
 	import feathers.controls.Panel;
 	import feathers.controls.TextInput;
 	import starling.events.Event;
 	import ui.UiGenerator;
-	import users.FloxPlayer;
-	import users.UserGlobal;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class LoginPanel extends Panel 
+	public class LoginPanel extends BasePopupPanel 
 	{
 		private var nameInput:TextInput;
 		private var addressInput:TextInput;
 		private var loginButton:Button;
+		private var codeInput:TextInput;
 		
 		public function LoginPanel() 
 		{
 			super();
-			
+			title = "ברוך הבא"
 		}
 		
 		override protected function initialize():void 
 		{
 			super.initialize();
-			
-			title = "ברוך הבא"
 			
 			nameInput = new TextInput();
 			nameInput.prompt = "שם תושב";
@@ -42,9 +41,21 @@ package panels
 			addressInput.move(0, nameInput.bounds.bottom + 10);
 			addChild(addressInput);
 			
+			
+			codeInput = new TextInput();
+			codeInput.prompt = "מספר משלם - ארנונה";
+			codeInput.setSize(UiGenerator.getInstance().fieldWidth, UiGenerator.getInstance().fieldHeight);
+			codeInput.move(0, addressInput.bounds.bottom + 50);
+			addChild(codeInput);
+			
+			var label:Label = new Label();
+			label.text = "רק מוודאים שאתה תושב";
+		 
+			Callout.show( label, codeInput, Callout.DIRECTION_UP);
+			 
 			loginButton = new Button();
 			loginButton.label = "המשך";
-			loginButton.move(0, addressInput.bounds.bottom + 10);
+			loginButton.move(0, codeInput.bounds.bottom + 10);
 			loginButton.setSize(UiGenerator.getInstance().fieldWidth, UiGenerator.getInstance().fieldHeight);
 			loginButton.addEventListener(Event.TRIGGERED, onLoginClick);
 			addChild(loginButton);
@@ -54,12 +65,10 @@ package panels
 		{
 			if (nameInput.text)
 			{
-				UserGlobal.userPlayer.name = nameInput.text;
-				UserGlobal.userPlayer.address = addressInput.text;
-				UserGlobal.userPlayer.save(null, null);
-				
-				UserGlobal.residents.addNew(UserGlobal.userPlayer.name, UserGlobal.userPlayer.address);
-				
+				GlobalDataProvider.userPlayer.name = nameInput.text;
+				GlobalDataProvider.userPlayer.address = addressInput.text;
+				GlobalDataProvider.userPlayer.save(null, null);
+				GlobalDataProvider.residentsDataProvier.addItem(GlobalDataProvider.userPlayer.name, GlobalDataProvider.userPlayer.address);
 			}
 			
 			dispatchEvent(new Event(Event.COMPLETE));

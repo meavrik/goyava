@@ -20,7 +20,7 @@ package screens
 		override protected function initialize():void 
 		{
 			super.initialize();
-			
+
 			itemRendererFactory = function():IListItemRenderer
 			 {
 				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();

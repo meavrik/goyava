@@ -59,6 +59,7 @@
     <element path="..\swc\feathers.swc" />
     <element path="..\swc\Flox-AS3.swc" />
     <element path="..\swc\MetalWorksMobileTheme.swc" />
+    <element path="..\swc\airglobal.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

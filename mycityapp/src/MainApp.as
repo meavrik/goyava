@@ -3,6 +3,7 @@ package
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
+	import data.GlobalDataProvider;
 	import entities.ResidentsEntity;
 	import panels.LoginPanel;
 	import popups.PopupsController;
@@ -11,7 +12,6 @@ package
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import users.FloxPlayer;
-	import users.UserGlobal;
 	
 	/**
 	 * ...
@@ -55,27 +55,41 @@ package
 		{
 			_loginPanel = new LoginPanel()
 			Flox.logInfo("login player success " + Player.current);
-			UserGlobal.userPlayer = Player.current as FloxPlayer;
-			UserGlobal.residents = new ResidentsEntity();
-			UserGlobal.residents.id = "residents";
+			GlobalDataProvider.userPlayer = Player.current as FloxPlayer;
 			
 			_progressBar = new MainProgressBar();
 			addChild(_progressBar);
 			
+			loadGlobalData();
+		}
+		
+		private function loadGlobalData():void
+		{
+			Entity.load(ResidentsEntity, GlobalDataProvider.residentsDataProvier.id, onLoadResidentsComplete, onLoadResidentsFail);
+		}
+		
+		public function onLoadResidentsFail(message:String):void 
+		{
+			Flox.logError("Load Residents Fail " + message);
+			_progressBar.value = 30;
+			
 			loadUserData();
 		}
 		
-		public function openQuickList():void 
+		public function onLoadResidentsComplete(entity:ResidentsEntity):void 
 		{
-			//var quickMenu:QuickMenuList = new QuickMenuList();
-			//addChild(quickMenu);
+			Flox.logInfo("Load Residents Complete " + entity.itemsArr.join(","));
+			_progressBar.value = 30;
+			GlobalDataProvider.residentsDataProvier.itemsArr = entity.itemsArr;
+			
+			loadUserData();
 		}
 		
 		private function loadUserData():void 
 		{
 			_progressBar.value = 10;
 			
-			Entity.load(FloxPlayer, UserGlobal.userPlayer.id, onUserDataLoadComplete, onUserDataLoadError)
+			Entity.load(FloxPlayer, GlobalDataProvider.userPlayer.id, onUserDataLoadComplete, onUserDataLoadError)
 		}
 		
 		private function onUserDataLoadError(message:String):void 
@@ -90,26 +104,30 @@ package
 				_noConnection = true;
 				Flox.logError(this, "onUserDataLoadError & not new user");
 			}
-			
-			
-			
-			//UserGlobal.userPlayer.refresh(onRefreshComplete, onRefreshFail);
 		}
 		
 		private function onUserDataLoadComplete(playerData:FloxPlayer):void 
 		{
-			Flox.logInfo("onUserDataLoadComplete " + playerData.name);
+			Flox.logInfo("load User Data Complete " + playerData.name);
 			
-			_progressBar.value = 100;
+			alldataLoadComplete();
+			
 			if (!playerData.name)
 			{
-				_loginPanel.addEventListener(Event.COMPLETE, onLoginComplete);
-				PopupsController.addPopUp(_loginPanel);
-			}else
-			{
-				startApp()
+				showLoginPanel();
 			}
-			
+		}
+		
+		private function showLoginPanel():void 
+		{
+			_loginPanel.addEventListener(Event.COMPLETE, onLoginComplete);
+			PopupsController.addPopUp(_loginPanel);
+		}
+		
+		private function alldataLoadComplete():void
+		{
+			_progressBar.value = 100;
+			startApp()
 		}
 		
 		private function onLoginComplete(e:Event):void 
@@ -140,6 +158,12 @@ package
 			
 			_mainScreen = new MainScreen();
 			addChild(_mainScreen);
+		}
+		
+		public function openQuickList():void 
+		{
+			//var quickMenu:QuickMenuList = new QuickMenuList();
+			//addChild(quickMenu);
 		}
 		
 	}

@@ -7,29 +7,30 @@ package entities
 	 * ...
 	 * @author Avrik
 	 */
-	public class ResidentsEntity extends Entity 
+	public class GroupsEntity extends Entity 
 	{
 		public var itemsArr:Array = new Array();
 		
-		public function ResidentsEntity() 
+		public function GroupsEntity() 
 		{
 			super();
-			this.id = EntityIdEnum.RESIDENTS;
+			this.id = EntityIdEnum.GROUPS;
 			this.publicAccess = Access.READ_WRITE;
 		}
 		
-		public function addItem(name:String, address:String):void
+		public function addItem(name:String, creator:String, category:String):void
 		{
 			var obj:Object = { id:0,
 								created:new Date().time,
-								name:name, address:address 
+								name:name, 
+								category:category ,
+								creator:creator 
 								
 								};
 			itemsArr.push(obj);
 			
 			save(null, null);
 		}
-		
 	}
 
 }

@@ -2,6 +2,12 @@ package
 {
 	import feathers.controls.Button;
 	import feathers.controls.Header;
+	import panels.PersonalPanel;
+	import popups.PopupsController;
+	import starling.display.Image;
+	import starling.display.Quad;
+	import starling.events.Event;
+	import starling.textures.Texture;
 	
 	/**
 	 * ...
@@ -9,64 +15,35 @@ package
 	 */
 	public class MainScreenTopPanel extends Header 
 	{
-		//private var _langPicker:LanguagePicker;
-		private var _loginButton:Button;
-		//private var _loginPanel:LoginPanel;
-		
+		private var _myPlaceButton:Button;
+
 		public function MainScreenTopPanel() 
 		{
 			super();
 			
 		}
 		
-		/*override protected function initialize():void 
+		override protected function initialize():void 
 		{
 			super.initialize();
 			
 			setSize(stage.stageWidth, 100);
+			title = "ברוך הבא";
 			
-			_langPicker = new LanguagePicker();
-			addChild(_langPicker);
+			this._myPlaceButton = new Button();
+			this._myPlaceButton.label = "אישי";
+			this._myPlaceButton.setSize(100, 60);
+			this._myPlaceButton.move(this.stage.stageWidth - (this._myPlaceButton.width + 10), 10);
+			this._myPlaceButton.addEventListener(Event.TRIGGERED, onClick);
 			
-			_loginButton = new Button();
-			_loginButton.setSize(60, 100);
-			_loginButton.x = stage.stageWidth - (_loginButton.width + 10);
+			addChild(_myPlaceButton);
+		}
+		
+		private function onClick(e:Event):void 
+		{
+			PopupsController.addPopUp(new PersonalPanel())
+		}
 
-			_loginButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS,2));
-			_loginButton.addEventListener(Event.TRIGGERED, onLoginClick);
-			_loginButton.styleName = Button.ALTERNATE_NAME_QUIET_BUTTON
-			addChild(_loginButton);
-		}
-		
-		private function onLoginClick(e:Event):void 
-		{
-			removeLogin();
-			_loginPanel = new LoginPanel();
-			PopupsController.addPopUp(new LoginPanel());
-		}
-		
-		private function removeLogin():void
-		{
-			if (_loginPanel)
-			{
-				PopupsController.removePopUp(_loginPanel);
-				_loginPanel.removeFromParent(true);
-				_loginPanel = null;
-			}
-		}
-		
-		override public function dispose():void 
-		{
-			removeLogin();
-			
-			_langPicker.removeEventListeners();
-			_langPicker.removeFromParent(true);
-			_langPicker = null;
-			_loginButton.removeFromParent(true);
-			_loginButton = null;
-			super.dispose();
-		}*/
-		
 	}
 
 }

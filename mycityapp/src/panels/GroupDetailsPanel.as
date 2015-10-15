@@ -13,13 +13,15 @@ package panels
 	 * ...
 	 * @author Avrik
 	 */
-	public class GroupDetailsPanel extends Panel 
+	public class GroupDetailsPanel extends BasePopupPanel 
 	{
 		private var _friendsList:BaseListScreen;
+		private var _dataProvider:Object;
 		
-		public function GroupDetailsPanel() 
+		public function GroupDetailsPanel(dataProvider:Object) 
 		{
 			super();
+			this._dataProvider = dataProvider;
 			
 		}
 		

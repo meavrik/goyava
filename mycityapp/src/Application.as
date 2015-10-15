@@ -1,12 +1,15 @@
 package
 {
 
+	import assets.AssetsHelper;
 	import com.gamua.flox.AuthenticationType;
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	import controllers.ErrorController;
+	import data.GlobalDataProvider;
 	import feathers.controls.Label;
 	import feathers.events.FeathersEventType;
+	import feathers.themes.AzurePpgMobileTheme;
 	import feathers.themes.MetalWorksMobileTheme;
 	import flash.desktop.NativeApplication;
 	import flash.events.KeyboardEvent;
@@ -18,7 +21,6 @@ package
 	import starling.events.Event;
 	import ui.UiGenerator;
 	import users.FloxPlayer;
-	import users.UserGlobal;
 
 	
 	/**
@@ -63,8 +65,8 @@ package
 			/*addChild(_loadingLabel);
 			
 			ExternalServicesManager.getInstance().init();
-			LocalStorageController.getInstance().loadData();
-			AssetsHelper.getInstance().init();*/
+			LocalStorageController.getInstance().loadData();*/
+			AssetsHelper.getInstance().init();
 			UiGenerator.getInstance().init(this.stage);
 			Flox.playerClass = FloxPlayer;
 			Flox.init(FLOX_APP_ID, FLOX_APP_KEY, GAME_VERSION);
@@ -75,7 +77,6 @@ package
 		
 		private function onKeyPress(event:KeyboardEvent):void 
 		{
-			
 			switch (event.keyCode) 
 			{ 
 				case Keyboard.BACK: 
@@ -120,7 +121,7 @@ package
 		{
 			if (CONFIG::debug == true) {
 				Flox.logInfo("login with admin hero : ");
-				UserGlobal.isAdmin = true;
+				GlobalDataProvider.userPlayer.isAdmin = true;
 				Player.loginWithKey(HERO_LOGIN_KEY, onHeroLoginComplete, onLoginError);
 			} else
 			{

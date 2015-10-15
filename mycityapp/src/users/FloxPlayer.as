@@ -9,7 +9,7 @@ package users
 	 */
 	public class FloxPlayer extends Player
 	{
-		//public var currentItemID:int;
+		public var isAdmin:Boolean;
 		public var name:String;
 		public var address:String;
 		public var myGroups:Array = new Array();

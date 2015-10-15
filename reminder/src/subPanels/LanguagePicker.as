@@ -30,27 +30,31 @@ package subPanels
 			
 			 var item:Language;
 			 
-			 var img:Texture = AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.TIME_ICONS, 7);
+			 var img:Texture = AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0);
+			 
+			  listProperties.itemRendererFactory = function():IListItemRenderer
+			 {
+				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
+				 renderer.labelField = "text";
+				 renderer.iconSourceField = "thumbnail";
+				renderer.styleNameList.add( Button.ICON_POSITION_LEFT );
+				 return renderer;
+			 };
+			 
+			 
 			 
 			 for (var i:int = 0; i < LocaleManager.getInstance().langs.length; i++) 
 			 {
 				 item = LocaleManager.getInstance().langs[i];
 				 dataProvider.addItem( { text:item.name, code:item.code, thumbnail:img } );
-
+				
 				if (item.code == UserGlobal.userPlayer.locale)
 				{
 					selectedIndex = i;
 				}
 			 }
 			 
-			 listProperties.itemRendererFactory = function():IListItemRenderer
-			 {
-				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
-				 renderer.labelField = "text";
-				 renderer.iconSourceField = "thumbnail";
-				 
-				 return renderer;
-			 };
+			
 			 
 			customButtonStyleName = Button.ALTERNATE_NAME_QUIET_BUTTON
 			 
