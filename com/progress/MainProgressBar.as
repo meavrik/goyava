@@ -48,7 +48,7 @@ package progress
 		{
 			super.render(support, parentAlpha);
 			
-			move((this.stage.stageWidth - width) / 2, (this.stage.stageHeight - height) / 2);
+			move((this.stage.stageWidth - width) / 2, (this.stage.stageHeight - (height+50)));
 			
 			_label.move((width-_label.width)/2, -30);
 		}

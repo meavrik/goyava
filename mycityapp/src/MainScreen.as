@@ -10,11 +10,15 @@ package
 	import feathers.motion.transitions.OldFadeNewSlideTransitionManager;
 	import feathers.motion.transitions.ScreenSlidingStackTransitionManager;
 	import feathers.motion.transitions.TabBarSlideTransitionManager;
+	import panels.AddItemPanel;
 	import screens.ScreenBusiness;
+	import screens.ScreenComunity;
 	import screens.ScreenEducation;
+	import screens.ScreenEvents;
 	import screens.ScreenGroups;
 	import screens.ScreenMap;
 	import screens.ScreenMatnas;
+	import screens.ScreenRealestate;
 	import screens.ScreenResidents;
 	import screens.ScreenSecondHand;
 	import starling.events.Event;
@@ -85,9 +89,10 @@ package
 					new ScreenEducation(),
 					new ScreenMatnas(),
 					new ScreenBusiness(),
-					new PanelScreen(),
-					new PanelScreen(),
-					new ScreenMap()
+					new ScreenEvents(),
+					new ScreenRealestate(),
+					new ScreenMap(),
+					new ScreenComunity()
 			]
 
 			_screenNavigator = new ScreenNavigator();
@@ -99,6 +104,9 @@ package
 				screen.setSize(this.stage.stageWidth - _mainTabBar.bounds.width, this.stage.stageHeight - 270);
 				_screenNavigator.addScreen(i.toString(), new ScreenNavigatorItem(screen));
 			}
+			
+			
+			//_screenNavigator.addScreen("AddItemScreen", new ScreenNavigatorItem(new AddItemPanel()));
 			
 			new ScreenSlidingStackTransitionManager(_screenNavigator);
 
@@ -132,6 +140,11 @@ package
 			{
 				_screenNavigator.showScreen(id);
 			}
+		}
+		
+		public function get screenNavigator():ScreenNavigator 
+		{
+			return _screenNavigator;
 		}
 	
 		

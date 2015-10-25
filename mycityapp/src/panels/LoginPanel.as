@@ -3,6 +3,7 @@ package panels
 	import data.GlobalDataProvider;
 	import feathers.controls.Button;
 	import feathers.controls.Callout;
+	import feathers.controls.Header;
 	import feathers.controls.Label;
 	import feathers.controls.Panel;
 	import feathers.controls.TextInput;
@@ -13,7 +14,7 @@ package panels
 	 * ...
 	 * @author Avrik
 	 */
-	public class LoginPanel extends BasePopupPanel 
+	public class LoginPanel extends Panel 
 	{
 		private var nameInput:TextInput;
 		private var addressInput:TextInput;
@@ -29,9 +30,11 @@ package panels
 		override protected function initialize():void 
 		{
 			super.initialize();
+			headerStyleName = Header.TITLE_ALIGN_PREFER_LEFT;
 			
 			nameInput = new TextInput();
-			nameInput.prompt = "שם תושב";
+			nameInput.move(0, 10);
+			nameInput.prompt = "הרשמה";
 			nameInput.setSize(UiGenerator.getInstance().fieldWidth, UiGenerator.getInstance().fieldHeight);
 			addChild(nameInput);
 			

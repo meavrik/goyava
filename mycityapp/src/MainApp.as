@@ -127,6 +127,8 @@ package
 		private function alldataLoadComplete():void
 		{
 			_progressBar.value = 100;
+			
+			dispatchEvent(new Event(Event.READY));
 			startApp()
 		}
 		
@@ -164,6 +166,11 @@ package
 		{
 			//var quickMenu:QuickMenuList = new QuickMenuList();
 			//addChild(quickMenu);
+		}
+		
+		public function get mainScreen():MainScreen 
+		{
+			return _mainScreen;
 		}
 		
 	}

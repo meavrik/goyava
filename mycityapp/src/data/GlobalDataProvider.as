@@ -1,7 +1,7 @@
 package data 
 {
-	import entities.CommonEntity;
-	import entities.GroupsEntity;
+	import entities.GroupEntity;
+	import entities.GroupsListEntity;
 	import entities.ResidentsEntity;
 	import entities.SecondHandEntity;
 	import users.FloxPlayer;
@@ -15,7 +15,8 @@ package data
 		//static public var commonData:CommonEntity;
 		static public var secondHandDataProvier:SecondHandEntity = new SecondHandEntity();
 		static public var residentsDataProvier:ResidentsEntity = new ResidentsEntity();
-		static public var groupsDataProvier:GroupsEntity = new GroupsEntity();
+		
+		static public var groupsDataProvier:GroupsListEntity = new GroupsListEntity();
 		
 		static public var currencySign:String = "₪";
 			

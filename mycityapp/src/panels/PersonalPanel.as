@@ -16,6 +16,9 @@ package panels
 		override protected function initialize():void 
 		{
 			super.initialize();
+			
+			
+			
 		}
 		
 	}

@@ -1,6 +1,11 @@
 package panels 
 {
+	import com.gamua.flox.Entity;
+	import com.gamua.flox.Flox;
+	import entities.GroupEntity;
+	import feathers.controls.Alert;
 	import feathers.controls.Button;
+	import feathers.controls.Callout;
 	import feathers.controls.Label;
 	import feathers.controls.Panel;
 	import feathers.controls.renderers.DefaultListItemRenderer;
@@ -8,6 +13,8 @@ package panels
 	import feathers.controls.ScrollText;
 	import feathers.data.ListCollection;
 	import screens.BaseListScreen;
+	import starling.events.Event;
+	import ui.UiGenerator;
 	
 	/**
 	 * ...
@@ -16,43 +23,57 @@ package panels
 	public class GroupDetailsPanel extends BasePopupPanel 
 	{
 		private var _friendsList:BaseListScreen;
-		private var _dataProvider:Object;
+		private var _dataProvider:GroupEntity;
+		private var _joinButton:Button;
+		private var _detailLabel:Label;
+		private var _id:int;
 		
-		public function GroupDetailsPanel(dataProvider:Object) 
+		//public function GroupDetailsPanel(dataProvider:Object) 
+		public function GroupDetailsPanel(id:int) 
 		{
 			super();
-			this._dataProvider = dataProvider;
+			
+			this._id = id
+			//this._dataProvider = dataProvider;
 			
 		}
+		
+		
 		
 		override protected function initialize():void 
 		{
 			super.initialize();
 			
-			title = "על הקבוצה";
-			var label:ScrollText = new ScrollText();
-			label.text = "נפגשים כל יום בשש לשחק כדורגל במגרש ליד ביהס ברחוב ההדרים";
-			label.setSize(this.stage.stageWidth - 20, 150);
-			addChild(label)
+			Entity.load(GroupEntity, _id.toString(), onLoadDataComplete, onLoadDataFail);
 			
-			var joinButton:Button = new Button();
-			joinButton.label = "בקש להצטרף";
-			joinButton.move(10, label.bounds.bottom+10);
-			joinButton.setSize(label.width, 60);
-			addChild(joinButton);
+			title = "טוען"//this._dataProvider.name;
+			_detailLabel = new Label();
+			//label.text = "נפגשים כל יום בשש לשחק כדורגל במגרש ליד ביהס ברחוב ההדרים";
+			_detailLabel.text = "";//this._dataProvider.description;
+			_detailLabel.wordWrap = true;
+
+			_detailLabel.setSize(this.width - 40, 120);
+			_detailLabel.move(5, 10);
+			_detailLabel.styleNameList.add(Label.ALTERNATE_STYLE_NAME_DETAIL);
+			addChild(_detailLabel)
 			
+			_joinButton = new Button();
+			_joinButton.label = "בקש להצטרף";
+			_joinButton.move(10, _detailLabel.bounds.bottom+10);
+			_joinButton.setSize(UiGenerator.getInstance().buttonWidth, UiGenerator.getInstance().buttonHeight);
+			_joinButton.addEventListener(Event.TRIGGERED, onJoinClick);
+			addChild(_joinButton);
 			
 			var listTitle:Label = new Label();
+			listTitle.styleNameList.add(Label.ALTERNATE_STYLE_NAME_HEADING);
 			listTitle.text = "חברים בקבוצה";
-			listTitle.setSize(joinButton.width, 30);
-			listTitle.paddingLeft = 100;
+			listTitle.setSize(this.width-40, 30);
+			//listTitle.paddingLeft = 100;
 			
-			listTitle.move(20, joinButton.bounds.bottom + 10);
+			listTitle.move(10, _joinButton.bounds.bottom + 10);
 			addChild(listTitle);
 			_friendsList = new BaseListScreen()
-			
-			
-			
+		
 			_friendsList.itemRendererFactory = function():IListItemRenderer
 			 {
 				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
@@ -63,16 +84,59 @@ package panels
 	 
 			 _friendsList.dataProvider = new ListCollection(
 			 [
+				/*{ text: _dataProvider.creator }
 				 { text: "דני" },
 				 { text: "שמעון כהן" },
 				 { text: "דוד לוי" },
-				 { text: "אבי" },
+				 { text: "אבי" },*/
 			 ]);
 			 
-			_friendsList.move(10, listTitle.bounds.bottom + 10);
-			_friendsList.setSize(label.width, stage.stageHeight / 2);
+			_friendsList.move(0, listTitle.bounds.bottom + 10);
+			_friendsList.setSize(this.width-40, stage.stageHeight / 2);
 			
 			addChild(_friendsList);
+		}
+		
+		private function onLoadDataFail():void 
+		{
+			
+		}
+		
+		private function onLoadDataComplete(data:GroupEntity):void 
+		{
+			Flox.logInfo("onLoadDataComplete " +data.name);
+			this._dataProvider = data;
+			
+			title = this._dataProvider.name;
+			_detailLabel.text = this._dataProvider.description;
+			
+			for each (var item:Object in _dataProvider.members) 
+			{
+				if (item.name)
+				{
+					_friendsList.dataProvider.addItem( { text:item.name } );
+				}
+			}
+		}
+		
+		
+		
+		private function onJoinClick(e:Event):void 
+		{
+			this._dataProvider.addMeToGroup();
+			_joinButton.isEnabled = false;
+			var alert:Alert = Alert.show("הבקשה נשלחה", "הקבוצה", new ListCollection(
+			[
+				{ label: "סבבה" },
+				//{ label: "Cancel" }
+			]));
+			alert.width = this.width - 40;
+			alert.addEventListener(Event.CLOSE, alert_closeHandler);
+		}
+		
+		private function alert_closeHandler(e:Event):void 
+		{
+			
 		}
 		
 	}

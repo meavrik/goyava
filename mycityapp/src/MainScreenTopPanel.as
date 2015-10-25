@@ -1,7 +1,9 @@
 package 
 {
+	import data.GlobalDataProvider;
 	import feathers.controls.Button;
 	import feathers.controls.Header;
+	import feathers.controls.Label;
 	import panels.PersonalPanel;
 	import popups.PopupsController;
 	import starling.display.Image;
@@ -28,14 +30,14 @@ package
 			super.initialize();
 			
 			setSize(stage.stageWidth, 100);
-			title = "ברוך הבא";
+			title = "ברוך הבא " + GlobalDataProvider.userPlayer.name;
 			
 			this._myPlaceButton = new Button();
 			this._myPlaceButton.label = "אישי";
 			this._myPlaceButton.setSize(100, 60);
 			this._myPlaceButton.move(this.stage.stageWidth - (this._myPlaceButton.width + 10), 10);
 			this._myPlaceButton.addEventListener(Event.TRIGGERED, onClick);
-			
+
 			addChild(_myPlaceButton);
 		}
 		

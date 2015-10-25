@@ -2,14 +2,13 @@ package screens
 {
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
-	import entities.CommonEntity;
+	import data.GlobalDataProvider;
 	import entities.EntityIdEnum;
 	import entities.SecondHandEntity;
 	import feathers.controls.Button;
 	import feathers.controls.Label;
 	import feathers.controls.PanelScreen;
 	import feathers.data.ListCollection;
-	import data.GlobalDataProvider;
 	import panels.AddItemPanel;
 	import panels.ItemDetailsPanel;
 	import popups.PopupsController;
@@ -45,11 +44,14 @@ package screens
 			addChild(this._addButton);
 			 
 			_listScreen = new BaseListScreen()
+			
 			//_listScreen.isSelectable = false;
 			_listScreen.dataProvider = new ListCollection([]);
 			_listScreen.move(0, this._addButton.bounds.bottom + 10);
 			_listScreen.setSize(this.width, stage.stageHeight - this.y);
 			_listScreen.addEventListener(Event.TRIGGERED, onItemClick);
+			//_listScreen.isQuickHitAreaEnabled = true;
+			
 			addChild(_listScreen);
 			
 			_loadItemsLabel = new Label();

@@ -3,12 +3,12 @@ package screens
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import data.GlobalDataProvider;
-	import entities.GroupsEntity;
+	import entities.GroupEntity;
+	import entities.GroupsListEntity;
 	import feathers.controls.Button;
 	import feathers.controls.PanelScreen;
 	import feathers.data.ListCollection;
 	import panels.AddNewGroupPanel;
-	import panels.GroupDetailsPanel;
 	import panels.GroupDetailsPanel;
 	import popups.PopupsController;
 	import starling.events.Event;
@@ -34,7 +34,6 @@ package screens
 		{
 			super.initialize();
 			
-			
 			title = "חפש אנשים למטרות משותפות"
 			
 			this._addButton = new Button();
@@ -56,7 +55,7 @@ package screens
 			 
 			_listScreen.move(0, this._addButton.bounds.bottom + 10);
 			_listScreen.setSize(this.width, stage.stageHeight - this.y);
-			_listScreen.addEventListener(Event.TRIGGERED, onItemClick);
+			_listScreen.addEventListener(Event.TRIGGERED, onGroupItemClick);
 
 			addChild(_listScreen);
 			
@@ -65,26 +64,33 @@ package screens
 		
 		private function loadData():void 
 		{
-			Entity.load(GroupsEntity, GlobalDataProvider.groupsDataProvier.id, onLoadDataComplete, onLoadDataFail);
+			//Entity.load(GroupsEntity, GlobalDataProvider.groupsDataProvier.id, onLoadDataComplete, onLoadDataFail);
+			Entity.load(GroupsListEntity, GlobalDataProvider.groupsDataProvier.id, onLoadDataComplete, onLoadDataFail);
 		}
 		
-		private function onLoadDataComplete(entity:GroupsEntity):void 
+		private function onLoadDataComplete(entity:GroupsListEntity):void 
 		{
-			Flox.logInfo("load GROUPS complete " + entity.itemsArr.join(","));
-			GlobalDataProvider.groupsDataProvier.itemsArr = entity.itemsArr;
 			
+			GlobalDataProvider.groupsDataProvier.itemsArr = entity.itemsArr;
 			if (_listScreen.dataProvider)
 			{
 				_listScreen.dataProvider.removeAll();
 			}
-			
 			//_loadItemsLabel.removeFromParent(true);
 			
-			var item:Object;
-			for (var i:int = 0; i < entity.itemsArr.length; i++) 
+			if (entity.itemsArr)
 			{
-				item = entity.itemsArr[i];
-				_listScreen.dataProvider.addItem( { text:item.name } );
+				Flox.logInfo("load GROUPS complete " + entity.itemsArr.join(","));
+				var item:Object;
+				for (var i:int = 0; i < entity.itemsArr.length; i++) 
+				{
+					item = entity.itemsArr[i];
+					if (item.name)
+					{
+						_listScreen.dataProvider.addItem( { text:item.name ,id:item.id } );
+					}
+					
+				}
 			}
 		}
 		
@@ -106,10 +112,10 @@ package screens
 			loadData();
 		}
 		
-		private function onItemClick(e:Event):void 
+		private function onGroupItemClick(e:Event):void 
 		{
 			//var groupDetailsPanel:GroupDetailsPanel = new GroupDetailsPanel(GlobalDataProvider.groupsDataProvier.itemsArr[_listScreen.selectedIndex]);
-			var groupDetailsPanel:GroupDetailsPanel = new GroupDetailsPanel({});
+			var groupDetailsPanel:GroupDetailsPanel = new GroupDetailsPanel(_listScreen.selectedItem.id);
 			PopupsController.addPopUp(groupDetailsPanel);
 		}
 		

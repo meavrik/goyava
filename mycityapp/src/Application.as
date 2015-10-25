@@ -8,17 +8,18 @@ package
 	import controllers.ErrorController;
 	import data.GlobalDataProvider;
 	import feathers.controls.Label;
-	import feathers.events.FeathersEventType;
-	import feathers.themes.AzurePpgMobileTheme;
-	import feathers.themes.MetalWorksMobileTheme;
+	import feathers.themes.FlatThemeGlober;
 	import flash.desktop.NativeApplication;
+	import flash.display.Bitmap;
 	import flash.events.KeyboardEvent;
 	import flash.events.UncaughtErrorEvent;
 	import flash.ui.Keyboard;
 	import log.LogEventsEnum;
 	import popups.PopupsController;
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.textures.Texture;
 	import ui.UiGenerator;
 	import users.FloxPlayer;
 
@@ -27,8 +28,16 @@ package
 	 * ...
 	 * @author Avrik
 	 */
+	
+	 
+		
 	public class Application extends Sprite
 	{
+		[Embed(source = "../icons/ios/Default-568h@2x.png")]
+		private static var background:Class
+		
+		private var _backgroundImg:Image;
+	
 		static public const FLOX_APP_ID:String = "YSJdgJbmT54ceXsp";
 		static public const FLOX_APP_KEY:String = "VjSZWf1qGq5mlb9P";
 		static public const HERO_LOGIN_KEY:String = "kYWB9PVebJzgOS0O";
@@ -50,21 +59,30 @@ package
 			
 			this.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
 			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+			
+			var bitmap:Bitmap = new background();
+			bitmap.smoothing = true;
+			_backgroundImg = new Image(Texture.fromBitmap(bitmap));
+			_backgroundImg.width = stage.stageWidth;
+			_backgroundImg.height = stage.stageHeight;
+			addChild(_backgroundImg);
 			init()
 		}
 		
 		private function init():void
 		{
-			new MetalWorksMobileTheme(false);
+			//new MetalWorksMobileTheme(false);
+			new FlatThemeGlober(false);
+			//new FlatThemeBariol(false);
 			
-			_loadingLabel = new Label();
+			/*_loadingLabel = new Label();
 			_loadingLabel.text = "Loading...";
 			_loadingLabel.addEventListener(FeathersEventType.CREATION_COMPLETE, onLoadingLabelCreationComplete);
 			_loadingLabel.styleName = Label.ALTERNATE_STYLE_NAME_HEADING;
 			
-			/*addChild(_loadingLabel);
+			addChild(_loadingLabel);*/
 			
-			ExternalServicesManager.getInstance().init();
+			/*ExternalServicesManager.getInstance().init();
 			LocalStorageController.getInstance().loadData();*/
 			AssetsHelper.getInstance().init();
 			UiGenerator.getInstance().init(this.stage);
@@ -112,10 +130,10 @@ package
 			ErrorController.showError(this, "onUncaughtError : " + e.error);
 		}
 		
-		private function onLoadingLabelCreationComplete(e:Event):void
+		/*private function onLoadingLabelCreationComplete(e:Event):void
 		{
 			_loadingLabel.move((this.stage.stageWidth - _loadingLabel.width) / 2, (this.stage.stageHeight - _loadingLabel.height) / 2);
-		}
+		}*/
 		
 		private function loginHero():void
 		{
@@ -145,7 +163,7 @@ package
 		
 		private function onLoginError(message:String):void
 		{
-			_loadingLabel.removeFromParent(true);
+			//_loadingLabel.removeFromParent(true);
 			
 			Flox.logError(this, "onLoginError : {0}" + message);
 			noConnection = true;
@@ -175,9 +193,20 @@ package
 		
 		private function startApplication():void
 		{
-			_loadingLabel.removeFromParent(true);
+			
+			//_loadingLabel.removeFromParent(true);
+			
+			
 			addChild(MainApp.getInstance())
 			MainApp.getInstance().initNewPlayer();
+			MainApp.getInstance().addEventListener(Event.READY, onAppReady);
+		}
+		
+		private function onAppReady(e:Event):void 
+		{
+			MainApp.getInstance().removeEventListener(Event.READY, onAppReady);
+			
+			_backgroundImg.removeFromParent(true);
 		}
 	
 	}

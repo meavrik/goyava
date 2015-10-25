@@ -3,7 +3,6 @@ package panels
 	import feathers.controls.Button;
 	import feathers.controls.Header;
 	import feathers.controls.Panel;
-	import feathers.core.IFeathersControl;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 	
@@ -27,16 +26,22 @@ package panels
 			this.width = this.stage.stageWidth - 20;
 			
 			headerStyleName = Header.TITLE_ALIGN_PREFER_LEFT;
-			headerFactory = function():IFeathersControl
-			 {
-				 var header:Header = new Header();
-				 var closeButton:Button = new Button();
-				 closeButton.label = "X";
-				 closeButton.addEventListener( Event.TRIGGERED, onCloseClick );
-				 //closeButton.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
-				 header.rightItems = new <DisplayObject>[ closeButton ];
-				 return header;
-			 };
+			headerFactory = customHeaderFactory;
+		}
+		
+		private function customHeaderFactory():Header
+		{
+			var header:Header = new Header();
+			var backButton:Button = new Button();
+			backButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_BACK_BUTTON);
+			backButton.label = "חזרה";
+			backButton.addEventListener(Event.TRIGGERED, onCloseClick);
+			header.leftItems = new <DisplayObject>
+			[
+				backButton
+			];
+
+			return header;
 		}
 		
 		private function onCloseClick(e:Event):void 

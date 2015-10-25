@@ -7,8 +7,11 @@ package panels
 	import feathers.controls.Panel;
 	import flash.globalization.DateTimeFormatter;
 	import flash.globalization.LocaleID;
+	import flash.net.navigateToURL;
+	import flash.net.URLRequest;
 	import helpers.FormatHelper;
 	import starling.display.Image;
+	import starling.events.Event;
 	import ui.UiGenerator;
 	
 	/**
@@ -30,8 +33,6 @@ package panels
 		override protected function initialize():void 
 		{
 			super.initialize();
-			
-			
 			
 			var label:Label = new Label();
 			label.move(0, 20);
@@ -59,6 +60,7 @@ package panels
 			callButton.setSize(butnWidth, 60);
 			callButton.iconPosition = Button.ICON_POSITION_RIGHT;
 			callButton.iconOffsetX = 20;
+			callButton.addEventListener(Event.TRIGGERED, onCallClick);
 			addChild(callButton);
 			
 			var mailButton:Button = new Button();
@@ -68,6 +70,7 @@ package panels
 			mailButton.iconOffsetX = 20;
 			mailButton.move(callButton.bounds.right + 10, callButton.y);
 			mailButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
+			mailButton.addEventListener(Event.TRIGGERED, onMailClick);
 			//callButton.setSize(UiGenerator.getInstance().fieldHeight-20, UiGenerator.getInstance().fieldHeight-20);
 			addChild(mailButton);
 			
@@ -78,9 +81,31 @@ package panels
 			messageButton.iconOffsetX = 20;
 			messageButton.move(mailButton.bounds.right + 10, callButton.y);
 			messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
+			messageButton.addEventListener(Event.TRIGGERED, onMessageClick);
 			//callButton.setSize(UiGenerator.getInstance().fieldHeight-20, UiGenerator.getInstance().fieldHeight-20);
 			addChild(messageButton);
 			
+		}
+		
+		private function onCallClick(e:Event):void 
+		{
+			const callURL:String = "tel:" + this._dataProvider.phone;
+			var targetURL:URLRequest = new URLRequest(callURL);
+			navigateToURL(targetURL);
+		}
+		
+		private function onMessageClick(e:Event):void 
+		{
+			const callURL:String = "sms:" + this._dataProvider.phone;
+			var targetURL:URLRequest = new URLRequest(callURL);
+			navigateToURL(targetURL);
+		}
+		
+		private function onMailClick(e:Event):void 
+		{
+			const callURL:String = "mailto:" + this._dataProvider.email;
+			var targetURL:URLRequest = new URLRequest(callURL);
+			navigateToURL(targetURL);
 		}
 		
 	}

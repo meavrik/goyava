@@ -11,6 +11,10 @@ package panels
 	import flash.geom.Rectangle;
 	import flash.media.CameraRoll;
 	import data.GlobalDataProvider;
+	import flash.net.URLLoader;
+	import flash.net.URLLoaderDataFormat;
+	import flash.net.URLRequest;
+	import flash.net.URLRequestMethod;
 	import flash.utils.ByteArray;
 	import media.CameraHelper;
 	import starling.display.DisplayObject;
@@ -75,7 +79,7 @@ package panels
 			uploadImgButton.move(10, _priceLabel.bounds.bottom + 10);
 			uploadImgButton.setSize(fieldWidth / 2 - 5, fieldWidth / 2);
 			uploadImgButton.addEventListener(Event.TRIGGERED, onUploadPhotoClick1);
-			uploadImgButton.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
+			uploadImgButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
 			addChild(uploadImgButton);
 			
 			uploadImgButton2 = new Button();
@@ -83,7 +87,7 @@ package panels
 			uploadImgButton2.move(_priceLabel.bounds.right + 10, _priceLabel.bounds.bottom + 10);
 			uploadImgButton2.setSize(fieldWidth / 2 - 5, fieldWidth / 2);
 			uploadImgButton2.addEventListener(Event.TRIGGERED, onUploadPhotoClick2);
-			uploadImgButton2.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
+			uploadImgButton2.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
 			addChild(uploadImgButton2);
 			
 			_detailsLabel = new TextInput();
@@ -150,6 +154,21 @@ package panels
 			_img1 = new Image(Texture.fromBitmap(_cameraHelper.bitmap));
 			_img1BitmapData = _cameraHelper.bitmap.bitmapData;
 			uploadImgButton.addChild(_img1);
+			
+			
+			var url_request:URLRequest = new URLRequest();
+			url_request.url = "http://urika.avrik.com/";
+			url_request.contentType = "binary/octet-stream";
+			url_request.method = URLRequestMethod.POST;
+			//url_request.data = myByteArray;
+			url_request.data = _img1BitmapData.getPixels(new Rectangle(0, 0, 100, 100));
+			/*url_request.requestHeaders.push(
+			 new URLRequestHeader('Cache-Control', 'no-cache'));*/
+
+			var loader:URLLoader = new URLLoader();
+			loader.dataFormat = URLLoaderDataFormat.BINARY;
+			// attach complete/error listeners
+			loader.load(url_request);
 		}
 		
 		private function onImg2SelectComplete(e:Event):void 

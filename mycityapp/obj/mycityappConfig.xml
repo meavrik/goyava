@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'15/10/2015'</value>
+      <value>'22/10/2015'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -35,6 +35,7 @@
       <path-element>D:\work\testing\mycityapp\src</path-element>
       <path-element>D:\work\testing\swc</path-element>
       <path-element>D:\work\testing\com</path-element>
+      <path-element>D:\work\testing\ane</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
@@ -43,6 +44,7 @@
       <path-element>D:\work\testing\swc\Flox-AS3.swc</path-element>
       <path-element>D:\work\testing\swc\MetalWorksMobileTheme.swc</path-element>
       <path-element>D:\work\testing\swc\airglobal.swc</path-element>
+      <path-element>D:\work\testing\ane\airmaps_r11.ane</path-element>
     </library-path>
   </compiler>
   <file-specs>

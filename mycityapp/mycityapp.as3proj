@@ -19,6 +19,7 @@
     <class path="src" />
     <class path="..\swc" />
     <class path="..\com" />
+    <class path="..\ane" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -60,6 +61,7 @@
     <element path="..\swc\Flox-AS3.swc" />
     <element path="..\swc\MetalWorksMobileTheme.swc" />
     <element path="..\swc\airglobal.swc" />
+    <element path="..\ane\airmaps_r11.ane" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

@@ -44,7 +44,7 @@ package externalServices
 				
 				// local push test
 				_pushwoosh.scheduleLocalNotification(10, "{\"alertBody\": \"Time to collect coins!\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
-				
+
 			} catch (error:Error)
 			{
 				Flox.logWarning("init pushwoosh error : " + error.message);
