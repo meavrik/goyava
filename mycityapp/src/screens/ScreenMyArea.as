@@ -1,4 +1,4 @@
-package panels 
+package screens 
 {
 	import data.GlobalDataProvider;
 	import feathers.controls.GroupedList;
@@ -14,31 +14,30 @@ package panels
 	 * ...
 	 * @author Avrik
 	 */
-	public class PersonalPanel extends BasePopupPanel 
+	public class ScreenMyArea extends ScreenSubMain 
 	{
 		private var nameInput:TextInput;
 		private var addressInput:TextInput;
 		
-		
-		
 		private var _listItem:Object;
 		private var _list:GroupedList;
 		
-		
-		public function PersonalPanel() 
+		public function ScreenMyArea() 
 		{
 			super();
-			title = "האזור האישי";
+			
 		}
 		
 		override protected function initialize():void 
 		{
 			super.initialize();
 			
+			title = "אני";
+			
 			headerStyleName = Header.TITLE_ALIGN_PREFER_LEFT;
 			
 			nameInput = new TextInput();
-			nameInput.move(0, 10);
+			nameInput.move(10, 10);
 			nameInput.prompt = GlobalDataProvider.userPlayer.name;
 			nameInput.setSize(UiGenerator.getInstance().fieldWidth / 2, UiGenerator.getInstance().fieldHeight);
 			addChild(nameInput);
@@ -46,7 +45,7 @@ package panels
 			addressInput = new TextInput();
 			addressInput.prompt = GlobalDataProvider.userPlayer.address;
 			addressInput.setSize(UiGenerator.getInstance().fieldWidth / 2, UiGenerator.getInstance().fieldHeight);
-			addressInput.move(0, nameInput.bounds.bottom + 10);
+			addressInput.move(10, nameInput.bounds.bottom + 10);
 			addChild(addressInput);
 			
 			var nameLabel:Label = new Label();
@@ -62,7 +61,7 @@ package panels
 			var toggle:ToggleSwitch = new ToggleSwitch();
 			toggle.onText = "מופעל";
 			toggle.offText = "כבוי";
-			toggle.move(0, addressInput.bounds.bottom + 10);
+			toggle.move(10, addressInput.bounds.bottom + 10);
 			toggle.setSize(UiGenerator.getInstance().buttonWidth / 2, UiGenerator.getInstance().buttonHeight);
 			addChild(toggle);
 			
@@ -96,7 +95,6 @@ package panels
 			
 			_list.dataProvider = new HierarchicalCollection(_listItem);
 			
-	
 			_list.itemRendererFactory = function():IGroupedListItemRenderer
 			{
 				var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
@@ -119,14 +117,12 @@ package panels
 			}
 			//list.addEventListener( Event.CHANGE, list_changeHandler );
 			
-			_list.move(0, toggle.bounds.bottom + 10);
+			_list.move(10, toggle.bounds.bottom + 10);
 			//_list.setSize(this.width, this.height - _list.bounds.top);
-			_list.setSize(this.width -30, this.stage.stageHeight/2 -_list.y);
+			_list.setSize(this.stage.stageWidth -20, this.stage.stageHeight/2 -_list.y);
 			 
 			this.addChild( _list );
-			
 		}
-		
 		
 	}
 

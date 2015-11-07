@@ -11,7 +11,7 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenBusiness extends PanelScreen 
+	public class ScreenBusiness extends ScreenSubMain 
 	{
 		
 		public function ScreenBusiness() 

@@ -5,6 +5,7 @@ package
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import starling.events.Event;
+	import ui.UiGenerator;
 	
 	/**
 	 * ...
@@ -31,10 +32,14 @@ package
 			_callButton = new Button();
 			_callButton.styleNameList.add( Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON );
 			_callButton.label = "התקשר לקב''ט : " + PHONE_NUMBER;
-			_callButton.move(20, 10);
-			_callButton.setSize(this.stage.stageWidth - 40, 60);
+			_callButton.move(10, 0);
+			_callButton.setSize(this.stage.stageWidth - 20, 60);
 			_callButton.addEventListener(Event.TRIGGERED, onClick);
 			addChild(_callButton);
+			
+			UiGenerator.getInstance().buttomPanelHeight = this.height;
+			
+			
 		}
 		
 		private function onClick(e:Event):void 

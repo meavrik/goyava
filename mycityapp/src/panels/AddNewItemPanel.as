@@ -5,8 +5,13 @@ package panels
 	import feathers.controls.Callout;
 	import feathers.controls.ImageLoader;
 	import feathers.controls.Label;
+	import feathers.controls.List;
 	import feathers.controls.Panel;
+	import feathers.controls.PickerList;
+	import feathers.controls.renderers.DefaultListItemRenderer;
+	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.controls.TextInput;
+	import feathers.data.ListCollection;
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
 	import flash.media.CameraRoll;
@@ -27,7 +32,7 @@ package panels
 	 * ...
 	 * @author Avrik
 	 */
-	public class AddItemPanel extends BasePopupFormPanel 
+	public class AddNewItemPanel extends BasePopupFormPanel 
 	{
 		private var _itemNameLabel:TextInput;
 		private var _addButton:Button;
@@ -42,8 +47,9 @@ package panels
 		private var _img2:Image;
 		private var uploadImgButton2:Button;
 		private var _img1BitmapData:BitmapData;
+		private var _categoryPicker:PickerList;
 		
-		public function AddItemPanel() 
+		public function AddNewItemPanel() 
 		{
 			super();
 			
@@ -74,6 +80,38 @@ package panels
 			_priceLabel.restrict = "0-9"
 			addChild(_priceLabel);
 			
+			_categoryPicker = new PickerList();
+			_categoryPicker.prompt = "בחר קטגורייה";
+			//_categoryPicker.customButtonStyleName = Button.ALTERNATE_NAME_QUIET_BUTTON
+			_categoryPicker.listProperties.itemRendererFactory = function():IListItemRenderer
+			 {
+				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
+				 renderer.labelField = "text";
+				 return renderer;
+			 };
+			 
+			_categoryPicker.setSize(fieldWidth / 2 - 35, fieldHeight);
+			_categoryPicker.move(_priceLabel.bounds.right + 10, _itemNameLabel.bounds.bottom + 10);
+			var arr:Array = [	"ריהוט",
+								"מוצרי חשמל",
+								"ביגוד",
+								"משחקים",
+								"ספורט",
+								"סלולר",
+								"כללי"
+							]	
+
+			_categoryPicker.dataProvider = new ListCollection([]);
+	 
+			this._categoryPicker.labelField = "text";
+			this._categoryPicker.selectedIndex = -1;
+			
+			 for (var i:int = 0; i <arr.length; i++) 
+			 {
+				 _categoryPicker.dataProvider.addItem( { text:arr[i], code:i } );
+			 }
+			 addChild(_categoryPicker)
+			 
 			uploadImgButton = new Button();
 			uploadImgButton.label = "הוסף תמונה";
 			uploadImgButton.move(10, _priceLabel.bounds.bottom + 10);
@@ -188,7 +226,7 @@ package panels
 				//GlobalData.commonData.addSecondHand(_itemNameLabel.text, parseFloat(_priceLabel.text), _phoneLabel.text, _mailLabel.text, _detailsLabel.text);
 				//var byteArr:ByteArray = _img1BitmapData.getPixels(new Rectangle(0, 0, _img1BitmapData.width, _img1BitmapData.height));
 				GlobalDataProvider.secondHandDataProvier.addItem(_itemNameLabel.text, parseFloat(_priceLabel.text), _phoneLabel.text, _mailLabel.text, _detailsLabel.text);
-				
+			
 				closeMe();
 			}
 		}

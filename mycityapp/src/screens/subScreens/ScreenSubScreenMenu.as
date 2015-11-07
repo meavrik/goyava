@@ -1,8 +1,10 @@
-package panels 
+package screens.subScreens 
 {
 	import feathers.controls.Button;
+	import feathers.controls.Callout;
 	import feathers.controls.Header;
-	import feathers.controls.Panel;
+	import feathers.controls.Label;
+	import feathers.controls.PanelScreen;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 	
@@ -10,21 +12,13 @@ package panels
 	 * ...
 	 * @author Avrik
 	 */
-	public class BasePopupPanel extends Panel 
+	public class ScreenSubScreenMenu extends PanelScreen 
 	{
 		
-		public function BasePopupPanel() 
+		public function ScreenSubScreenMenu() 
 		{
 			super();
 			
-		}
-		
-		override protected function initialize():void 
-		{
-			super.initialize();
-			
-			this.width = this.stage.stageWidth - 50;
-			//setSize(this.stage.stageWidth - 10, this.stage.stageHeight - 10);
 			headerStyleName = Header.TITLE_ALIGN_PREFER_LEFT;
 			headerFactory = customHeaderFactory;
 		}
@@ -51,8 +45,16 @@ package panels
 		
 		protected function closeMe():void
 		{
-			dispatchEvent(new Event(Event.CLOSE));
+			dispatchEventWith(Event.COMPLETE);
 			removeFromParent();
+		}
+		
+		protected function showInvalidMessage(content:DisplayObject,message:String):void
+		{
+			var label:Label = new Label();
+			label.text = message;
+	 
+			Callout.show( label, content);
 		}
 		
 	}

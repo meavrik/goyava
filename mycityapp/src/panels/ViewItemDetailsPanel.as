@@ -5,10 +5,13 @@ package panels
 	import feathers.controls.Button;
 	import feathers.controls.Label;
 	import feathers.controls.Panel;
+	import feathers.controls.text.TextFieldTextRenderer;
+	import feathers.text.BitmapFontTextFormat;
 	import flash.globalization.DateTimeFormatter;
 	import flash.globalization.LocaleID;
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
+	import flash.text.TextFormatAlign;
 	import helpers.FormatHelper;
 	import starling.display.Image;
 	import starling.events.Event;
@@ -18,11 +21,11 @@ package panels
 	 * ...
 	 * @author Avrik
 	 */
-	public class ItemDetailsPanel extends BasePopupPanel
+	public class ViewItemDetailsPanel extends BasePopupPanel
 	{
 		private var _dataProvider:Object;
 		
-		public function ItemDetailsPanel(dataProvider:Object) 
+		public function ViewItemDetailsPanel(dataProvider:Object) 
 		{
 			super();
 			this._dataProvider = dataProvider;
@@ -42,13 +45,8 @@ package panels
 			label.text += "פרטים נוספים : " + this._dataProvider.details;
 			label.text += "\n";
 			label.text += "\n";
-			//label.text += "פרטי התקשרות : " + this._dataProvider.phone;
-			//label.text += "\n";
-			//label.text += "דוא''ל : " + this._dataProvider.email;
-			//label.text += "\n";
-			//label.text += "\n";
 			label.text += "הועלתה ב : " + FormatHelper.getDate(this._dataProvider.created);
-
+			
 			addChild(label);
 			
 			var butnWidth:Number = (this.width - 50) / 3;

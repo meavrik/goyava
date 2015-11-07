@@ -53,6 +53,8 @@ package panels
 				 return renderer;
 			 };
 			 
+			_categoryPicker.labelField = "text";
+			_categoryPicker.selectedIndex = -1;
 			_categoryPicker.setSize(fieldWidth, fieldHeight);
 			_categoryPicker.move(10, _itemNameLabel.bounds.bottom + 10);
 			var arr:Array = [	"ספורט",
@@ -100,13 +102,6 @@ package panels
 			this.width = this.stage.stageWidth - 20;
 		}
 		
-		private function onCategoryPick(e:Event):void 
-		{
-			trace("AAA === " + _categoryPicker.selectedItem.text);
-			_categoryPicker.prompt = "AAA";// _categoryPicker.selectedItem.text;
-
-		}
-		
 		private function onAddClick(e:Event):void 
 		{
 			if (isValid())
@@ -115,10 +110,12 @@ package panels
 				//GlobalDataProvider.groupsDataProvier.addItem(_itemNameLabel.text, GlobalDataProvider.userPlayer.name, _categoryPicker.selectedItem.text, _detailsLabel.text);
 				
 				var groupEntity:GroupEntity = new GroupEntity();
-				var ordinal:int = GlobalDataProvider.groupsDataProvier.itemsArr?GlobalDataProvider.groupsDataProvier.itemsArr.length:0;
-				groupEntity.createNewGroup(ordinal, _itemNameLabel.text, GlobalDataProvider.userPlayer.name, _categoryPicker.selectedItem.text, _detailsLabel.text);
+				//var ordinal:int = GlobalDataProvider.groupsDataProvier.itemsArr?GlobalDataProvider.groupsDataProvier.itemsArr.length:0;
+				var ordinal:int = GlobalDataProvider.commonEntity.groups?GlobalDataProvider.commonEntity.groups.length:0;
+				groupEntity.createNewGroup(ordinal, _itemNameLabel.text, _categoryPicker.selectedItem.text, _detailsLabel.text);
 				
-				GlobalDataProvider.groupsDataProvier.addItem(groupEntity.id, groupEntity.name);
+				//GlobalDataProvider.groupsDataProvier.addItem(groupEntity.id, groupEntity.name);
+				
 				
 				closeMe();
 			}

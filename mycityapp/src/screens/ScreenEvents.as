@@ -6,7 +6,7 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenEvents extends PanelScreen 
+	public class ScreenEvents extends ScreenSubMain 
 	{
 		
 		public function ScreenEvents() 

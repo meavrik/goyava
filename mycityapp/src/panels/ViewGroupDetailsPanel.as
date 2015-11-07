@@ -2,6 +2,7 @@ package panels
 {
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
+	import data.GlobalDataProvider;
 	import entities.GroupEntity;
 	import feathers.controls.Alert;
 	import feathers.controls.Button;
@@ -20,7 +21,7 @@ package panels
 	 * ...
 	 * @author Avrik
 	 */
-	public class GroupDetailsPanel extends BasePopupPanel 
+	public class ViewGroupDetailsPanel extends BasePopupPanel 
 	{
 		private var _friendsList:BaseListScreen;
 		private var _dataProvider:GroupEntity;
@@ -29,7 +30,7 @@ package panels
 		private var _id:int;
 		
 		//public function GroupDetailsPanel(dataProvider:Object) 
-		public function GroupDetailsPanel(id:int) 
+		public function ViewGroupDetailsPanel(id:int) 
 		{
 			super();
 			
@@ -54,7 +55,7 @@ package panels
 
 			_detailLabel.setSize(this.width - 40, 120);
 			_detailLabel.move(5, 10);
-			_detailLabel.styleNameList.add(Label.ALTERNATE_STYLE_NAME_DETAIL);
+			_detailLabel.styleNameList.add(Label.ALTERNATE_STYLE_NAME_HEADING);
 			addChild(_detailLabel)
 			
 			_joinButton = new Button();
@@ -82,14 +83,7 @@ package panels
 				 return renderer;
 			 };
 	 
-			 _friendsList.dataProvider = new ListCollection(
-			 [
-				/*{ text: _dataProvider.creator }
-				 { text: "דני" },
-				 { text: "שמעון כהן" },
-				 { text: "דוד לוי" },
-				 { text: "אבי" },*/
-			 ]);
+			 _friendsList.dataProvider = new ListCollection([]);
 			 
 			_friendsList.move(0, listTitle.bounds.bottom + 10);
 			_friendsList.setSize(this.width-40, stage.stageHeight / 2);
@@ -104,7 +98,7 @@ package panels
 		
 		private function onLoadDataComplete(data:GroupEntity):void 
 		{
-			Flox.logInfo("onLoadDataComplete " +data.name);
+			//Flox.logInfo("onLoadDataComplete " + data.name);
 			this._dataProvider = data;
 			
 			title = this._dataProvider.name;
@@ -132,6 +126,9 @@ package panels
 			]));
 			alert.width = this.width - 40;
 			alert.addEventListener(Event.CLOSE, alert_closeHandler);
+			
+			GlobalDataProvider.userPlayer.myGroups.push(this._dataProvider.name);
+			GlobalDataProvider.userPlayer.save(null, null);
 		}
 		
 		private function alert_closeHandler(e:Event):void 

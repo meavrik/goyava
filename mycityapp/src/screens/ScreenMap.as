@@ -1,18 +1,15 @@
 package screens 
 {
-	import com.adobe.nativeExtensions.maps.Map;
-	import feathers.controls.PanelScreen;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenMap extends PanelScreen 
+	public class ScreenMap extends ScreenSubMain 
 	{
-		private var googleMap:Map;
-		
+		//private var googleMap:Map;
+		private const MAP_KEY:String = "AIzaSyBD3qb2JMNfv7UUzCZV98rtWxnIHbKx7gM";
+
 		public function ScreenMap() 
 		{
 			super();

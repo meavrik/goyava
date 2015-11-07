@@ -118,7 +118,7 @@ package
 						NativeApplication.nativeApplication.menu = menu;
 						menu.display(Starling.current.nativeStage, 0, 0);
 					}*/
-					MainApp.getInstance().openQuickList();
+					//MainApp.getInstance().openQuickList();
 					break; 
 				case Keyboard.SEARCH: 
 					break; 

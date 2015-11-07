@@ -4,7 +4,8 @@ package
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	import data.GlobalDataProvider;
-	import entities.ResidentsEntity;
+	import entities.CommonDataEntity;
+	import entities.MessageEntity;
 	import panels.LoginPanel;
 	import popups.PopupsController;
 	import progress.MainProgressBar;
@@ -27,7 +28,7 @@ package
 			return _instance;
 		}
 		
-		private var _mainScreen:MainScreen;
+		private var _mainScreenNavigator:MainScreenNavigator;
 		private var _progressBar:MainProgressBar;
 		private var _noConnection:Boolean;
 		private var _loginPanel:LoginPanel;
@@ -43,9 +44,9 @@ package
 			
 			PopupsController.removeCurrentPopup(true);
 
-			if (_mainScreen)
+			if (_mainScreenNavigator)
 			{
-				_mainScreen.removeFromParent();
+				_mainScreenNavigator.removeFromParent();
 			}
 			
 			initNewPlayer()
@@ -58,6 +59,7 @@ package
 			GlobalDataProvider.userPlayer = Player.current as FloxPlayer;
 			
 			_progressBar = new MainProgressBar();
+			_progressBar.height = 5;
 			addChild(_progressBar);
 			
 			loadGlobalData();
@@ -65,31 +67,38 @@ package
 		
 		private function loadGlobalData():void
 		{
-			Entity.load(ResidentsEntity, GlobalDataProvider.residentsDataProvier.id, onLoadResidentsComplete, onLoadResidentsFail);
+			//Entity.load(ResidentsEntity, GlobalDataProvider.residentsDataProvier.id, onLoadResidentsComplete, onLoadResidentsFail);
+			Entity.load(CommonDataEntity, GlobalDataProvider.commonEntity.id, onLoadCommonComplete, onLoadCommonFail);
 		}
 		
-		public function onLoadResidentsFail(message:String):void 
+		public function onLoadCommonFail(message:String):void 
 		{
-			Flox.logError("Load Residents Fail " + message);
-			_progressBar.value = 30;
-			
+			Flox.logError("Load common data Fail " + message);
+
 			loadUserData();
 		}
 		
-		public function onLoadResidentsComplete(entity:ResidentsEntity):void 
+		public function onLoadCommonComplete(entity:CommonDataEntity):void 
 		{
-			Flox.logInfo("Load Residents Complete " + entity.itemsArr.join(","));
-			_progressBar.value = 30;
-			GlobalDataProvider.residentsDataProvier.itemsArr = entity.itemsArr;
+			Flox.logInfo("Load Common Complete ");
+			
+			//GlobalDataProvider.residentsDataProvier.itemsArr = entity.itemsArr;
+			GlobalDataProvider.commonEntity = entity;
 			
 			loadUserData();
 		}
 		
 		private function loadUserData():void 
 		{
-			_progressBar.value = 10;
+			_progressBar.value = 50;
 			
 			Entity.load(FloxPlayer, GlobalDataProvider.userPlayer.id, onUserDataLoadComplete, onUserDataLoadError)
+			//Entity.load(MessageEntity, GlobalDataProvider.userPlayer.id, onMessagesDataLoadComplete, onUserDataLoadError)
+		}
+		
+		private function onMessagesDataLoadComplete(data:MessageEntity):void 
+		{
+			
 		}
 		
 		private function onUserDataLoadError(message:String):void 
@@ -109,13 +118,8 @@ package
 		private function onUserDataLoadComplete(playerData:FloxPlayer):void 
 		{
 			Flox.logInfo("load User Data Complete " + playerData.name);
-			
+			GlobalDataProvider.userPlayer = playerData;
 			alldataLoadComplete();
-			
-			if (!playerData.name)
-			{
-				showLoginPanel();
-			}
 		}
 		
 		private function showLoginPanel():void 
@@ -126,10 +130,23 @@ package
 		
 		private function alldataLoadComplete():void
 		{
+			_progressBar.addEventListener(Event.COMPLETE, onProgressComplete);
+			//_progressBar.doComplete();
 			_progressBar.value = 100;
-			
+		}
+		
+		private function onProgressComplete(e:Event):void 
+		{
 			dispatchEvent(new Event(Event.READY));
-			startApp()
+			//startApp()
+			
+			if (!GlobalDataProvider.userPlayer.name)
+			{
+				showLoginPanel();
+			} else
+			{
+				startApp()
+			}
 		}
 		
 		private function onLoginComplete(e:Event):void 
@@ -144,6 +161,7 @@ package
 		{
 			if (_progressBar)
 			{
+				_progressBar.removeEventListeners();
 				_progressBar.removeFromParent(true);
 				_progressBar = null;
 			}
@@ -153,24 +171,13 @@ package
 		{
 			removeProgressBar()
 			
-			if (_mainScreen)
+			if (_mainScreenNavigator)
 			{
-				_mainScreen.removeFromParent();
+				_mainScreenNavigator.removeFromParent();
 			}
 			
-			_mainScreen = new MainScreen();
-			addChild(_mainScreen);
-		}
-		
-		public function openQuickList():void 
-		{
-			//var quickMenu:QuickMenuList = new QuickMenuList();
-			//addChild(quickMenu);
-		}
-		
-		public function get mainScreen():MainScreen 
-		{
-			return _mainScreen;
+			_mainScreenNavigator = new MainScreenNavigator();
+			addChild(_mainScreenNavigator);
 		}
 		
 	}

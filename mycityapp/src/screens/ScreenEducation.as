@@ -10,7 +10,7 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenEducation extends PanelScreen 
+	public class ScreenEducation extends ScreenSubMain 
 	{
 		
 		public function ScreenEducation() 

@@ -3,6 +3,7 @@ package progress
 	import feathers.controls.Label;
 	import feathers.controls.ProgressBar;
 	import feathers.events.FeathersEventType;
+	import starling.animation.DelayedCall;
 	import starling.animation.IAnimatable;
 	import starling.core.RenderSupport;
 	import starling.core.Starling;
@@ -16,6 +17,7 @@ package progress
 	{
 		private var _label:Label;
 		private var repeatCall:IAnimatable;
+		private var _canFinish:Boolean;
 		
 		public function MainProgressBar() 
 		{
@@ -32,36 +34,35 @@ package progress
 			_label.text = "loading...";
 			
 			addChild(_label);
-			
-			repeatCall = Starling.juggler.repeatCall(onRepeatCall, .05, 100);
+
+			//repeatCall = Starling.juggler.repeatCall(onRepeatCall, .02, 100)
 		}
 		
 		private function onRepeatCall():void 
 		{
-			if (value < 90)
+			if (value < 90 || _canFinish)
 			{
 				value++;
 			}
 		}
 		
-		override public function render(support:RenderSupport, parentAlpha:Number):void 
+		public function doComplete():void
 		{
-			super.render(support, parentAlpha);
-			
-			move((this.stage.stageWidth - width) / 2, (this.stage.stageHeight - (height+50)));
-			
-			_label.move((width-_label.width)/2, -30);
+			_canFinish = true;
+			//if (repeatCall) repeatCall.advanceTime(1)
 		}
 		
+		override protected function draw():void 
+		{
+			super.draw();
+			
+			move((this.stage.stageWidth - width) / 2, (this.stage.stageHeight - (height + 150)));
+			
+			_label.move((width - _label.width) / 2, -30);
+		}
 
 		override public function set value(value:Number):void 
 		{
-			if (value >= 100)
-			{
-				Starling.juggler.remove(repeatCall);
-				repeatCall = null;
-			}
-			
 			if (value > this._value)
 			{
 				super.value = value;
@@ -69,6 +70,14 @@ package progress
 				_label.text = value+"% loaded";
 			}
 			
+			
+			if (value >= 100)
+			{
+				Starling.juggler.remove(repeatCall);
+				repeatCall = null;
+				
+				dispatchEvent(new Event(Event.COMPLETE));
+			}
 			
 		}
 		

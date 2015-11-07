@@ -61,7 +61,7 @@
     <element path="..\swc\Flox-AS3.swc" />
     <element path="..\swc\MetalWorksMobileTheme.swc" />
     <element path="..\swc\airglobal.swc" />
-    <element path="..\ane\airmaps_r11.ane" />
+    <element path="..\swc\Maps_beta_2.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

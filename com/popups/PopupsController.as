@@ -3,6 +3,7 @@ package popups
 	import feathers.controls.Panel;
 	import feathers.core.PopUpManager;
 	import starling.display.DisplayObject;
+	import starling.display.Quad;
 	import starling.events.Event;
 	
 	/**
@@ -17,7 +18,16 @@ package popups
 		{
 			_currentPopup = popUp
 			_currentPopup.addEventListener(Event.CLOSE, onPopupClose);
-			PopUpManager.addPopUp(popUp, isModal);
+			
+			
+			PopUpManager.overlayFactory = function():DisplayObject
+			 {
+				 var overlay:Quad = new Quad(100, 100, 0x000000 );
+				 overlay.alpha = 0.75;
+				 return overlay;
+			 };
+			 
+			 PopUpManager.addPopUp(popUp, isModal);
 		}
 		
 		static private function onPopupClose(e:Event):void 

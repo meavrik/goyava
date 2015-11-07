@@ -29,7 +29,7 @@ package helpers
 			var format:NumberFormatter = new NumberFormatter(LocaleID.DEFAULT);
 			format.fractionalDigits = 0;
 			
-			return format.formatNumber(value) + currencySign;
+			return currencySign + format.formatNumber(value);
 		}
 		
 	}

@@ -2,6 +2,7 @@ package entities
 {
 	import com.gamua.flox.Access;
 	import com.gamua.flox.Entity;
+	import com.gamua.flox.Flox;
 	import data.GlobalDataProvider;
 	
 	/**
@@ -10,12 +11,12 @@ package entities
 	 */
 	public class GroupEntity extends Entity 
 	{
+		public var ownerName:String;
 		public var name:String
 		//public var date:Number
 		public var category:String
 		public var members:Array = new Array();
 		public var description:String;
-		//public var groupsArr:Array = new Array();
 		
 		public function GroupEntity() 
 		{
@@ -25,15 +26,15 @@ package entities
 			this.ownerId = GlobalDataProvider.userPlayer.id;
 		}
 		
-		public function createNewGroup(ordinal:int, _name:String, creator:String, _category:String, _description:String):void
+		public function createNewGroup(ordinal:int, _name:String,  _category:String, _description:String):void
 		{
 			this.id = ordinal.toString();
 			name = _name;
 			//date = new Date().time;
 			category = _category;
 			description = _description;
+			ownerName = GlobalDataProvider.userPlayer.name;
 
-			//save(null, null);
 			addMeToGroup();
 		}
 		
@@ -41,7 +42,18 @@ package entities
 		{
 			members.push( { id:memberId, name:name } );
 			
-			save(null, null);
+			save(onSaveComplete, onSaveFail);
+		}
+		
+		private function onSaveFail(message:String):void 
+		{
+			Flox.logError("save group item fail : " + message);
+		}
+		
+		private function onSaveComplete():void 
+		{
+			//GlobalDataProvider.groupsDataProvier.addItem(groupEntity.id, groupEntity.name);
+			GlobalDataProvider.commonEntity.addGroupItem(this.id , name, category);
 		}
 		
 		public function addMeToGroup():void 
