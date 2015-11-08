@@ -141,7 +141,8 @@ package screens
 				renderer.isQuickHitAreaEnabled = true;
 				renderer.labelField = "label";
 				renderer.iconSourceFunction = itemRendererAccessorySourceFunction;
-				
+				renderer.height = 100;
+
 				renderer.selectableField = "";
 				renderer.selectableFunction = null
 				//renderer.accessorySourceFunction = itemRendererAccessorySourceFunction;

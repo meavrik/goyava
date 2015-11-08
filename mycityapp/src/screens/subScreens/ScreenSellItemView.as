@@ -1,17 +1,25 @@
 package screens.subScreens 
 {
 	import assets.AssetsHelper;
+	import com.gamua.flox.utils.Base64;
 	import data.GlobalDataProvider;
 	import feathers.controls.Button;
 	import feathers.controls.Header;
+	import feathers.controls.ImageLoader;
 	import feathers.controls.Label;
 	import feathers.controls.PanelScreen;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.geom.Rectangle;
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
+	import flash.utils.ByteArray;
+	import helpers.BitmapEncoder;
 	import helpers.FormatHelper;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
+	import starling.textures.Texture;
 	
 	/**
 	 * ...
@@ -41,8 +49,55 @@ package screens.subScreens
 			_label.text += "פרטים נוספים : " + this._dataProvider.description;
 			_label.text += "\n";
 			_label.text += "\n";
-			_label.text += "הועלתה ב : " + FormatHelper.getDate(this._dataProvider.created);
+			_label.text += "הועלתה ב : " + FormatHelper.getDate(this._dataProvider.createdAt);
+			
+			var arr:Array = _dataProvider.pictures;
+			//trace("11111111 === " + _dataProvider.pictures);	  
+			if (arr)
+			{
+				
+				//var bm:Bitmap = new Bitmap();
+				var byteArr:ByteArray = new ByteArray()
+				
+				byteArr.writeObject(arr[0]);
+				
+				//trace("AAAAAAAAA === " + byteArr);
+				var bmdata:BitmapData = BitmapEncoder.decodeByteArray(byteArr)
+				//bmdata.setPixels(new Rectangle(0, 0, 100, 100), byteArr);
+				
+				var img:Image = new Image(Texture.fromBitmapData(bmdata))
+
+				
+				//var bytes:ByteArray = new ByteArray();
+				//bm.bitmapData(new Rectangle(0, 0, 100, 100), new JPEGEncoderOptions(), bytes);
+				//_pictersData.push(bytes.toString())
+				
+				addChild(img);
+			}
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		   
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		override protected function initialize():void 
 		{

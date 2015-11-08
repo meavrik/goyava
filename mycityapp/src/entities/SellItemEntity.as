@@ -26,14 +26,15 @@ package entities
 			this.publicAccess = Access.READ_WRITE;
 		}
 		
-		public function createNewSellItem(_name:String, _price:Number, _category:String, _description:String,pictures:Array=null):void
+		public function createNewSellItem(_name:String, _price:Number, _category:String, _description:String,_pictures:Array=null):void
 		{
 			this.id = GlobalDataProvider.commonEntity.sellItems.length.toString();
 			name = _name;
 			price = _price;
 			category = _category;
 			description = _description;
-
+			pictures = _pictures;
+			
 			save(onSaveComplete, onSaveFail);
 		}
 		

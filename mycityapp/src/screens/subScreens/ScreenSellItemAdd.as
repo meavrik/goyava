@@ -16,7 +16,9 @@ package screens.subScreens
 	import feathers.controls.TextArea;
 	import feathers.controls.TextInput;
 	import feathers.data.ListCollection;
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.JPEGEncoderOptions;
 	import flash.geom.Rectangle;
 	import flash.media.CameraRoll;
 	import data.GlobalDataProvider;
@@ -25,6 +27,8 @@ package screens.subScreens
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	import flash.utils.ByteArray;
+	import flash.utils.CompressionAlgorithm;
+	import helpers.BitmapEncoder;
 	import media.CameraHelper;
 	import screens.consts.Categories;
 	import screens.ScreenSubMain;
@@ -54,6 +58,7 @@ package screens.subScreens
 		private var uploadImgButton2:Button;
 		private var _img1BitmapData:BitmapData;
 		private var _categoryPicker:PickerList;
+		private var _pictersData:Array=new Array();
 		
 		public function ScreenSellItemAdd() 
 		{
@@ -198,24 +203,34 @@ package screens.subScreens
 				_img1.removeFromParent(true);
 			}
 			
-			_img1 = new Image(Texture.fromBitmap(_cameraHelper.bitmap));
+			var bm:Bitmap = _cameraHelper.bitmap;
+			_img1 = new Image(Texture.fromBitmap(bm));
 			_img1BitmapData = _cameraHelper.bitmap.bitmapData;
 			uploadImgButton.addChild(_img1);
 			
 			
-			var url_request:URLRequest = new URLRequest();
+			/*var url_request:URLRequest = new URLRequest();
 			url_request.url = "http://urika.avrik.com/";
 			url_request.contentType = "binary/octet-stream";
 			url_request.method = URLRequestMethod.POST;
 			//url_request.data = myByteArray;
 			url_request.data = _img1BitmapData.getPixels(new Rectangle(0, 0, 100, 100));
-			/*url_request.requestHeaders.push(
-			 new URLRequestHeader('Cache-Control', 'no-cache'));*/
+			//url_request.requestHeaders.push(
+			// new URLRequestHeader('Cache-Control', 'no-cache'));
 
 			var loader:URLLoader = new URLLoader();
 			loader.dataFormat = URLLoaderDataFormat.BINARY;
 			// attach complete/error listeners
-			loader.load(url_request);
+			loader.load(url_request);*/
+			
+			//var bytes:ByteArray = new ByteArray();
+			//bm.bitmapData.encode(new Rectangle(0, 0, 100, 100), new JPEGEncoderOptions(), bytes);
+			var bytes:ByteArray = BitmapEncoder.encodeByteArray(_img1BitmapData);
+			
+			//_pictersData.push(bytes.toString())
+			_pictersData.push(bytes.toString())
+			
+			//trace("ADD PIC " + _pictersData);
 		}
 		
 		private function onImg2SelectComplete(e:Event):void 
@@ -236,9 +251,9 @@ package screens.subScreens
 				//var byteArr:ByteArray = _img1BitmapData.getPixels(new Rectangle(0, 0, _img1BitmapData.width, _img1BitmapData.height));
 				//GlobalDataProvider.secondHandDataProvier.addItem(_itemNameLabel.text, parseFloat(_priceLabel.text), _phoneLabel.text, _mailLabel.text, _detailsLabel.text);
 				//GlobalDataProvider.commonEntity.addSellItem(_itemNameLabel.text, parseFloat(_priceLabel.text), _phoneLabel.text, _mailLabel.text, _detailsLabel.text);
-			
+				
 				var sellItemEntity:SellItemEntity = new SellItemEntity();
-				sellItemEntity.createNewSellItem(_itemNameLabel.text, parseFloat(_priceLabel.text),_categoryPicker.selectedItem.text, _detailsLabel.text);
+				sellItemEntity.createNewSellItem(_itemNameLabel.text, parseFloat(_priceLabel.text), _categoryPicker.selectedItem.text, _detailsLabel.text, _pictersData);
 				
 				//closeMe();
 				dispatchEventWith(Event.COMPLETE);

@@ -137,8 +137,13 @@ package
 		
 		private function onProgressComplete(e:Event):void 
 		{
-			dispatchEvent(new Event(Event.READY));
 			//startApp()
+			Starling.juggler.delayCall(appIsReady, .1);
+		}
+		
+		private function appIsReady():void 
+		{
+			dispatchEvent(new Event(Event.READY));
 			
 			if (!GlobalDataProvider.userPlayer.name)
 			{

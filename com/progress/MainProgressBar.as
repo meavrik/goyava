@@ -18,10 +18,12 @@ package progress
 		private var _label:Label;
 		private var repeatCall:IAnimatable;
 		private var _canFinish:Boolean;
+		private var _loadingTxt:String;
 		
-		public function MainProgressBar() 
+		public function MainProgressBar(loadingTxt:String="") 
 		{
 			super();
+			this._loadingTxt = loadingTxt;
 			
 			minimum = 0;
 			maximum = 100;
@@ -31,7 +33,7 @@ package progress
 		{
 			super.initialize();
 			_label = new Label();
-			_label.text = "loading...";
+			_label.text = "";
 			
 			addChild(_label);
 
@@ -67,7 +69,7 @@ package progress
 			{
 				super.value = value;
 				
-				_label.text = value+"% loaded";
+				_label.text = value+"% " + _loadingTxt;
 			}
 			
 			

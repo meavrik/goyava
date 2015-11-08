@@ -1,6 +1,8 @@
 package screens 
 {
+	import com.gamua.flox.Entity;
 	import data.GlobalDataProvider;
+	import entities.SellItemEntity;
 	import feathers.controls.AutoComplete;
 	import feathers.controls.Button;
 	import feathers.controls.GroupedList;
@@ -58,6 +60,7 @@ package screens
 			this.addChild(this._searchInput);
 			
 			_categoryPicker = new PickerList();
+			_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_NAME_LIST;
 			_categoryPicker.prompt = "סנן לפי קטגוריה";
 			_categoryPicker.listProperties.itemRendererFactory = function():IListItemRenderer
 			 {
@@ -76,7 +79,6 @@ package screens
 			this._categoryPicker.selectedIndex = -1;
 			
 			addChild(_categoryPicker)
-			 
 			 
 			this._list = new GroupedList();
 			this._list.move(0, _categoryPicker.bounds.bottom + 10);
@@ -110,8 +112,6 @@ package screens
 			_list.setSize(this.width, this.height - _list.bounds.top - 90);
 			_list.addEventListener(Event.TRIGGERED, onItemClick);
 			
-			_categoryPicker.dataProvider.addItem( { text:"הכול", code:Categories.sellItemsCategories.length } );
-
 			this._list.itemRendererFactory = function():IGroupedListItemRenderer
 			{
 				var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
@@ -129,6 +129,11 @@ package screens
 		private function showAllItems():void
 		{
 			var count:int = 0;
+			if (_categoryPicker.dataProvider)
+			{
+				_categoryPicker.dataProvider.removeAll();
+			}
+			
 			for (var i:int = 0; i < Categories.sellItemsCategories.length; i++) 
 			{
 				_categoryPicker.dataProvider.addItem( { text:Categories.sellItemsCategories[i], code:i } );
@@ -146,15 +151,18 @@ package screens
 					count ++;
 				}
 			}
+			_categoryPicker.dataProvider.addItem( { text:"הכול", code:Categories.sellItemsCategories.length } );
 		}
 		
 		private function onCategorySort(e:Event):void 
 		{
+			if (!_categoryPicker.selectedItem) return;
+			
 			if (_list.dataProvider)
 			{
 				_list.dataProvider.removeAll();
 			}
-				
+			
 			var categoryName:String=_categoryPicker.selectedItem.text
 			if (_itemsByCategory[categoryName])
 			{
@@ -171,7 +179,19 @@ package screens
 		
 		private function onItemClick(e:Event):void 
 		{
-			dispatchEventWith(ScreenEnum.SELL_ITEM_VIEW_SCREEN, false, GlobalDataProvider.commonEntity.sellItems[_list.selectedItem.index])
+			//var sellData:Object = GlobalDataProvider.commonEntity.sellItems[_list.selectedItem.index];
+			Entity.load(SellItemEntity, _list.selectedItem.index, onLoadDataComplete,null);
+			
+
+			
+		}
+		
+		private function onLoadDataComplete(entity:SellItemEntity):void 
+		{
+			//var sellData:Object = GlobalDataProvider.commonEntity.sellItems[_list.selectedItem.index];
+			//trace("onLoadDataComplete == " + entity.pictures);
+			
+			dispatchEventWith(ScreenEnum.SELL_ITEM_VIEW_SCREEN, false, entity)
 		}
 
 		private function onAddClick(e:Event):void 
