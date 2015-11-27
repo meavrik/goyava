@@ -22,6 +22,10 @@ package screens.enums
 		static public const MY_AREA_SCREEN:String = "myAreaScreen";
 		static public const SELL_ITEM_ADD_SCREEN:String = "sellItemAddScreen";
 		static public const SELL_ITEM_VIEW_SCREEN:String = "sellItemViewScreen";
+		static public const ADD_NEW_GROUP_SCREEN:String = "addNewGroupScreen";
+		static public const VIEW_GROUP_SCREEN:String = "viewGroupScreen";
+		
+		static public const OPEN_BOTTOM_DRAWER:String = "openBottomDrawer";
 		
 		
 		

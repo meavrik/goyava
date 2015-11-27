@@ -7,7 +7,6 @@ package ui
 	 */
 	public class UiGenerator 
 	{
-		public var buttomPanelHeight:Number;
 		private static var _instance:UiGenerator = new UiGenerator();
 		private var _fieldHeight:Number;
 		private var _fieldWidth:Number;

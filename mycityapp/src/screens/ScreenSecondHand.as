@@ -1,29 +1,29 @@
 package screens 
 {
-	import com.gamua.flox.Entity;
+	import assets.AssetsHelper;
 	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
 	import feathers.controls.AutoComplete;
 	import feathers.controls.Button;
 	import feathers.controls.GroupedList;
 	import feathers.controls.Header;
+	import feathers.controls.ImageLoader;
 	import feathers.controls.PickerList;
 	import feathers.controls.renderers.DefaultGroupedListItemRenderer;
 	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.controls.renderers.IGroupedListItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
-	import feathers.controls.text.TextFieldTextRenderer;
 	import feathers.controls.TextInput;
-	import feathers.core.ITextRenderer;
 	import feathers.data.HierarchicalCollection;
 	import feathers.data.ListCollection;
 	import feathers.data.LocalAutoCompleteSource;
-	import flash.text.TextFormat;
 	import helpers.FormatHelper;
-	import screens.consts.Categories;
+	import screens.consts.CategoriesConst;
 	import screens.enums.ScreenEnum;
 	import starling.display.DisplayObject;
+	import starling.display.Image;
 	import starling.events.Event;
+	import starling.textures.Texture;
 	import ui.UiGenerator;
 	
 	/**
@@ -48,6 +48,8 @@ package screens
 		{
 			super.initialize();
 
+			footerFactory = customFooterFactory;
+			
 			this._searchInput = new AutoComplete();
 			this._searchInput.autoCompleteDelay = .1;
 			this._searchInput.styleNameList.add(TextInput.ALTERNATE_NAME_SEARCH_TEXT_INPUT);
@@ -62,11 +64,12 @@ package screens
 			_categoryPicker = new PickerList();
 			_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_NAME_LIST;
 			_categoryPicker.prompt = "סנן לפי קטגוריה";
+			_categoryPicker.setSize(10, 10);
 			_categoryPicker.listProperties.itemRendererFactory = function():IListItemRenderer
 			 {
-				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
-				 renderer.labelField = "text";
-				 return renderer;
+				var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
+				renderer.labelField = "text";
+				return renderer;
 			 };
 			 
 			_categoryPicker.setSize(stage.stageWidth / 2 - 15, UiGenerator.getInstance().buttonHeight);
@@ -84,6 +87,40 @@ package screens
 			this._list.move(0, _categoryPicker.bounds.bottom + 10);
 			this._list.dataProvider = new HierarchicalCollection([])
 
+			_list.setSize(this.width, this.height - _list.bounds.top - 90);
+			_list.addEventListener(Event.TRIGGERED, onItemClick);
+			
+			this._list.itemRendererFactory = function():IGroupedListItemRenderer
+			{
+				var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
+				renderer.isQuickHitAreaEnabled = true;
+				renderer.labelField = "label";
+				//renderer.iconSourceField = "thumbnail";
+				return renderer;
+			};
+			
+			_list.itemRendererProperties.iconSourceFunction = function(item:Object):String
+			{
+				//return "http://www.example.com/images/" + item.name + ".jpg";
+				//return "http://avrik.com/urika/mycityapp/images/secondhand/table1.jpg";
+				
+				return AssetsHelper.SERVER_ASSETS_URL + "secondhand/table1.jpg";
+			}
+
+			_list.itemRendererProperties.iconLoaderFactory = function():ImageLoader
+			{
+				var loader:ImageLoader = new ImageLoader();
+				loader.width = 100;
+				loader.height = 80;
+				return loader;
+			}
+			addChild(_list);
+			
+			showNewData();
+		}
+		
+		public function showNewData():void
+		{
 			var arr:Array = GlobalDataProvider.commonEntity.sellItems;
 			_itemsByCategory = new Array();
 			var obj:Object;
@@ -91,6 +128,8 @@ package screens
 			var indexCount:int = 0;
 			var autoCompleteArr:Vector.<String> = new Vector.<String>;
 
+			var texture:Texture = AssetsHelper.getInstance().assetManager.getTexture("table1");
+			
 			for each (var item:Object in arr) 
 			{
 				autoCompleteArr.push(item.name);
@@ -100,28 +139,16 @@ package screens
 					_itemsByCategory[item.category] = new Array();
 				}
 			
+				
 				obj = new Object();
 				obj.label = item.name+ " " + FormatHelper.getMoneyFormat(item.price, GlobalDataProvider.currencySign);
+				//obj.thumbnail = texture;
 				obj.index = indexCount;
 				_itemsByCategory[item.category].push(obj);
 				indexCount ++;
 			}
 			
 			this._searchInput.source = new LocalAutoCompleteSource(new ListCollection(autoCompleteArr));
-			
-			_list.setSize(this.width, this.height - _list.bounds.top - 90);
-			_list.addEventListener(Event.TRIGGERED, onItemClick);
-			
-			this._list.itemRendererFactory = function():IGroupedListItemRenderer
-			{
-				var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
-				renderer.isQuickHitAreaEnabled = true;
-				renderer.labelField = "label";
-				return renderer;
-			};
-			addChild(_list);
-			
-			//setSize(this.stage.stageWidth, this.stage.stageHeight);
 			
 			showAllItems()
 		}
@@ -134,11 +161,11 @@ package screens
 				_categoryPicker.dataProvider.removeAll();
 			}
 			
-			for (var i:int = 0; i < Categories.sellItemsCategories.length; i++) 
+			for (var i:int = 0; i < CategoriesConst.sellItemsCategories.length; i++) 
 			{
-				_categoryPicker.dataProvider.addItem( { text:Categories.sellItemsCategories[i], code:i } );
+				_categoryPicker.dataProvider.addItem( { text:CategoriesConst.sellItemsCategories[i], code:i } );
 				
-				var categoryName:String = Categories.sellItemsCategories[i];
+				var categoryName:String = CategoriesConst.sellItemsCategories[i];
 				var childArr:Array = _itemsByCategory[categoryName];
 				
 				if (childArr)
@@ -151,7 +178,7 @@ package screens
 					count ++;
 				}
 			}
-			_categoryPicker.dataProvider.addItem( { text:"הכול", code:Categories.sellItemsCategories.length } );
+			_categoryPicker.dataProvider.addItem( { text:"הכול", code:CategoriesConst.sellItemsCategories.length } );
 		}
 		
 		private function onCategorySort(e:Event):void 
@@ -179,49 +206,26 @@ package screens
 		
 		private function onItemClick(e:Event):void 
 		{
-			//var sellData:Object = GlobalDataProvider.commonEntity.sellItems[_list.selectedItem.index];
-			Entity.load(SellItemEntity, _list.selectedItem.index, onLoadDataComplete,null);
-			
-
-			
-		}
-		
-		private function onLoadDataComplete(entity:SellItemEntity):void 
-		{
-			//var sellData:Object = GlobalDataProvider.commonEntity.sellItems[_list.selectedItem.index];
-			//trace("onLoadDataComplete == " + entity.pictures);
-			
-			dispatchEventWith(ScreenEnum.SELL_ITEM_VIEW_SCREEN, false, entity)
+			var sellData:Object = GlobalDataProvider.commonEntity.sellItems[_list.selectedItem.index];
+			dispatchEventWith(ScreenEnum.SELL_ITEM_VIEW_SCREEN, false, sellData)
 		}
 
 		private function onAddClick(e:Event):void 
 		{
-			/*var addItemScreen:AddNewItemPanel = new AddNewItemPanel();
-			addItemScreen.width = stage.stageWidth;
-			addItemScreen.move(0, 100);
-			
-			addItemScreen.addEventListener(Event.CLOSE, onPanelClose);
-			PopupsController.addPopUp(addItemScreen);*/
-			
 			dispatchEventWith(ScreenEnum.SELL_ITEM_ADD_SCREEN)
 		}
 		
-		private function onPanelClose(e:Event):void 
+		protected function customFooterFactory():Header 
 		{
-			//loadData();
-		}
-		
-		
-		
-		override protected function customHeaderFactory():Header 
-		{
-			var header:Header = super.customHeaderFactory();
+			var footer:Header = new Header()
 			var addButton:Button = new Button();
 			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
-			addButton.label = "+";
+			addButton.label = "צור מודעה חדשה";
+			addButton.x = 10;
+			addButton.setSize(this.stage.stageWidth - 20, UiGenerator.getInstance().buttonHeight);
 			addButton.addEventListener(Event.TRIGGERED, onAddClick);
-			header.rightItems = new <DisplayObject>[addButton];
-			return header
+			footer.rightItems = new <DisplayObject>[addButton];
+			return footer
 		}
 	}
 

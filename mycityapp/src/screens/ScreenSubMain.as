@@ -3,9 +3,12 @@ package screens
 	import feathers.controls.Button;
 	import feathers.controls.Header;
 	import feathers.controls.PanelScreen;
+	import feathers.controls.ScrollContainer;
+	import feathers.core.FeathersControl;
 	import progress.WaitPreloader;
 	import screens.events.ScreenEvent;
 	import starling.display.DisplayObject;
+	import starling.display.Sprite;
 	import starling.events.Event;
 	
 	/**
@@ -14,6 +17,7 @@ package screens
 	 */
 	public class ScreenSubMain extends PanelScreen 
 	{
+		protected var _contentPH:ScrollContainer = new ScrollContainer();
 		private var _preloader:WaitPreloader;
 		public var id:String;
 		
@@ -27,6 +31,8 @@ package screens
 			super.initialize();
 			
 			this.headerFactory = this.customHeaderFactory;
+			
+			addChild(_contentPH);
 		}
 		
 		protected function showPreloader():void 

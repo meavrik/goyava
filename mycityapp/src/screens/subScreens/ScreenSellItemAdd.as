@@ -1,37 +1,25 @@
 package screens.subScreens 
 {
-	import com.gamua.flox.Flox;
+	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
 	import feathers.controls.Alert;
 	import feathers.controls.Button;
-	import feathers.controls.Callout;
 	import feathers.controls.Header;
-	import feathers.controls.ImageLoader;
 	import feathers.controls.Label;
-	import feathers.controls.List;
-	import feathers.controls.Panel;
+	import feathers.controls.NumericStepper;
 	import feathers.controls.PickerList;
 	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
-	import feathers.controls.TextArea;
 	import feathers.controls.TextInput;
 	import feathers.data.ListCollection;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.JPEGEncoderOptions;
-	import flash.geom.Rectangle;
 	import flash.media.CameraRoll;
-	import data.GlobalDataProvider;
-	import flash.net.URLLoader;
-	import flash.net.URLLoaderDataFormat;
-	import flash.net.URLRequest;
-	import flash.net.URLRequestMethod;
 	import flash.utils.ByteArray;
-	import flash.utils.CompressionAlgorithm;
 	import helpers.BitmapEncoder;
+	import log.Logger;
 	import media.CameraHelper;
-	import screens.consts.Categories;
-	import screens.ScreenSubMain;
+	import screens.consts.CategoriesConst;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
@@ -47,18 +35,21 @@ package screens.subScreens
 		private var _itemNameLabel:TextInput;
 		private var _addButton:Button;
 		private var _priceLabel:TextInput;
-		//private var _detailsLabel:TextInput;
-		private var _detailsLabel:TextArea;
+		private var _detailsLabel:TextInput;
+		//private var _detailsLabel:TextArea;
 		private var _phoneLabel:TextInput;
 		private var _mailLabel:TextInput;
 		private var _cameraHelper:CameraHelper;
-		private var uploadImgButton:Button;
+		
 		private var _img1:Image;
 		private var _img2:Image;
+		private var uploadImgButton:Button;
 		private var uploadImgButton2:Button;
 		private var _img1BitmapData:BitmapData;
 		private var _categoryPicker:PickerList;
 		private var _pictersData:Array=new Array();
+		private var _priceStepper:NumericStepper;
+		private var _statePicker:PickerList;
 		
 		public function ScreenSellItemAdd() 
 		{
@@ -70,13 +61,16 @@ package screens.subScreens
 		{
 			super.initialize();
 			title = "הוספת פריט חדש";
+			
+			this.footerFactory = customFooterFactory;
+			
 			var fieldHeight:Number = UiGenerator.getInstance().fieldHeight
 			var fieldWidth:Number = stage.stageWidth - 20;//UiGenerator.getInstance().fieldWidth;
 			
 			
 			_categoryPicker = new PickerList();
 			_categoryPicker.prompt = "קטגורייה";
-			//_categoryPicker.customButtonStyleName = Button.ALTERNATE_NAME_QUIET_BUTTON
+			_categoryPicker.setSize(fieldWidth, fieldHeight);
 			_categoryPicker.listProperties.itemRendererFactory = function():IListItemRenderer
 			 {
 				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
@@ -84,22 +78,40 @@ package screens.subScreens
 				 return renderer;
 			 };
 			 
-			_categoryPicker.setSize(fieldWidth, fieldHeight);
-			_categoryPicker.move(10, 10);
-
+			_categoryPicker.setSize(fieldWidth / 2-5, fieldHeight);
+			_categoryPicker.move(fieldWidth / 2+15, 10);
 			_categoryPicker.dataProvider = new ListCollection([]);
 	 
 			this._categoryPicker.labelField = "text";
 			this._categoryPicker.selectedIndex = -1;
 			
-			 for (var i:int = 0; i <Categories.sellItemsCategories.length; i++) 
+			 for (var i:int = 0; i <CategoriesConst.sellItemsCategories.length; i++) 
 			 {
-				 _categoryPicker.dataProvider.addItem( { text:Categories.sellItemsCategories[i], code:i } );
+				 _categoryPicker.dataProvider.addItem( { text:CategoriesConst.sellItemsCategories[i], code:i } );
 			 }
 			 addChild(_categoryPicker)
 			 
+			_statePicker = new PickerList();
+			_statePicker.prompt = "מצב";
+			_statePicker.listProperties.itemRendererFactory = function():IListItemRenderer
+			 {
+				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
+				 renderer.labelField = "text";
+				 return renderer;
+			 };
 			 
-			 
+			_statePicker.setSize(fieldWidth / 2-5, fieldHeight);
+			_statePicker.move(10, 10);
+			_statePicker.dataProvider = new ListCollection([]);
+			_statePicker.labelField = "text";
+			_statePicker.selectedIndex = -1;
+			
+			for (i = 0; i <CategoriesConst.sellItemsCategories.length; i++) 
+			{
+				_statePicker.dataProvider.addItem( { text:CategoriesConst.sellItemsStates[i], code:i } );
+			}
+			addChild(_statePicker)
+			
 			 
 			_itemNameLabel = new TextInput();
 			_itemNameLabel.move(fieldWidth / 2+15, _categoryPicker.bounds.bottom + 10);
@@ -119,10 +131,15 @@ package screens.subScreens
 			_priceLabel.restrict = "0-9"
 			addChild(_priceLabel);
 			
+			/*_priceStepper = new NumericStepper()
+			_priceStepper.minimum = 0;
+			_priceStepper.maximum = 9999999;
+			_priceStepper.step = 1;
+			_priceStepper.move(currencyLabel.x + 30, _itemNameLabel.y);
+			_priceStepper.setSize(fieldWidth / 2 - 35, fieldHeight);
+			addChild(_priceStepper);*/
 			
 			
-			
-			 
 			uploadImgButton = new Button();
 			uploadImgButton.label = "הוסף תמונה";
 			uploadImgButton.move(10, _priceLabel.bounds.bottom + 10);
@@ -139,15 +156,14 @@ package screens.subScreens
 			//uploadImgButton2.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
 			addChild(uploadImgButton2);
 			
-			_detailsLabel = new TextArea();
+			//_detailsLabel = new TextArea();
+			_detailsLabel = new TextInput();
 			_detailsLabel.move(10, uploadImgButton.bounds.bottom + 10);
-			//_detailsLabel.prompt = "פרטים נוספים";
-			_detailsLabel.text = "פרטים נוספים";
+			_detailsLabel.prompt = "הסבר, נמק והרחב";
+			//_detailsLabel.text = "פרטים נוספים";
 			_detailsLabel.setSize(fieldWidth, fieldHeight * 2);
 			addChild(_detailsLabel);
 
-			
-			
 			_phoneLabel = new TextInput();
 			_phoneLabel.move(10, _detailsLabel.bounds.bottom + 20);
 			_phoneLabel.setSize(fieldWidth / 2 - 5, fieldHeight);
@@ -192,7 +208,7 @@ package screens.subScreens
 			}
 			else
 			{
-				Flox.logError( "Image browsing is not supported on this device.");
+				Logger.logError( "Image browsing is not supported on this device.");
 			}
 		}
 		
@@ -228,7 +244,7 @@ package screens.subScreens
 			var bytes:ByteArray = BitmapEncoder.encodeByteArray(_img1BitmapData);
 			
 			//_pictersData.push(bytes.toString())
-			_pictersData.push(bytes.toString())
+			_pictersData.push(bytes)
 			
 			//trace("ADD PIC " + _pictersData);
 		}
@@ -247,17 +263,12 @@ package screens.subScreens
 		{
 			if (isValid())
 			{
-				//GlobalData.commonData.addSecondHand(_itemNameLabel.text, parseFloat(_priceLabel.text), _phoneLabel.text, _mailLabel.text, _detailsLabel.text);
-				//var byteArr:ByteArray = _img1BitmapData.getPixels(new Rectangle(0, 0, _img1BitmapData.width, _img1BitmapData.height));
-				//GlobalDataProvider.secondHandDataProvier.addItem(_itemNameLabel.text, parseFloat(_priceLabel.text), _phoneLabel.text, _mailLabel.text, _detailsLabel.text);
-				//GlobalDataProvider.commonEntity.addSellItem(_itemNameLabel.text, parseFloat(_priceLabel.text), _phoneLabel.text, _mailLabel.text, _detailsLabel.text);
-				
 				var sellItemEntity:SellItemEntity = new SellItemEntity();
 				sellItemEntity.createNewSellItem(_itemNameLabel.text, parseFloat(_priceLabel.text), _categoryPicker.selectedItem.text, _detailsLabel.text, _pictersData);
+				//sellItemEntity.createNewSellItem(_itemNameLabel.text, _priceStepper.value, _categoryPicker.selectedItem.text, _detailsLabel.text, _pictersData);
 				
-				//closeMe();
+				dispatchEventWith(Event.CLOSE);
 				dispatchEventWith(Event.COMPLETE);
-				
 				
 				var alert:Alert = Alert.show("תודה על השיתוף, המוצר יתווסף בקרוב", _itemNameLabel.text, new ListCollection(
 				[
@@ -267,7 +278,20 @@ package screens.subScreens
 			}
 		}
 		
-		override protected function customHeaderFactory():Header 
+		protected function customFooterFactory():Header 
+		{
+			var footer:Header = new Header()
+			var addButton:Button = new Button();
+			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
+			addButton.label = "פרסם מודעה";
+			addButton.x = 10;
+			addButton.setSize(this.stage.stageWidth - 20, UiGenerator.getInstance().buttonHeight);
+			addButton.addEventListener(Event.TRIGGERED, onAddClick);
+			footer.rightItems = new <DisplayObject>[addButton];
+			return footer
+		}
+		
+		/*override protected function customHeaderFactory():Header 
 		{
 			var header:Header = super.customHeaderFactory();
 			//header.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
@@ -278,7 +302,7 @@ package screens.subScreens
 			
 			header.rightItems = new <DisplayObject>[addButton];
 			return header
-		}
+		}*/
 		
 		private function isValid():Boolean 
 		{

@@ -28,17 +28,21 @@ package subPanels
 			setSize(100, 100);
 			dataProvider = new ListCollection( [ ]);
 			
+			var itemRendererAccessorySourceFunction:Function = this.accessorySourceFunction;
+			
 			 var item:Language;
 			 
 			 var img:Texture = AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0);
 			 
 			  listProperties.itemRendererFactory = function():IListItemRenderer
 			 {
-				 var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
-				 renderer.labelField = "text";
-				 renderer.iconSourceField = "thumbnail";
+				var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
+				renderer.labelField = "text";
+				renderer.iconSourceField = "thumbnail";
+				//renderer.accessorySourceFunction  = itemRendererAccessorySourceFunction;
 				renderer.styleNameList.add( Button.ICON_POSITION_LEFT );
-				 return renderer;
+				renderer.index++;
+				return renderer;
 			 };
 			 
 			 
@@ -60,6 +64,15 @@ package subPanels
 			 
 			 addEventListener(Event.CHANGE, onLangChange);
 		}
+		
+		
+		
+		private function accessorySourceFunction(item:Object):Texture
+		{
+			return AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 9)
+		}
+		
+		
 		
 		override public function validate():void 
 		{

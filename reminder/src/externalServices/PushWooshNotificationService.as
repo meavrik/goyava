@@ -43,7 +43,7 @@ package externalServices
 				}
 				
 				// local push test
-				_pushwoosh.scheduleLocalNotification(10, "{\"alertBody\": \"Time to collect coins!\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+				//_pushwoosh.scheduleLocalNotification(10, "{\"alertBody\": \"Time to collect coins!\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
 
 			} catch (error:Error)
 			{
@@ -73,14 +73,14 @@ package externalServices
 					//newTxt = i < addToSentenceArr.length?addToSentenceArr[i]:addToSentenceArr[(addToSentenceArr.length - 1)];
 					//newTxt = newTxt + txt;
 					newSeconds = seconds * (i + 1);
-					//try
-					//{
+					try
+					{
 						Flox.logEvent("scheduleNotification every " + newSeconds + " seconds with the text : " + newTxt);
 
 						//id = _pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
-						id = _pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"test\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
-						//_pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
-					/*}
+						//id = _pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"test\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+						_pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+					}
 					catch (err:Error)
 					{
 						if (CONFIG::debug == true) {
@@ -90,7 +90,7 @@ package externalServices
 							Flox.logError(this, "scheduleLocalNotification error {0}", err.message);
 						}
 						
-					}*/
+					}
 					
 				}
 			}
@@ -138,10 +138,10 @@ package externalServices
 		
 		public function removeNotification(id:int):void 
 		{
-			if (_pushwoosh.isPushNotificationSupported)
+			/*if (_pushwoosh.isPushNotificationSupported)
 			{
 				_pushwoosh.clearLocalNotification(id);
-			}
+			}*/
 		}
 		
 		/* INTERFACE externalServices.IPushNotification */

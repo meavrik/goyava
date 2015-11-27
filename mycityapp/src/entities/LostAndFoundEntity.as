@@ -2,6 +2,7 @@ package entities
 {
 	import com.gamua.flox.Entity;
 	import data.GlobalDataProvider;
+	import log.Logger;
 	
 	/**
 	 * ...
@@ -34,12 +35,12 @@ package entities
 		
 		private function onSaveFail(message:String):void 
 		{
-			Flox.logError("save lost item fail : " + message);
+			Logger.logError("save lost item fail : " + message);
 		}
 		
 		private function onSaveComplete():void 
 		{
-			Flox.logInfo("save lost item success");
+			Logger.logInfo("save lost item success");
 			GlobalDataProvider.commonEntity.addLostAndFoundItem(this.id, name, description,updatedAt.time);
 			
 			//GlobalDataProvider.userPlayer.mySales.push( { name:name, price:price, category:category } );

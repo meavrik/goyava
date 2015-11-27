@@ -1,7 +1,9 @@
 package screens 
 {
 	import assets.AssetsHelper;
+	import com.gamua.flox.Query;
 	import data.GlobalDataProvider;
+	import entities.MessageEntity;
 	import feathers.controls.Button;
 	import feathers.controls.Drawers;
 	import feathers.controls.GroupedList;
@@ -16,7 +18,11 @@ package screens
 	import flash.display.Bitmap;
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
+	import log.Logger;
+	import panels.MessagePanelView;
+	import popups.PopupsController;
 	import screens.enums.ScreenEnum;
+	import screens.gifts.GiftBox;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
@@ -37,6 +43,7 @@ package screens
 		private var _list:GroupedList;
 		private var _emergencyCallButton:Button;
 		private var drawers:Drawers;
+		private var _messagesButton:Button;
 		public var savedVerticalScrollPosition:Number = 0;
 		public var savedSelectedIndex:int = -1;
 		
@@ -67,12 +74,13 @@ package screens
 			title = welcomeText + GlobalDataProvider.userPlayer.name;
 			
 			this.headerFactory = this.customHeaderFactory;
+			this.footerFactory = this.customFooterFactory;
 			
 			this._list = new GroupedList();
 			this._list.dataProvider = new HierarchicalCollection(
 			[
 				{
-					header: "הניקוד שלי : " +GlobalDataProvider.userPlayer.score,
+					header: "ניקוד : " +GlobalDataProvider.userPlayer.score,
 					children:
 					[
 						//{ label: "כל תרומה לקהילה מוסיפה לך ניקוד בהתאם"},
@@ -82,40 +90,81 @@ package screens
 					header: "קהילת אבן יהודה",
 					children:
 					[
-						{ label: "(" + GlobalDataProvider.commonEntity.sellItems.length + ")" + " יד שניה" , event: ScreenEnum.SECOND_HAND_SCREEN, texture:StandardIcons.listDrillDownAccessoryTexture },
-						{ label: "(" + GlobalDataProvider.commonEntity.groups.length + ")" + " קבוצות", event: ScreenEnum.GROUPS_SCREEN },
-						{ label: "(" + GlobalDataProvider.commonEntity.residents.length + ")" + " תושבים", event: ScreenEnum.RESIDENTS_SCREEN },
-						{ label: "ארועים", event: ScreenEnum.EVENTS_SCREEN },
-						{ label: "אבדות ומציאות", event: ScreenEnum.LOST_AND_FOUND },
+						{ 	label: "(" + GlobalDataProvider.commonEntity.sellItems.length + ")" + " יד שניה" , event: ScreenEnum.SECOND_HAND_SCREEN, 
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 9) },
+						{ 	label: "(" + GlobalDataProvider.commonEntity.groups.length + ")" + " קבוצות", event: ScreenEnum.GROUPS_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 10)
+						},
+						{ 	label: "(" + GlobalDataProvider.commonEntity.residents.length + ")" + " תושבים", event: ScreenEnum.RESIDENTS_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 11)
+						},
+						{ 	label: "ארועים", event: ScreenEnum.EVENTS_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 12)
+						},
+						{ 	label: "אבדות ומציאות", event: ScreenEnum.LOST_AND_FOUND,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 13)
+						},
 					]
 				},
 				{
 					header: "שרותים",
 					children:
 					[
-						{ label: "המועצה", event: ScreenEnum.COMUNITY_SCREEN },
-						{ label: "מתנס", event: ScreenEnum.MATNAS_SCREEN },
-						{ label: "חינוך", event: ScreenEnum.EDUCATION_SCREEN },
-						{ label: "בריאות", event: ScreenEnum.MATNAS_SCREEN },
-						{ label: "תחבורה", event: ScreenEnum.MATNAS_SCREEN },
-						{ label: "מי שרונים", event: ScreenEnum.COMUNITY_SCREEN },
+						{ 	label: "המועצה", event: ScreenEnum.COMUNITY_SCREEN ,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 14)
+						},
+						{ 
+							label: "מתנס", event: ScreenEnum.MATNAS_SCREEN, 
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 15) 
+						},
+						{ 
+							label: "חינוך", event: ScreenEnum.EDUCATION_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 16)
+						},
+						{ 
+							label: "בריאות", event: ScreenEnum.MATNAS_SCREEN ,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 17)
+						},
+						{ 
+							label: "תחבורה", event: ScreenEnum.MATNAS_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 18)
+						},
+						{ 
+							label: "מי שרונים", event: ScreenEnum.COMUNITY_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 19)
+						},
 					]
 				},
 				{
 					header: "עסקים",
 					children:
 					[
-						{ label: "בתי עסק", event: ScreenEnum.BUSINESS_SCREEN },
-						{ label: "אנשי מקצוע", event: ScreenEnum.BUSINESS_SCREEN },
-						{ label: "נדל''ן", event: ScreenEnum.REALESTATE_SCREEN },
+						{ 	
+							label: "בתי עסק", event: ScreenEnum.BUSINESS_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 20) 
+						},
+						{ 	
+							label: "אנשי מקצוע", event: ScreenEnum.BUSINESS_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 21) 
+						},
+						{ 	
+							label: "נדל''ן", event: ScreenEnum.REALESTATE_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 22) 
+						},
 					]
 				},
 				{
 					header: "כללי",
 					children:
 					[
-						{ label: "טלפונים", event: ScreenEnum.COMUNITY_SCREEN },
-						{ label: "מפה", event: ScreenEnum.MAP_SCREEN },
+						{ 
+							label: "טלפונים", event: ScreenEnum.COMUNITY_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 23) 
+						},
+						{ 
+							label: "מפה", event: ScreenEnum.MAP_SCREEN,
+							thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 24) 
+						},
 					]
 				}
 			]);
@@ -127,6 +176,7 @@ package screens
 			//the list. otherwise, the list items may be displayed outside of
 			//the list's bounds.
 			var itemRendererAccessorySourceFunction:Function = this.accessorySourceFunction;
+
 			var sWidth:Number = this.width;
 			//this._list.clipContent = false;
 			//this._list.autoHideBackground = true;
@@ -140,12 +190,14 @@ package screens
 				//is only selectable and doesn't have interactive children.
 				renderer.isQuickHitAreaEnabled = true;
 				renderer.labelField = "label";
-				renderer.iconSourceFunction = itemRendererAccessorySourceFunction;
+				
+				renderer.iconSourceField = "thumbnail";
 				renderer.height = 100;
+				renderer.itemIndex++
 
 				renderer.selectableField = "";
 				renderer.selectableFunction = null
-				//renderer.accessorySourceFunction = itemRendererAccessorySourceFunction;
+				renderer.accessorySourceFunction = itemRendererAccessorySourceFunction;
 				renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_LEFT; 
 		
 				renderer.horizontalAlign = DefaultGroupedListHeaderOrFooterRenderer.HORIZONTAL_ALIGN_RIGHT
@@ -160,33 +212,44 @@ package screens
 			
 			this._list.setSize(this.stage.stageWidth, this.stage.stageHeight - this._list.bounds.top - 160);
 			
-			_emergencyCallButton = new Button();
-			_emergencyCallButton.styleNameList.add( Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON );
-			_emergencyCallButton.label = "התקשר לקב''ט : " + PHONE_NUMBER;
-			_emergencyCallButton.move(10, this._list.bounds.bottom + 10);
-			_emergencyCallButton.setSize(this.stage.stageWidth - 20, 60);
-			_emergencyCallButton.addEventListener(Event.TRIGGERED, onEmergancyCallClick);
-			addChild(_emergencyCallButton);
+			//var panel:GiftsPanel = new GiftsPanel();
+			//PopupsController.addPopUp(panel);
 			
-			UiGenerator.getInstance().buttomPanelHeight = this.height;
+			getMyMessages();
+		}
+		
+		private function getMyMessages():void 
+		{
+			var query:Query = new Query(MessageEntity, "toUserId == ?", GlobalDataProvider.userPlayer.id);
+			query.find(
+				function onComplete(tracks:Array):void {
+					//The tracks array contains all tracks the current player
+					//is allowed to see.
+					//trace("FOUND MESSAGES FOR rcTpuC0k5YPXS7qL === " + tracks);
+					Logger.logInfo("messages found : {0}", tracks);
+					
+					GlobalDataProvider.myMessages = tracks;
+					
+					_messagesButton.isEnabled = tracks.length?true:false;
+					_messagesButton.label = tracks.length.toString();
+				},
+				function onError(error:String):void {
+					//Something went wrong during the execution of the query.
+					//The player's device may be offline.
+					Logger.logError(this, "error getting my messages : " + error);
+				}
+			);
+		}
+		
+		private function showGift(position:Number):void
+		{
+			var giftBox:GiftBox = new GiftBox();
 			
+			giftBox.y = -100;
+			addChild(giftBox);
+			giftBox.x = stage.stageWidth / 4 - giftBox.width / 2 + position;
 			
-
-			/*var sprite:PanelScreen = new PanelScreen();
-			addChild(sprite);
-			sprite.title = "test";
-			
-			
-			
-			drawers = new Drawers();
-			drawers.content = sprite
-			drawers.setSize(300, 50);
-			 //drawers.bottomDrawer = screen;
-			// drawers.move(100, 200);
-			//drawers.bottomDrawerToggleEventType = Event.OPEN;
-			this.addChild( drawers )
-			
-			drawers.bottomDrawer = new ScreenSellItemAdd();*/
+			giftBox.play();
 		}
 		
 		private function onEmergancyCallClick(e:Event):void 
@@ -201,34 +264,54 @@ package screens
 			return StandardIcons.listDrillDownAccessoryTexture;
 		}
 		
+		private function customFooterFactory():Header
+		{
+			var footer:Header = new Header();
+			var _emergencyCallButton:Button = new Button();
+			_emergencyCallButton.styleNameList.add( Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON );
+			_emergencyCallButton.label = "התקשר לקב''ט : " + PHONE_NUMBER;
+			_emergencyCallButton.x = 10;
+			_emergencyCallButton.setSize(this.stage.stageWidth - 20,  UiGenerator.getInstance().buttonHeight);
+			_emergencyCallButton.addEventListener(Event.TRIGGERED, onEmergancyCallClick);
+			addChild(_emergencyCallButton);
+			footer.rightItems = new <DisplayObject>[_emergencyCallButton];
+			return footer;
+		}
+		
 		private function customHeaderFactory():Header
 		{
 			var header:Header = new Header();
 			//this screen doesn't use a back button on tablets because the main
 			//app's uses a split layout
 
-				var myButton:Button = new Button();
-				myButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
-				myButton.label = "הגדרות";
-				myButton.height = 60;
-				myButton.addEventListener(Event.TRIGGERED, myAreaClick);
-				header.rightItems = new <DisplayObject>
-				[
-					myButton
-				];
-				
-				var settingsButton:Button = new Button();
-				//settingsButton.styleNameList.add(Button.);
-				settingsButton.height = 60;
-				settingsButton.label = "0";
-				settingsButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
-				//settingsButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
-				header.leftItems = new <DisplayObject>
-				[
-					settingsButton
-				];
+			var myButton:Button = new Button();
+			myButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
+			myButton.label = "הגדרות";
+			myButton.height = 60;
+			myButton.addEventListener(Event.TRIGGERED, myAreaClick);
+			header.rightItems = new <DisplayObject>
+			[
+				myButton
+			];
+			
+			_messagesButton = new Button();
+			//settingsButton.styleNameList.add(Button.);
+			//var num:int = GlobalDataProvider.userPlayer.myMessages.length;
+			//var num:int = GlobalDataProvider.myMessages;
+			
+			_messagesButton.height = myButton.height;
+			//_messagesButton.label = num.toString();
+			_messagesButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
+			_messagesButton.isEnabled = false;
+			_messagesButton.addEventListener(Event.TRIGGERED, onMessagesClick);
+			header.leftItems = new <DisplayObject>[_messagesButton];
 				
 			return header;
+		}
+		
+		private function onMessagesClick(e:Event):void 
+		{
+			PopupsController.addPopUp(new MessagePanelView());
 		}
 		
 		private function list_changeHandler(event:Event):void

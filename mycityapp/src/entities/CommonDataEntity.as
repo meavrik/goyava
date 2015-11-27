@@ -25,21 +25,29 @@ package entities
 		
 		public function addSellItem(id:String, name:String, price:Number, currencySign:String, category:String, description:String,created:Number):void
 		{
-			//if (!sellItems) sellItems = new Array();
-			sellItems.push( {	id:id, 
+			var obj:Object = { id:id, 
 								name:name, 
 								price:price, 
 								currencySign:currencySign, 
 								category:category, 
 								description:description , 
-								created:created } );
+								created:created };
+								
+			if (!idExistInList(sellItems, id))
+			{
+				sellItems.push(obj);
+			}					
+
 			save(null, null);
 		}
 		
 		public function addGroupItem(id:String,name:String,category:String):void 
 		{
-			//if (!groups) groups = new Array();
-			groups.push( { id:id, name:name, category:category } );
+			if (!idExistInList(groups, id))
+			{
+				groups.push( { id:id, name:name, category:category } );
+			}
+			
 			save(null, null);
 		}
 		
@@ -51,9 +59,13 @@ package entities
 								address:address ,
 								details:details ,
 								score:score
-								
 								};
-			residents.push(obj);
+								
+								
+			if (!idExistInList(residents, id))
+			{
+				residents.push(obj);
+			}
 			
 			save(null, null);
 		}
@@ -65,9 +77,40 @@ package entities
 								name:name, 
 								description:description , 
 								created:created };
-			losts.push(obj);
+			if (!idExistInList(losts, id))
+			{
+				losts.push(obj);
+			}
+			
 			
 			save(null, null);
+		}
+		
+		public function removeSellItemByIndex(id:String):void 
+		{
+			for each (var item:Object in sellItems) 
+			{
+				if (item.id == id)
+				{
+					sellItems.splice(sellItems.indexOf(item, 1));
+					return 
+				}
+			}
+		}
+		
+		
+		
+		private function idExistInList(listArr:Array, id:String):Boolean 
+		{
+			for each (var item:Object in listArr) 
+			{
+				if (item.id == id)
+				{
+					return true;
+				}
+			}
+			
+			return false;
 		}
 		
 	}

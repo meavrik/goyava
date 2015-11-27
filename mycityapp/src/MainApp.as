@@ -3,9 +3,11 @@ package
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
+	import com.gamua.flox.Query;
 	import data.GlobalDataProvider;
 	import entities.CommonDataEntity;
 	import entities.MessageEntity;
+	import log.Logger;
 	import panels.LoginPanel;
 	import popups.PopupsController;
 	import progress.MainProgressBar;
@@ -55,7 +57,7 @@ package
 		public function initNewPlayer():void
 		{
 			_loginPanel = new LoginPanel()
-			Flox.logInfo("login player success " + Player.current);
+			Logger.logInfo("login player success " + Player.current);
 			GlobalDataProvider.userPlayer = Player.current as FloxPlayer;
 			
 			_progressBar = new MainProgressBar();
@@ -67,20 +69,21 @@ package
 		
 		private function loadGlobalData():void
 		{
+			_progressBar.value = 1;
 			//Entity.load(ResidentsEntity, GlobalDataProvider.residentsDataProvier.id, onLoadResidentsComplete, onLoadResidentsFail);
 			Entity.load(CommonDataEntity, GlobalDataProvider.commonEntity.id, onLoadCommonComplete, onLoadCommonFail);
 		}
 		
 		public function onLoadCommonFail(message:String):void 
 		{
-			Flox.logError("Load common data Fail " + message);
+			Logger.logError("Load common data Fail " + message);
 
 			loadUserData();
 		}
 		
 		public function onLoadCommonComplete(entity:CommonDataEntity):void 
 		{
-			Flox.logInfo("Load Common Complete ");
+			Logger.logInfo("Load Common Complete ");
 			
 			//GlobalDataProvider.residentsDataProvier.itemsArr = entity.itemsArr;
 			GlobalDataProvider.commonEntity = entity;
@@ -92,32 +95,26 @@ package
 		{
 			_progressBar.value = 50;
 			
-			Entity.load(FloxPlayer, GlobalDataProvider.userPlayer.id, onUserDataLoadComplete, onUserDataLoadError)
-			//Entity.load(MessageEntity, GlobalDataProvider.userPlayer.id, onMessagesDataLoadComplete, onUserDataLoadError)
-		}
-		
-		private function onMessagesDataLoadComplete(data:MessageEntity):void 
-		{
-			
+			Entity.load(FloxPlayer, GlobalDataProvider.userPlayer.id, onUserDataLoadComplete, onUserDataLoadError);
 		}
 		
 		private function onUserDataLoadError(message:String):void 
 		{
-			Flox.logInfo("User Data Load Error or empty:" + message);
+			Logger.logInfo("User Data Load Error or empty:" + message);
 			if (message == "unknown")
 			{
-				Flox.logInfo("new user");
+				Logger.logInfo("new user");
 				firstTimeUser = true;
 			} else
 			{
 				_noConnection = true;
-				Flox.logError(this, "onUserDataLoadError & not new user");
+				Logger.logError(this, "onUserDataLoadError & not new user");
 			}
 		}
 		
 		private function onUserDataLoadComplete(playerData:FloxPlayer):void 
 		{
-			Flox.logInfo("load User Data Complete " + playerData.name);
+			Logger.logInfo("load User Data Complete " + playerData.name);
 			GlobalDataProvider.userPlayer = playerData;
 			alldataLoadComplete();
 		}
@@ -145,6 +142,7 @@ package
 		{
 			dispatchEvent(new Event(Event.READY));
 			
+			//showLoginPanel();
 			if (!GlobalDataProvider.userPlayer.name)
 			{
 				showLoginPanel();

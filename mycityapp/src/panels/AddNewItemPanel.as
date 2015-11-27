@@ -21,6 +21,7 @@ package panels
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
 	import flash.utils.ByteArray;
+	import log.Logger;
 	import media.CameraHelper;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -178,7 +179,7 @@ package panels
 			}
 			else
 			{
-				Flox.logError( "Image browsing is not supported on this device.");
+				Logger.logError( "Image browsing is not supported on this device.");
 			}
 		}
 		

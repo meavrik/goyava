@@ -4,7 +4,7 @@
   <versionNumber>0.1</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>mycityapp</filename>
-  <name>mycityapp</name>
+  <name>אבן יהודה</name>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
 	<uses-permission android:name="android.permission.CALL_PHONE" />

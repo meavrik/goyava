@@ -4,6 +4,7 @@ package entities
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import data.GlobalDataProvider;
+	import log.Logger;
 	
 	/**
 	 * ...
@@ -26,7 +27,7 @@ package entities
 			this.publicAccess = Access.READ_WRITE;
 		}
 		
-		public function createNewSellItem(_name:String, _price:Number, _category:String, _description:String,_pictures:Array=null):void
+		public function createNewSellItem(_name:String, _price:Number, _category:String, _description:String = "", _pictures:Array = null):void
 		{
 			this.id = GlobalDataProvider.commonEntity.sellItems.length.toString();
 			name = _name;
@@ -40,15 +41,15 @@ package entities
 		
 		private function onSaveFail(message:String):void 
 		{
-			Flox.logError("save sell item fail : " + message);
+			Logger.logError("save sell item fail : " + message);
 		}
 		
 		private function onSaveComplete():void 
 		{
-			Flox.logInfo("save sell item success");
+			Logger.logInfo("save sell item success");
 			GlobalDataProvider.commonEntity.addSellItem(this.id, name, price, GlobalDataProvider.currencySign, category,description,updatedAt.time);
 			
-			GlobalDataProvider.userPlayer.mySales.push( { name:name, price:price, category:category } );
+			GlobalDataProvider.userPlayer.mySales.push( { id:this.id, name:name, price:price, category:category } );
 			GlobalDataProvider.userPlayer.save(null, null);
 		}
 		

@@ -7,10 +7,9 @@ package
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.motion.Cube;
 	import feathers.motion.Slide;
+	import panels.DrawerPanel;
 	import screens.enums.ScreenEnum;
-	import screens.events.ScreenEvent;
 	import screens.ScreenBusiness;
-	import screens.ScreenComunity;
 	import screens.ScreenEducation;
 	import screens.ScreenEvents;
 	import screens.ScreenGroups;
@@ -18,10 +17,12 @@ package
 	import screens.ScreenMainMenu;
 	import screens.ScreenMap;
 	import screens.ScreenMatnas;
-	import screens.ScreenMyArea;
 	import screens.ScreenRealestate;
 	import screens.ScreenResidents;
 	import screens.ScreenSecondHand;
+	import screens.subScreens.ScreenGroupAdd;
+	import screens.subScreens.ScreenGroupView;
+	import screens.subScreens.ScreenMyArea;
 	import screens.subScreens.ScreenSellItemAdd;
 	import screens.subScreens.ScreenSellItemView;
 	import starling.events.Event;
@@ -35,7 +36,9 @@ package
 	{
 		private var _screenNavigator:StackScreenNavigator;
 		private var _mainScreen		:ScreenMainMenu;
-		private var _sellItemViewScreen:ScreenSellItemView;
+
+		private var _drawers:Drawers;
+		private var _panelPH:DrawerPanel
 		
 		public function MainScreenNavigator() 
 		{
@@ -45,7 +48,9 @@ package
 		override protected function initialize():void 
 		{
 			super.initialize();
-
+			_panelPH = new DrawerPanel();
+			_panelPH.setSize(stage.stageWidth, stage.stageHeight / 2);
+			
 			_mainScreen = new ScreenMainMenu();
 			var mainScreensArr:Array = [
 					{screen:_mainScreen,id:ScreenEnum.MAIN_SCREEN},
@@ -61,13 +66,13 @@ package
 					{screen:new ScreenLostAndFound(),id:ScreenEnum.LOST_AND_FOUND},
 			]
 			
-			this._sellItemViewScreen = new ScreenSellItemView();
-			
 			var subScreensArr:Array = [
 					
 					{screen:ScreenMyArea, id:ScreenEnum.MY_AREA_SCREEN },
 					{screen:ScreenSellItemAdd,id:ScreenEnum.SELL_ITEM_ADD_SCREEN},
-					{screen:_sellItemViewScreen,id:ScreenEnum.SELL_ITEM_VIEW_SCREEN},
+					{screen:ScreenGroupAdd,id:ScreenEnum.ADD_NEW_GROUP_SCREEN},
+					//{screen:_groupViewScreen,id:ScreenEnum.VIEW_GROUP_SCREEN},
+					//{screen:_sellItemViewScreen,id:ScreenEnum.SELL_ITEM_VIEW_SCREEN},
 			]
 
 			_screenNavigator = new StackScreenNavigator();
@@ -81,19 +86,21 @@ package
 				screen = mainScreensArr[i].screen;
 				screen.addEventListener(Event.COMPLETE, onBackToMainClick);
 				id = mainScreensArr[i].id;
-				_mainScreen.addEventListener(id, onScreenClick);
+				//_mainScreen.addEventListener(id, onScreenClick);
 				
 				screen.screenID = id;
 				//screen.setSize(this.stage.stageWidth, this.stage.stageHeight - (_bottomPanel.height + 70));
-				screen.setSize(this.stage.stageWidth, this.stage.stageHeight);
+				screen.setSize(this.stage.stageWidth, this.stage.stageHeight-90);
 				
 				navigatorItem = new StackScreenNavigatorItem(mainScreensArr[i].screen);
 				navigatorItem.addPopEvent(Event.COMPLETE);
 				if (id == ScreenEnum.MAIN_SCREEN)
 				{
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.MY_AREA_SCREEN, ScreenEnum.MY_AREA_SCREEN);
-					navigatorItem.setScreenIDForPushEvent(ScreenEnum.SECOND_HAND_SCREEN, ScreenEnum.SECOND_HAND_SCREEN);
-					navigatorItem.setScreenIDForPushEvent(ScreenEnum.GROUPS_SCREEN, ScreenEnum.GROUPS_SCREEN);
+					//navigatorItem.setScreenIDForPushEvent(ScreenEnum.SECOND_HAND_SCREEN, ScreenEnum.SECOND_HAND_SCREEN);
+					navigatorItem.setFunctionForPushEvent(ScreenEnum.SECOND_HAND_SCREEN, onSecondHandOpen);
+					//navigatorItem.setScreenIDForPushEvent(ScreenEnum.GROUPS_SCREEN, ScreenEnum.GROUPS_SCREEN);
+					navigatorItem.setFunctionForPushEvent(ScreenEnum.GROUPS_SCREEN, onGroupsOpen);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.RESIDENTS_SCREEN, ScreenEnum.RESIDENTS_SCREEN);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.LOST_AND_FOUND, ScreenEnum.LOST_AND_FOUND);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.BUSINESS_SCREEN, ScreenEnum.BUSINESS_SCREEN);
@@ -103,6 +110,13 @@ package
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.MATNAS_SCREEN, ScreenEnum.MATNAS_SCREEN);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.EDUCATION_SCREEN, ScreenEnum.EDUCATION_SCREEN);
 					//navigatorItem.setScreenIDForPushEvent(id, id);
+				}
+				
+				if (id == ScreenEnum.GROUPS_SCREEN)
+				{
+					navigatorItem.setScreenIDForPushEvent(ScreenEnum.ADD_NEW_GROUP_SCREEN, ScreenEnum.ADD_NEW_GROUP_SCREEN);
+					//navigatorItem.setScreenIDForPushEvent(ScreenEnum.VIEW_GROUP_SCREEN, ScreenEnum.VIEW_GROUP_SCREEN);
+					navigatorItem.setFunctionForPushEvent(ScreenEnum.VIEW_GROUP_SCREEN, onGroupViewOpen);
 				}
 				
 				if (id == ScreenEnum.SECOND_HAND_SCREEN)
@@ -128,30 +142,44 @@ package
 				this._screenNavigator.addScreen(id, navigatorItem);
 			}
 
-			//new ScreenSlidingStackTransitionManager(_screenNavigator);
-
-			addChild(_screenNavigator);
-			////_screenNavigator.showScreen(ScreenEnum.MAIN_SCREEN);
-
 			_screenNavigator.setSize(this.stage.stageWidth, this.stage.stageHeight);
 			
 			_screenNavigator.pushTransition = Slide.createSlideLeftTransition();
 			_screenNavigator.popTransition = Slide.createSlideRightTransition();
 			
+			//_screenNavigator.pushTransition = Cube.createCubeLeftTransition();
+			//_screenNavigator.popTransition = Cube.createCubeRightTransition();
+			
 			this._screenNavigator.rootScreenID = ScreenEnum.MAIN_SCREEN;
 			
-			_sellItemViewScreen.itemData = { };
-			var drawers:Drawers = new Drawers();
-			drawers.content = this._screenNavigator
-			drawers.bottomDrawer = _sellItemViewScreen;
-			drawers.bottomDrawerToggleEventType = ScreenEnum.SELL_ITEM_VIEW_SCREEN
-
-			this.addChild( drawers )
+			_drawers = new Drawers();
+			_drawers.content = this._screenNavigator
+			_drawers.bottomDrawer = _panelPH;
+			this.addChild( _drawers )
+		}
+		
+		private function onSecondHandOpen():void 
+		{
+			_drawers.bottomDrawerToggleEventType = ScreenEnum.SELL_ITEM_VIEW_SCREEN;
+			_screenNavigator.pushScreen(ScreenEnum.SECOND_HAND_SCREEN);
+		}
+		
+		private function onGroupsOpen():void 
+		{
+			_drawers.bottomDrawerToggleEventType = ScreenEnum.VIEW_GROUP_SCREEN;
+			_screenNavigator.pushScreen(ScreenEnum.GROUPS_SCREEN);
+		}
+		
+		private function onGroupViewOpen(e:Event):void 
+		{
+			var panel:ScreenGroupView = new ScreenGroupView(e.data);
+			_panelPH.setScreen(panel);
 		}
 		
 		private function onSellItemViewOpen(e:Event):void 
 		{
-			_sellItemViewScreen.itemData = e.data;
+			var panel:ScreenSellItemView = new ScreenSellItemView(e.data);
+			_panelPH.setScreen(panel);
 		}
 		
 		private function onScreenClick(e:Event):void 

@@ -15,6 +15,7 @@ package
 	import flash.events.UncaughtErrorEvent;
 	import flash.ui.Keyboard;
 	import log.LogEventsEnum;
+	import log.Logger;
 	import popups.PopupsController;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -138,7 +139,7 @@ package
 		private function loginHero():void
 		{
 			if (CONFIG::debug == true) {
-				Flox.logInfo("login with admin hero : ");
+				Logger.logInfo("login with admin hero : ");
 				GlobalDataProvider.userPlayer.isAdmin = true;
 				Player.loginWithKey(HERO_LOGIN_KEY, onHeroLoginComplete, onLoginError);
 			} else
@@ -156,7 +157,7 @@ package
 			} 
 			else
 			{*/
-				Flox.logEvent(LogEventsEnum.LOGIN_WITH_KEY, Player.current.id);
+				Logger.logEvent(LogEventsEnum.LOGIN_WITH_KEY, Player.current.id);
 				Player.login(AuthenticationType.KEY, Player.current.id, null, onLoginComplete, onLoginError);
 			//}
 		}
@@ -165,7 +166,7 @@ package
 		{
 			//_loadingLabel.removeFromParent(true);
 			
-			Flox.logError(this, "onLoginError : {0}" + message);
+			Logger.logError(this, "onLoginError : {0}" + message);
 			noConnection = true;
 			
 			startApplication();

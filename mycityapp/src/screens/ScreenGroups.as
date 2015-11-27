@@ -1,15 +1,14 @@
 package screens 
 {
-	import com.gamua.flox.Flox;
 	import data.GlobalDataProvider;
 	import feathers.controls.Button;
 	import feathers.controls.Header;
 	import feathers.data.ListCollection;
-	import panels.AddNewGroupPanel;
-	import panels.ViewGroupDetailsPanel;
-	import popups.PopupsController;
+	import log.Logger;
+	import screens.enums.ScreenEnum;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
+	import ui.UiGenerator;
 	
 	/**
 	 * ...
@@ -17,8 +16,8 @@ package screens
 	 */
 	public class ScreenGroups extends ScreenSubMain 
 	{
-		private var _listScreen:BaseListScreen;
-
+		private var _list:BaseListScreen;
+		
 		public function ScreenGroups() 
 		{
 			super();
@@ -29,29 +28,26 @@ package screens
 		{
 			super.initialize();
 			
+			this.footerFactory = customFooterFactory;
 			title = "חפש אנשים למטרות משותפות"
 			
-			_listScreen = new BaseListScreen()
-			_listScreen.dataProvider = new ListCollection( [ ]);
-			_listScreen.setSize(this.width, stage.stageHeight - this.y);
-			_listScreen.addEventListener(Event.TRIGGERED, onGroupItemClick);
-			addChild(_listScreen);
-			
-			if (_listScreen.dataProvider)
-			{
-				_listScreen.dataProvider.removeAll();
-			}
+			_list = new BaseListScreen()
+			_list.dataProvider = new ListCollection( [ ]);
+			_list.setSize(this.width, stage.stageHeight - this.y);
+			_list.addEventListener(Event.TRIGGERED, onGroupItemClick);
+			addChild(_list);
+
 			var arr:Array = GlobalDataProvider.commonEntity.groups;
 			if (arr)
 			{
-				Flox.logInfo("load GROUPS complete " + arr.join(","));
+				Logger.logInfo("load GROUPS complete " + arr.join(","));
 				var item:Object;
 				for (var i:int = 0; i < arr.length; i++) 
 				{
 					item = arr[i];
-					if (item.name)
+					if (item && item.name)
 					{
-						_listScreen.dataProvider.addItem( { text:item.name ,id:item.id } );
+						_list.dataProvider.addItem( { text:item.name ,id:item.id } );
 					}
 				}
 			}
@@ -59,32 +55,26 @@ package screens
 		
 		private function onAddClick(e:Event):void 
 		{
-			var newGroupPanel:AddNewGroupPanel = new AddNewGroupPanel();
-			newGroupPanel.addEventListener(Event.CLOSE, onPanelClose);
-			PopupsController.addPopUp(newGroupPanel);
+			dispatchEventWith(ScreenEnum.ADD_NEW_GROUP_SCREEN)
 		}
 		
-		private function onPanelClose(e:Event):void 
+		protected function customFooterFactory():Header 
 		{
-			//loadData();
-		}
-		
-		override protected function customHeaderFactory():Header 
-		{
-			var header:Header = super.customHeaderFactory();
+			var footer:Header = new Header()
 			var addButton:Button = new Button();
-			addButton.label = "+";
-			addButton.addEventListener(Event.TRIGGERED, onAddClick);
 			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
-			header.rightItems = new <DisplayObject>[addButton];
-			return header
+			addButton.label = "צור קבוצה חדשה";
+			addButton.x = 10;
+			addButton.setSize(this.stage.stageWidth - 20, UiGenerator.getInstance().buttonHeight);
+			addButton.addEventListener(Event.TRIGGERED, onAddClick);
+			footer.rightItems = new <DisplayObject>[addButton];
+			return footer
 		}
 		
 		private function onGroupItemClick(e:Event):void 
 		{
-			//var groupDetailsPanel:GroupDetailsPanel = new GroupDetailsPanel(GlobalDataProvider.groupsDataProvier.itemsArr[_listScreen.selectedIndex]);
-			var groupDetailsPanel:ViewGroupDetailsPanel = new ViewGroupDetailsPanel(_listScreen.selectedItem.id);
-			PopupsController.addPopUp(groupDetailsPanel);
+			var groupData:Object = GlobalDataProvider.commonEntity.groups[_list.selectedIndex];
+			dispatchEventWith(ScreenEnum.VIEW_GROUP_SCREEN, false, groupData);
 		}
 		
 	}

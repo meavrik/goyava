@@ -4,6 +4,7 @@ package entities
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import data.GlobalDataProvider;
+	import log.Logger;
 	
 	/**
 	 * ...
@@ -47,7 +48,7 @@ package entities
 		
 		private function onSaveFail(message:String):void 
 		{
-			Flox.logError("save group item fail : " + message);
+			Logger.logError("save group item fail : " + message);
 		}
 		
 		private function onSaveComplete():void 

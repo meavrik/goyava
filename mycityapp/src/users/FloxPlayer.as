@@ -19,6 +19,7 @@ package users
 		
 		public var myGroups:Array = new Array();
 		public var mySales:Array = new Array();
+		public var myMessages:Array = new Array();
 		
 		public function FloxPlayer()
 		{

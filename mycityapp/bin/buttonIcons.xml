@@ -4,5 +4,33 @@
 	<!-- http://www.adobe.com/products/flash.html -->
 	<SubTexture name="iconsMC instance 10000" x="5" y="5" width="52" height="52" pivotX="0" pivotY="0"/>
 	<SubTexture name="iconsMC instance 10001" x="62" y="5" width="52" height="52"/>
-	<SubTexture name="iconsMC instance 10002" x="5" y="62" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10002" x="119" y="5" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10003" x="119" y="5" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10004" x="119" y="5" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10005" x="119" y="5" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10006" x="119" y="5" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10007" x="119" y="5" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10008" x="119" y="5" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10009" x="176" y="5" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10010" x="5" y="62" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10011" x="62" y="62" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10012" x="119" y="62" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10013" x="176" y="62" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10014" x="5" y="119" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10015" x="62" y="119" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10016" x="119" y="119" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10017" x="176" y="119" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10018" x="5" y="176" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10019" x="62" y="176" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10020" x="119" y="176" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10021" x="176" y="176" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10022" x="62" y="119" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10023" x="5" y="233" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10024" x="62" y="233" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10025" x="62" y="233" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10026" x="62" y="233" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10027" x="62" y="233" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10028" x="62" y="233" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10029" x="62" y="233" width="52" height="52"/>
+	<SubTexture name="iconsMC instance 10030" x="119" y="233" width="78" height="82" frameX="39" frameY="41" frameWidth="52" frameHeight="52"/>
 </TextureAtlas>
