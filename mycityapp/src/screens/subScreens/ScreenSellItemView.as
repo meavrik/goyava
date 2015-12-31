@@ -26,17 +26,17 @@ package screens.subScreens
 
 	public class ScreenSellItemView extends PanelScreen
 	{
-		private var _dataProvider:Object;
-		private var _firstData:Object;
+		private var _dataProvider:SellItemEntity;
+		//private var _firstData:Object;
 		private var _label:Label;
 		private var _label2:Label;
 		private var _imageLoader:ImageLoader;
 		private var _preloader:WaitPreloader;
 		
-		public function ScreenSellItemView(firstData:Object) 
+		public function ScreenSellItemView(dataProvider:SellItemEntity) 
 		{
 			super();
-			this._firstData = firstData;
+			this._dataProvider = dataProvider;
 		}
 		
 		override protected function initialize():void 
@@ -67,13 +67,13 @@ package screens.subScreens
 			
 			this.footerFactory = customFooterFactory;
 			
-			title = _firstData.name;
-			_label.text = _firstData.name+" ב" + FormatHelper.getMoneyFormat(_firstData.price, GlobalDataProvider.currencySign) + "\n";
+			title = _dataProvider.name;
+			_label.text = _dataProvider.name+" ב" + FormatHelper.getMoneyFormat(_dataProvider.price, GlobalDataProvider.currencySign) + "\n";
 			_label.styleNameList.add(Label.ALTERNATE_NAME_HEADING);
 
-			if (_firstData.description)
+			if (_dataProvider.description)
 			{
-				_label.text += _firstData.description + "\n";
+				_label.text += _dataProvider.description + "\n";
 			}
 			
 			_preloader = new WaitPreloader();
@@ -81,39 +81,14 @@ package screens.subScreens
 			_preloader.y = _imageLoader.height / 2;
 			addChild(_preloader);
 			//_label2.styleNameList.add(Label.ALTERNATE_NAME_HEADING);
-			_label2.text = "עודכן ב" + FormatHelper.getDate(_firstData.created);
+			_label2.text = "עודכן ב" + FormatHelper.getDate(_dataProvider.updatedAt.time);
 			
-			Entity.load(SellItemEntity, _firstData.id, onLoadDataComplete, onLoadDataError)
-		}
-		
-		private function onLoadDataError(message:String):void 
-		{
+			//Entity.load(SellItemEntity, _firstData.id, onLoadDataComplete, onLoadDataError)
 			
-		}
-		
-		private function onLoadDataComplete(entity:SellItemEntity):void 
-		{
-			/*try
-			{
-				var arr:Array = entity.pictures;
-				if (arr)
-				{
-					var bmdata:BitmapData = BitmapEncoder.decodeByteArray(arr[0])
-					
-					var img:Image = new Image(Texture.fromBitmapData(bmdata))
-
-					addChild(img);
-				}s
-			}
-			catch (err:Error)
-			{
-				Logger.logError("add picture error " + err.message);
-			}*/
 			
 			_imageLoader.addEventListener(Event.COMPLETE, onImageLoadComplete);
 			_imageLoader.addEventListener(ErrorEvent.ERROR, onImageLoadError);
 			_imageLoader.source = AssetsHelper.SERVER_ASSETS_URL + "secondhand/table1.jpg";
-			
 		}
 		
 		private function onImageLoadError(e:Event):void 
@@ -161,23 +136,32 @@ package screens.subScreens
 		
 		private function onCallClick(e:Event):void 
 		{
-			const callURL:String = "tel:" + this._dataProvider.phone;
-			var targetURL:URLRequest = new URLRequest(callURL);
-			navigateToURL(targetURL);
+			if (this._dataProvider && this._dataProvider.phone)
+			{
+				const callURL:String = "tel:" + this._dataProvider.phone;
+				var targetURL:URLRequest = new URLRequest(callURL);
+				navigateToURL(targetURL);
+			}
 		}
 		
 		private function onMessageClick(e:Event):void 
 		{
-			const callURL:String = "sms:" + this._dataProvider.phone;
-			var targetURL:URLRequest = new URLRequest(callURL);
-			navigateToURL(targetURL);
+			if (this._dataProvider && this._dataProvider.phone)
+			{
+				const callURL:String = "sms:" + this._dataProvider.phone;
+				var targetURL:URLRequest = new URLRequest(callURL);
+				navigateToURL(targetURL);
+			}
 		}
 		
 		private function onMailClick(e:Event):void 
 		{
-			const callURL:String = "mailto:" + this._dataProvider.email;
-			var targetURL:URLRequest = new URLRequest(callURL);
-			navigateToURL(targetURL);
+			if (this._dataProvider && this._dataProvider.email)
+			{
+				const callURL:String = "mailto:" + this._dataProvider.email;
+				var targetURL:URLRequest = new URLRequest(callURL);
+				navigateToURL(targetURL);
+			}
 		}
 		
 		override public function dispose():void 

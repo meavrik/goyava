@@ -1,20 +1,21 @@
 package screens 
 {
 	import assets.AssetsHelper;
+	import data.AppDataLoader;
 	import data.GlobalDataProvider;
+	import entities.FloxUser;
 	import feathers.controls.AutoComplete;
 	import feathers.controls.Button;
-	import feathers.controls.Check;
 	import feathers.controls.Header;
 	import feathers.controls.Label;
 	import feathers.controls.List;
-	import feathers.controls.PanelScreen;
-	import feathers.controls.Radio;
 	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.controls.TextInput;
 	import feathers.data.ListCollection;
 	import feathers.data.LocalAutoCompleteSource;
+	import panels.MessagePanelSend;
+	import popups.PopupsController;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
@@ -27,8 +28,10 @@ package screens
 	public class ScreenResidents extends ScreenSubMain 
 	{
 		private var _list:List;
-		private var _allArr:Array;
 		private var _searchInput:AutoComplete;
+		private var _sendAllButn:Button;
+		private var _footer:Header;
+		private var _dataProviderArr:Vector.<FloxUser>;
 		
 		public function ScreenResidents() 
 		{
@@ -40,6 +43,9 @@ package screens
 		override protected function initialize():void 
 		{
 			super.initialize();
+
+			_sendAllButn = new Button();
+			_sendAllButn.isEnabled = false;
 			
 			this.footerFactory = customFooterFactory;
 			
@@ -54,29 +60,30 @@ package screens
 			this._searchInput.addEventListener(Event.CHANGE, onAutoCompleteChange);
 			this.addChild(this._searchInput);
 			
-			var itemRendererAccessorySourceFunction:Function = this.accessorySourceFunction;
-			
 			var index:int = 0;
 			_list = new List();
 			_list.dataProvider = new ListCollection( []);
 			_list.move(0, this._searchInput.bounds.bottom + 10);
-			_list.setSize(this.width,this.height-160);
-			_list.isSelectable = false;
+			//_list.isSelectable = false;
+			_list.allowMultipleSelection = true;
 			_list.itemRendererFactory = function():IListItemRenderer
 			 {
 				var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
 
 				renderer.labelField = "text";
 				renderer.iconSourceField = "thumbnail";
+				renderer.index = index;
+				//renderer.iconOffsetX = 25;
 
 				var label:Label = new Label();
-				label.text = GlobalDataProvider.commonEntity.residents[index].address//"כתובת";
+				//label.text = GlobalDataProvider.commonEntity.residents[index].address;
+				label.text = _dataProviderArr[index].address;
 				label.styleNameList.add(Label.ALTERNATE_NAME_DETAIL);
 				//label.move(35, 55);
 				label.move(100, 55);
 
 				renderer.addChild(label);
-				 var messageButton:Button = new Button();
+				var messageButton:Button = new Button();
 				messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
 				messageButton.move(stage.stageWidth-100, 10);
 				messageButton.setSize(80, 60);
@@ -86,14 +93,13 @@ package screens
 				var phoneButton:Button = new Button();
 				phoneButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
 				phoneButton.setSize(80, 60);
-				phoneButton.move(stage.stageWidth-190, 10);
+				phoneButton.move(stage.stageWidth - 190, 10);
 				phoneButton.addEventListener(Event.TRIGGERED, onPhoneClick);
 				renderer.addChild(phoneButton);
 				
-				
 				renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_LEFT; 
-				renderer.accessorySourceFunction = itemRendererAccessorySourceFunction;
-				//renderer.index++;
+				renderer.addEventListener(Event.CHANGE, onSelect);
+
 				index++;
 				return renderer;
 			 };
@@ -105,29 +111,68 @@ package screens
 				return "https://graph.facebook.com/v2.2/665289619/picture?type=square";
 			}
 			
-			
-			
-			var arr:Array = GlobalDataProvider.commonEntity.residents;
-			var autoCompleteArr:Vector.<String> = new Vector.<String>;
-			for (var i:int = 0; i < arr.length; i++) 
+			if (GlobalDataProvider.users && GlobalDataProvider.users.length)
 			{
-				_list.dataProvider.addItem( { text:arr[i].name, index:i} );
-				autoCompleteArr.push(arr[i].name);
+				handleListData()
+			} else
+			{
+				showPreloader();
+			}
+				
+			AppDataLoader.getInstance().addEventListener(AppDataLoader.USERS_DATA_LOADED, onUsersLoaded);
+			
+		}
+		
+		private function handleListData():void 
+		{
+			removePreloader();
+			_dataProviderArr = new Vector.<FloxUser>;
+			_dataProviderArr = _dataProviderArr.concat(GlobalDataProvider.users);
+			_dataProviderArr.sort(sortList)
+			
+			updateList();
+		}
+		
+		private function sortList(itemA:FloxUser, itemB:FloxUser):int 
+		{
+			if (itemA.name.charAt(0) > itemB.name.charAt(0))
+			{
+				return 1;
+			} else if (itemA.name.charAt(0) < itemB.name.charAt(0))
+			{
+				return -1;
+			}
+			return 0;
+		}
+		
+		private function onUsersLoaded(e:Event):void 
+		{
+			handleListData()
+		}
+		
+		private function updateList():void
+		{
+			var autoCompleteArr:Vector.<String> = new Vector.<String>;
+			
+			for (var i:int = 0; i <_dataProviderArr.length; i++) 
+			{
+				addItemToList(i);
+				autoCompleteArr.push(_dataProviderArr[i].name);
 			}
 			
 			this._searchInput.source = new LocalAutoCompleteSource(new ListCollection(autoCompleteArr));
 		}
 		
-		private function accessorySourceFunction(item:Object):Check 
+		private function addItemToList(index:int):void
 		{
-			var chkbox:Check = new Check();
-			return chkbox;
+			_list.dataProvider.addItem( { text:_dataProviderArr[index].name, index:index, ownerId:_dataProviderArr[index].ownerId } );
 		}
 		
-		override protected function draw():void 
+		private function onSelect(e:Event):void 
 		{
-			super.draw();
+			_sendAllButn.isEnabled = _list.selectedItems.length > 0?true:false;
 		}
+		
 		
 		private function onAutoCompleteChange(e:Event):void 
 		{
@@ -141,28 +186,23 @@ package screens
 		{
 			_list.dataProvider.removeAll();
 			
-			//var arr:Array = GlobalDataProvider.residentsDataProvier.itemsArr;
-			var arr:Array = GlobalDataProvider.commonEntity.residents;
-			for (var i:int = 0; i < arr.length; i++) 
+			for (var i:int = 0; i < _dataProviderArr.length; i++) 
 			{
-				_list.dataProvider.addItem( { text:arr[i].name } );
+				addItemToList(i);
 			}
 		}
 		
 		private function onAutoCompleteClose(e:Event):void 
 		{
-			
-			//var arr:Array = GlobalDataProvider.residentsDataProvier.itemsArr;
-			var arr:Array = GlobalDataProvider.commonEntity.residents;
-			
 			if (_searchInput.text != "")
 			{
 				_list.dataProvider.removeAll();
-				for (var i:int = 0; i < arr.length; i++) 
+				for (var i:int = 0; i < _dataProviderArr.length; i++) 
 				{
-					if (_searchInput.text == arr[i].name)
+					if (_searchInput.text == _dataProviderArr[i].name)
 					{
-						_list.dataProvider.addItem( { text:arr[i].name } );
+						//_list.dataProvider.addItem( { text:arr[i].name, id:"123" } );
+						addItemToList(i);
 					}
 				}
 			}
@@ -173,17 +213,25 @@ package screens
 			}
 		}
 		
+		override protected function draw():void 
+		{
+			super.draw();
+			_list.setSize(this.width, this.height - _footer.bounds.height * 2 - _list.bounds.y);
+		}
+		
 		private function customFooterFactory():Header
 		{
-			var footer:Header = new Header();
-			var sendAllButn:Button = new Button();
-			sendAllButn.label = "שלח הודעה לחברים נבחרים";
-			sendAllButn.x = 10;
-			sendAllButn.setSize(this.stage.stageWidth - 20,  UiGenerator.getInstance().buttonHeight);
-			sendAllButn.addEventListener(Event.TRIGGERED, onSendSelectedMessageClick);
-			addChild(sendAllButn);
-			footer.rightItems = new <DisplayObject>[sendAllButn];
-			return footer;
+			_footer = new Header();
+			
+			_sendAllButn.label = "שלח הודעה לחברים נבחרים";
+			_sendAllButn.x = 10;
+			_sendAllButn.setSize(this.stage.stageWidth - 20,  UiGenerator.getInstance().buttonHeight);
+			_sendAllButn.addEventListener(Event.TRIGGERED, onSendSelectedMessageClick);
+			addChild(_sendAllButn);
+			_footer.rightItems = new <DisplayObject>[_sendAllButn];
+			
+			
+			return _footer;
 		}
 		
 		private function onSendSelectedMessageClick(e:Event):void 
@@ -198,7 +246,11 @@ package screens
 		
 		private function onMessageClick(e:Event):void 
 		{
-			
+			var renderer:DefaultListItemRenderer = Button(e.currentTarget).parent as DefaultListItemRenderer;
+			trace("SEN TO == " + _list.dataProvider.getItemAt(renderer.index).ownerId);
+			//var id:String = _list.dataProvider.getItemAt(renderer.index).id;
+			var messagePanel:MessagePanelSend = new MessagePanelSend(_list.dataProvider.getItemAt(renderer.index).ownerId, _list.dataProvider.getItemAt(renderer.index).text);
+			PopupsController.addPopUp(messagePanel);
 		}
 		
 		private function onPhoneClick(e:Event):void 

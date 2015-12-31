@@ -1,6 +1,7 @@
 package panels 
 {
 	import data.GlobalDataProvider;
+	import entities.enum.MessageTypeEnum;
 	import feathers.controls.GroupedList;
 	import feathers.controls.Panel;
 	import feathers.controls.renderers.DefaultGroupedListItemRenderer;
@@ -67,7 +68,14 @@ package panels
 				var item:Object = GlobalDataProvider.myMessages[i];
 				if (item.title)
 				{
-					this._list.dataProvider.data[0].children.push( { text:item.fromName+" : " + item.title } );
+					if (item.messageType == MessageTypeEnum.SYSTEM)
+					{
+						this._list.dataProvider.data[1].children.push( { text:item.title } );
+					} else
+					{
+						this._list.dataProvider.data[0].children.push( { text:item.ownerName+" : " + item.title } );
+					}
+					
 				}
 			}
 		}

@@ -58,9 +58,9 @@ package screens.subScreens
 
 			_categoryPicker.dataProvider = new ListCollection([]);
 	 
-			 for (var i:int = 0; i <CategoriesConst.GroupCategories.length; i++) 
+			 for (var i:int = 0; i <CategoriesConst.groupCategories.length; i++) 
 			 {
-				 _categoryPicker.dataProvider.addItem( { text:CategoriesConst.GroupCategories[i], code:i } );
+				 _categoryPicker.dataProvider.addItem( { text:CategoriesConst.groupCategories[i], code:i } );
 			 };
 			 addChild(_categoryPicker)
 			 
@@ -72,7 +72,6 @@ package screens.subScreens
 			addChild(_itemNameLabel);
 			
 			
-
 			_detailsLabel = new TextInput();
 			_detailsLabel.move(10, _itemNameLabel.bounds.bottom + 10);
 			_detailsLabel.prompt = "פרטי הקבוצה";
@@ -83,12 +82,14 @@ package screens.subScreens
 			_phoneLabel.move(10, _detailsLabel.bounds.bottom + 20);
 			_phoneLabel.setSize(fieldWidth / 2 - 5, fieldHeight);
 			_phoneLabel.prompt = "טלפון ליצירת קשר";
+			_phoneLabel.text = GlobalDataProvider.myUserData.phoneNumber;
 			addChild(_phoneLabel);
 			
 			_mailLabel = new TextInput();
 			_mailLabel.move(_phoneLabel.bounds.right + 10, _phoneLabel.bounds.top);
 			_mailLabel.setSize(fieldWidth / 2 - 5, fieldHeight);
 			_mailLabel.prompt = "דוא''ל ליצירת קשר";
+			_mailLabel.text = GlobalDataProvider.myUserData.email;
 			addChild(_mailLabel);
 			
 			/*_addButton = new Button();
@@ -107,8 +108,8 @@ package screens.subScreens
 			{
 				var groupEntity:GroupEntity = new GroupEntity();
 				//var ordinal:int = GlobalDataProvider.groupsDataProvier.itemsArr?GlobalDataProvider.groupsDataProvier.itemsArr.length:0;
-				var ordinal:int = GlobalDataProvider.commonEntity.groups?GlobalDataProvider.commonEntity.groups.length:0;
-				groupEntity.createNewGroup(ordinal, _itemNameLabel.text, _categoryPicker.selectedItem.text, _detailsLabel.text);
+				//var ordinal:int = GlobalDataProvider.commonEntity.groups?GlobalDataProvider.commonEntity.groups.length:0;
+				groupEntity.createNewGroup(_itemNameLabel.text, _categoryPicker.selectedItem.text, _detailsLabel.text);
 				
 				closeMe();
 			}

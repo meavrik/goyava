@@ -1,38 +1,37 @@
 package entities 
 {
 	import com.gamua.flox.Access;
-	import com.gamua.flox.Entity;
-	import data.GlobalDataProvider;
+	import entities.enum.MessageTypeEnum;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class MessageEntity extends Entity 
+	public class MessageEntity extends UserItemEntity 
 	{
 		public var toUserId:String;
 		public var toUserName:String;
-		public var fromUserId:String;
-		public var fromName:String;
 		public var title:String;
 		public var message:String;
+		public var messageType:String;
+		public var hasBeenReaded:Boolean;
 		
 		public function MessageEntity()
 		{
 			super();
-			
-			this.ownerId = GlobalDataProvider.userPlayer.id;
-			this.publicAccess = Access.READ_WRITE
+			this.publicAccess = Access.READ;
 		}
 		
-		public function createNewMessage(toUserId:String, toUserName:String, title:String = "", message:String = ""):void
+		public function createNewMessage(toUserId:String, toUserName:String, title:String = "", message:String = "", mType:String = ""):void
 		{
+			this.messageType = mType?mType:MessageTypeEnum.PERSONAL;
 			this.toUserId = toUserId;
 			this.toUserName = toUserName;
-			this.fromUserId = GlobalDataProvider.userPlayer.id;
-			this.fromName = GlobalDataProvider.userPlayer.name;
+			//this.fromName = GlobalDataProvider.myUserData.name;
 			this.title = title;
 			this.message = message;
+			
+			
 		}
 
 	}

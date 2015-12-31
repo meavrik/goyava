@@ -62,6 +62,7 @@
     <element path="..\swc\MetalWorksMobileTheme.swc" />
     <element path="..\swc\airglobal.swc" />
     <element path="..\swc\Maps_beta_2.swc" />
+    <element path="..\swc\Starling-Extension-Graphics.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

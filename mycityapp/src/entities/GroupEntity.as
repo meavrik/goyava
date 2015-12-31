@@ -1,47 +1,41 @@
 package entities 
 {
 	import com.gamua.flox.Access;
-	import com.gamua.flox.Entity;
-	import com.gamua.flox.Flox;
+	import data.AppDataLoader;
 	import data.GlobalDataProvider;
+	import entities.interfaces.ICategorizedEntity;
 	import log.Logger;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class GroupEntity extends Entity 
+	public class GroupEntity extends UserItemEntity implements ICategorizedEntity
 	{
-		public var ownerName:String;
-		public var name:String
-		//public var date:Number
-		public var category:String
+		private var _name:String
+		private var _category:String
 		public var members:Array = new Array();
-		public var description:String;
+		private var _description:String;
 		
 		public function GroupEntity() 
 		{
 			super();
-
-			this.publicAccess = Access.READ_WRITE;
-			this.ownerId = GlobalDataProvider.userPlayer.id;
+			//this.publicAccess = Access.READ_WRITE;
+			this.publicAccess = Access.READ;
 		}
 		
-		public function createNewGroup(ordinal:int, _name:String,  _category:String, _description:String):void
+		public function createNewGroup(name:String, category:String, description:String):void
 		{
-			this.id = ordinal.toString();
-			name = _name;
-			//date = new Date().time;
-			category = _category;
-			description = _description;
-			ownerName = GlobalDataProvider.userPlayer.name;
+			_name = name;
+			_category = category;
+			_description = description;
 
-			addMeToGroup();
+			addMeAsMember()
 		}
 		
-		public function addMember(memberId:String,name:String):void
+		public function addMeAsMember():void
 		{
-			members.push( { id:memberId, name:name } );
+			members.push( { id:GlobalDataProvider.myUserData.id, name:GlobalDataProvider.myUserData.name } );
 			
 			save(onSaveComplete, onSaveFail);
 		}
@@ -53,13 +47,37 @@ package entities
 		
 		private function onSaveComplete():void 
 		{
-			//GlobalDataProvider.groupsDataProvier.addItem(groupEntity.id, groupEntity.name);
-			GlobalDataProvider.commonEntity.addGroupItem(this.id , name, category);
+			AppDataLoader.getInstance().loadGroupsData();
 		}
 		
-		public function addMeToGroup():void 
+		public function get name():String 
 		{
-			addMember(GlobalDataProvider.userPlayer.id, GlobalDataProvider.userPlayer.name);
+			return _name;
+		}
+		
+		public function get category():String 
+		{
+			return _category;
+		}
+		
+		public function get description():String 
+		{
+			return _description;
+		}
+		
+		public function set name(value:String):void 
+		{
+			_name = value;
+		}
+		
+		public function set category(value:String):void 
+		{
+			_category = value;
+		}
+		
+		public function set description(value:String):void 
+		{
+			_description = value;
 		}
 	}
 

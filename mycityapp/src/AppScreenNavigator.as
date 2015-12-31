@@ -1,5 +1,7 @@
 package 
 {
+	import entities.GroupEntity;
+	import entities.SellItemEntity;
 	import feathers.controls.Drawers;
 	import feathers.controls.PanelScreen;
 	import feathers.controls.Screen;
@@ -32,7 +34,7 @@ package
 	 * @author Avrik
 	 */
 	
-	public class MainScreenNavigator extends Screen 
+	public class AppScreenNavigator extends Screen 
 	{
 		private var _screenNavigator:StackScreenNavigator;
 		private var _mainScreen		:ScreenMainMenu;
@@ -40,7 +42,7 @@ package
 		private var _drawers:Drawers;
 		private var _panelPH:DrawerPanel
 		
-		public function MainScreenNavigator() 
+		public function AppScreenNavigator() 
 		{
 			super();
 		}
@@ -83,13 +85,10 @@ package
 			
 			for (var i:int = 0; i < mainScreensArr.length; i++) 
 			{
+				id = mainScreensArr[i].id;
 				screen = mainScreensArr[i].screen;
 				screen.addEventListener(Event.COMPLETE, onBackToMainClick);
-				id = mainScreensArr[i].id;
-				//_mainScreen.addEventListener(id, onScreenClick);
-				
 				screen.screenID = id;
-				//screen.setSize(this.stage.stageWidth, this.stage.stageHeight - (_bottomPanel.height + 70));
 				screen.setSize(this.stage.stageWidth, this.stage.stageHeight-90);
 				
 				navigatorItem = new StackScreenNavigatorItem(mainScreensArr[i].screen);
@@ -172,13 +171,13 @@ package
 		
 		private function onGroupViewOpen(e:Event):void 
 		{
-			var panel:ScreenGroupView = new ScreenGroupView(e.data);
+			var panel:ScreenGroupView = new ScreenGroupView(e.data as GroupEntity);
 			_panelPH.setScreen(panel);
 		}
 		
 		private function onSellItemViewOpen(e:Event):void 
 		{
-			var panel:ScreenSellItemView = new ScreenSellItemView(e.data);
+			var panel:ScreenSellItemView = new ScreenSellItemView(e.data as SellItemEntity);
 			_panelPH.setScreen(panel);
 		}
 		

@@ -1,5 +1,6 @@
 package screens.subScreens 
 {
+	import data.AppDataLoader;
 	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
 	import feathers.controls.Alert;
@@ -168,6 +169,7 @@ package screens.subScreens
 			_phoneLabel.move(10, _detailsLabel.bounds.bottom + 20);
 			_phoneLabel.setSize(fieldWidth / 2 - 5, fieldHeight);
 			_phoneLabel.prompt = "טלפון";
+			_phoneLabel.text = GlobalDataProvider.myUserData.phoneNumber;
 			_phoneLabel.restrict = "0-9"
 			addChild(_phoneLabel);
 			
@@ -175,6 +177,7 @@ package screens.subScreens
 			_mailLabel.move(_phoneLabel.bounds.right + 10, _phoneLabel.bounds.top);
 			_mailLabel.setSize(fieldWidth / 2 - 5, fieldHeight);
 			_mailLabel.prompt = "דוא''ל";
+			_mailLabel.text = GlobalDataProvider.myUserData.email;
 			addChild(_mailLabel);
 			
 			/*_addButton = new Button();
@@ -264,9 +267,15 @@ package screens.subScreens
 			if (isValid())
 			{
 				var sellItemEntity:SellItemEntity = new SellItemEntity();
-				sellItemEntity.createNewSellItem(_itemNameLabel.text, parseFloat(_priceLabel.text), _categoryPicker.selectedItem.text, _detailsLabel.text, _pictersData);
-				//sellItemEntity.createNewSellItem(_itemNameLabel.text, _priceStepper.value, _categoryPicker.selectedItem.text, _detailsLabel.text, _pictersData);
-				
+				sellItemEntity.createNewSellItem(	_itemNameLabel.text, 
+													parseFloat(_priceLabel.text), 
+													_categoryPicker.selectedItem.text, 
+													_detailsLabel.text, 
+													_pictersData,
+													_phoneLabel.text,
+													_mailLabel.text
+													);
+
 				dispatchEventWith(Event.CLOSE);
 				dispatchEventWith(Event.COMPLETE);
 				
@@ -275,6 +284,9 @@ package screens.subScreens
 					{ label: "סבבה" },
 				]), null, false);
 				alert.width = this.width - 40;
+				
+				
+				AppDataLoader.getInstance().loadSellItemsData();
 			}
 		}
 		

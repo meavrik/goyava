@@ -32,7 +32,7 @@ package
 			// Entry point
 			// New to AIR? Please read *carefully* the readme.txt files!
 			
-			var starling:Starling = new Starling(Application, stage, new Rectangle(0, 0, this.stage.fullScreenWidth, this.stage.fullScreenHeight));
+			var starling:Starling = new Starling(AppEntry, stage, new Rectangle(0, 0, this.stage.fullScreenWidth, this.stage.fullScreenHeight));
 			/* starling.addEventListener(starling.events.Event.ROOT_CREATED, function():void
             {
                removeChild(_background);

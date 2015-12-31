@@ -32,12 +32,11 @@ package screens.subScreens
 		private var _dataProvider:GroupEntity;
 		private var _joinButton:Button;
 		private var _detailLabel:Label;
-		private var _commonData:Object;
 		
-		public function ScreenGroupView(commonData:Object)
+		public function ScreenGroupView(dataProvider:GroupEntity)
 		{
 			super();
-			_commonData = commonData;
+			_dataProvider = dataProvider;
 		}
 		
 		override protected function initialize():void 
@@ -81,27 +80,13 @@ package screens.subScreens
 			
 			setSize(stage.stageWidth, stage.stageHeight / 2);
 			_friendsList.setSize(this.stage.stageWidth - 10, this.height - _friendsList.y-180);
+
+			title = _dataProvider.name;
 			
-			if (_commonData)
-			{
-				title = _commonData.name;
-				Entity.load(GroupEntity, _commonData.id, onLoadDataComplete, onLoadDataFail);
-			}
-		}
-		
-		private function onLoadDataFail(message:String):void 
-		{
-			Flox.logInfo("onLoadDataFail " +message);
-		}
-		
-		private function onLoadDataComplete(groupData:GroupEntity):void 
-		{
-			this._dataProvider = groupData;
 			_detailLabel.text = this._dataProvider.description;
 			var isPartOfTheGroup:Boolean;
 			var txt:String;
-			title = "(" + _dataProvider.members.length + ")" + groupData.name;
-			
+			title = "(" + _dataProvider.members.length + ")" + _dataProvider.name;
 			
 			var indexCount:int = 0;
 			_friendsList.itemRendererFactory = function():IGroupedListItemRenderer
@@ -109,50 +94,44 @@ package screens.subScreens
 				var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
 				renderer.labelField = "text";
 				renderer.height = 60;
-				trace("index == " + _dataProvider.members[indexCount].id);
-
 				renderer.data = _dataProvider.members[indexCount];
 				renderer.itemIndex = indexCount;
 				indexCount++;
 				 
-				var messageButton:Button = new Button();
-				messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
-				messageButton.move(stage.stageWidth-100, 5);
-				messageButton.setSize(80, 50);
-				messageButton.addEventListener(Event.TRIGGERED, onMessageClick);
-				renderer.addChild(messageButton);
-				 
-				var phoneButton:Button = new Button();
-				phoneButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
-				phoneButton.setSize(80, 50);
-				phoneButton.move(stage.stageWidth-190, 5);
-				phoneButton.addEventListener(Event.TRIGGERED, onPhoneClick);
-				renderer.addChild(phoneButton);
-				
+				if (renderer.data.id != GlobalDataProvider.myUserData.ownerId)
+				{
+					var messageButton:Button = new Button();
+					messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
+					messageButton.move(stage.stageWidth-100, 5);
+					messageButton.setSize(80, 50);
+					messageButton.addEventListener(Event.TRIGGERED, onMessageClick);
+					renderer.addChild(messageButton);
+					 
+					var phoneButton:Button = new Button();
+					phoneButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
+					phoneButton.setSize(80, 50);
+					phoneButton.move(stage.stageWidth-190, 5);
+					phoneButton.addEventListener(Event.TRIGGERED, onPhoneClick);
+					renderer.addChild(phoneButton);
+				}
 				return renderer;
 			 };
 			
-			
-			
-			
-			
-			
-			
-			
+
 			for (var i:int = 0; i < _dataProvider.members.length; i++) 
 			{
 				var item:Object = _dataProvider.members[i];
 				if (item.name)
 				{
 					txt = item.name;
-					if (item.id == groupData.ownerId)
+					if (item.id == _dataProvider.ownerId)
 					{
 						txt = item.name + " - מנהל הקבוצה";
 					}
 					this._friendsList.dataProvider.data[0].children.push( { text:txt } );
 				}
 				
-				if (item.id == GlobalDataProvider.userPlayer.id)
+				if (item.id == GlobalDataProvider.myUserData.id)
 				{
 					
 					isPartOfTheGroup = true;
@@ -173,8 +152,7 @@ package screens.subScreens
 			addChild(_friendsList);
 		}
 		
-		
-		
+
 		private function onPhoneClick(e:Event):void 
 		{
 			
@@ -183,8 +161,6 @@ package screens.subScreens
 		private function onMessageClick(e:Event):void 
 		{
 			var renderer:DefaultGroupedListItemRenderer = Button(e.currentTarget).parent as DefaultGroupedListItemRenderer;
-			//trace("AAAAAAAAAA === " + renderer.itemIndex);
-			//trace("AAAAAAAAAA === " + renderer.data.name);
 			var messagePanel:MessagePanelSend = new MessagePanelSend(_dataProvider.members[renderer.itemIndex].id,_dataProvider.members[renderer.itemIndex].name);
 			PopupsController.addPopUp(messagePanel);
 		}
@@ -193,6 +169,9 @@ package screens.subScreens
 		{
 			//var messagePanel:MessagePanelSend = new MessagePanelSend();
 			//PopupsController.addPopUp(messagePanel);
+			
+			var messagePanel:MessagePanelSend = new MessagePanelSend(_dataProvider.members[0].id, _dataProvider.members[0].name);
+			PopupsController.addPopUp(messagePanel);
 		}
 		
 		protected function customFooterFactory():Header 
@@ -205,7 +184,7 @@ package screens.subScreens
 		
 		private function onJoinClick(e:Event):void 
 		{
-			this._dataProvider.addMeToGroup();
+			this._dataProvider.addMeAsMember();
 			_joinButton.isEnabled = false;
 			var alert:Alert = Alert.show("הבקשה נשלחה", "הקבוצה", new ListCollection(
 			[
@@ -215,8 +194,8 @@ package screens.subScreens
 			alert.width = this.width - 40;
 			alert.addEventListener(Event.CLOSE, alert_closeHandler);
 			
-			GlobalDataProvider.userPlayer.myGroups.push(this._dataProvider.name);
-			GlobalDataProvider.userPlayer.save(null, null);
+			//GlobalDataProvider.userPlayer.myGroups.push(this._dataProvider.name);
+			//GlobalDataProvider.userPlayer.save(null, null);
 		}
 		
 		private function alert_closeHandler(e:Event):void 

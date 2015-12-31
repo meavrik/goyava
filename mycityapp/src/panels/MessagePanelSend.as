@@ -30,7 +30,7 @@ package panels
 			super();
 			this._toUserName = toUserName;
 			this._toUserId = toUserId;
-			title = "כתוב הודעה";
+			title = "כתוב הודעה ל" + toUserName;
 		}
 		
 		override protected function initialize():void 
@@ -81,7 +81,6 @@ package panels
 			var messageEntity:MessageEntity = new MessageEntity();
 			messageEntity.createNewMessage(this._toUserId, this._toUserName, _titleLabel.text, _messageLabel.text);
 			messageEntity.save(onSaveMessageSuccess, onSaveMessageFail);
-			
 		}
 		
 		private function onSaveMessageFail():void 

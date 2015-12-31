@@ -1,40 +1,39 @@
 package entities 
 {
 	import com.gamua.flox.Access;
-	import com.gamua.flox.Entity;
-	import com.gamua.flox.Flox;
-	import data.GlobalDataProvider;
+	import data.AppDataLoader;
+	import entities.interfaces.ICategorizedEntity;
 	import log.Logger;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class SellItemEntity extends Entity 
+	public class SellItemEntity extends UserItemEntity implements ICategorizedEntity
 	{
-		public var ownerName:String;
-		public var name:String
+		private var _name:String
 		public var price:Number
-		public var category:String;
+		private var _category:String;
 		public var description:String;
+		public var phone:String;
+		public var email:String;
 		public var pictures:Array;
 		
 		public function SellItemEntity() 
 		{
 			super();
-			
-			this.ownerId = GlobalDataProvider.userPlayer.id;
-			this.publicAccess = Access.READ_WRITE;
+			this.publicAccess = Access.READ;
 		}
 		
-		public function createNewSellItem(_name:String, _price:Number, _category:String, _description:String = "", _pictures:Array = null):void
+		public function createNewSellItem(name:String, _price:Number, category:String, _description:String = "", _pictures:Array = null, phone:String = "", email:String = ""):void
 		{
-			this.id = GlobalDataProvider.commonEntity.sellItems.length.toString();
-			name = _name;
+			_name = name;
 			price = _price;
-			category = _category;
+			_category = category;
 			description = _description;
 			pictures = _pictures;
+			phone = phone;
+			email = email;
 			
 			save(onSaveComplete, onSaveFail);
 		}
@@ -47,10 +46,30 @@ package entities
 		private function onSaveComplete():void 
 		{
 			Logger.logInfo("save sell item success");
-			GlobalDataProvider.commonEntity.addSellItem(this.id, name, price, GlobalDataProvider.currencySign, category,description,updatedAt.time);
-			
-			GlobalDataProvider.userPlayer.mySales.push( { id:this.id, name:name, price:price, category:category } );
-			GlobalDataProvider.userPlayer.save(null, null);
+			AppDataLoader.getInstance().loadSellItemsData();
+			//GlobalDataProvider.commonEntity.addSellItem(this.id, name, price, GlobalDataProvider.currencySign, category,description,updatedAt.time);
+			//GlobalDataProvider.userPlayer.mySales.push( { id:this.id, name:name, price:price, category:category } );
+			//GlobalDataProvider.userPlayer.save(null, null);
+		}
+		
+		public function get name():String 
+		{
+			return _name;
+		}
+		
+		public function get category():String 
+		{
+			return _category;
+		}
+		
+		public function set name(value:String):void 
+		{
+			_name = value;
+		}
+		
+		public function set category(value:String):void 
+		{
+			_category = value;
 		}
 		
 	}

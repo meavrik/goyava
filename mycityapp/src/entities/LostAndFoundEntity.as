@@ -1,5 +1,6 @@
 package entities 
 {
+	import com.gamua.flox.Access;
 	import com.gamua.flox.Entity;
 	import data.GlobalDataProvider;
 	import log.Logger;
@@ -8,7 +9,7 @@ package entities
 	 * ...
 	 * @author Avrik
 	 */
-	public class LostAndFoundEntity extends Entity 
+	public class LostAndFoundEntity extends UserItemEntity 
 	{
 		public var ownerName:String;
 		public var name:String
@@ -18,9 +19,7 @@ package entities
 		public function LostAndFoundEntity() 
 		{
 			super();
-			
-			this.ownerId = GlobalDataProvider.userPlayer.id;
-			this.publicAccess = Access.READ_WRITE;
+			this.publicAccess = Access.READ;
 		}
 		
 		public function createNewLostFoundItem(_name:String, _category:String, _description:String,pictures:Array=null):void
@@ -41,7 +40,7 @@ package entities
 		private function onSaveComplete():void 
 		{
 			Logger.logInfo("save lost item success");
-			GlobalDataProvider.commonEntity.addLostAndFoundItem(this.id, name, description,updatedAt.time);
+			GlobalDataProvider.commonEntity.addLostAndFoundItem(this.id, name, description);
 			
 			//GlobalDataProvider.userPlayer.mySales.push( { name:name, price:price, category:category } );
 			//GlobalDataProvider.userPlayer.save(null, null);

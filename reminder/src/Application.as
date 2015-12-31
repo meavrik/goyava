@@ -14,7 +14,7 @@ package
 	import flash.events.UncaughtErrorEvent;
 	import flash.ui.Keyboard;
 	import locale.LocaleManager;
-	import localStorage.LocalStorageController;
+	import controllers.localStorage.LocalStorageController;
 	import log.LogEventsEnum;
 	import popups.PopupsController;
 	import starling.display.Sprite;

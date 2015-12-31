@@ -1,10 +1,13 @@
 package screens 
 {
+	import data.AppDataLoader;
 	import data.GlobalDataProvider;
+	import entities.GroupEntity;
 	import feathers.controls.Button;
 	import feathers.controls.Header;
 	import feathers.data.ListCollection;
 	import log.Logger;
+	import screens.consts.CategoriesConst;
 	import screens.enums.ScreenEnum;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
@@ -14,14 +17,16 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenGroups extends ScreenSubMain 
+	//public class ScreenGroups extends ScreenSubMain 
+	public class ScreenGroups extends ScreenListSearch 
 	{
-		private var _list:BaseListScreen;
+		//private var _list:BaseListScreen;
 		
 		public function ScreenGroups() 
 		{
 			super();
 			
+			title = "חפש אנשים למטרות משותפות"
 		}
 		
 		override protected function initialize():void 
@@ -29,28 +34,18 @@ package screens
 			super.initialize();
 			
 			this.footerFactory = customFooterFactory;
-			title = "חפש אנשים למטרות משותפות"
 			
-			_list = new BaseListScreen()
+			this._searchInput.prompt = "חפש קבוצה";
+			/*_list = new BaseListScreen()
 			_list.dataProvider = new ListCollection( [ ]);
 			_list.setSize(this.width, stage.stageHeight - this.y);
 			_list.addEventListener(Event.TRIGGERED, onGroupItemClick);
 			addChild(_list);
 
-			var arr:Array = GlobalDataProvider.commonEntity.groups;
-			if (arr)
+			for each (var item:GroupEntity in  GlobalDataProvider.groups) 
 			{
-				Logger.logInfo("load GROUPS complete " + arr.join(","));
-				var item:Object;
-				for (var i:int = 0; i < arr.length; i++) 
-				{
-					item = arr[i];
-					if (item && item.name)
-					{
-						_list.dataProvider.addItem( { text:item.name ,id:item.id } );
-					}
-				}
-			}
+				_list.dataProvider.addItem( { text:item.name ,id:item.id } );
+			}*/
 		}
 		
 		private function onAddClick(e:Event):void 
@@ -71,10 +66,31 @@ package screens
 			return footer
 		}
 		
-		private function onGroupItemClick(e:Event):void 
+		override protected function onItemClick(e:Event):void 
 		{
-			var groupData:Object = GlobalDataProvider.commonEntity.groups[_list.selectedIndex];
+			super.onItemClick(e);
+			var groupData:GroupEntity = GlobalDataProvider.groups[_list.selectedItem.index];
 			dispatchEventWith(ScreenEnum.VIEW_GROUP_SCREEN, false, groupData);
+		}
+		/*private function onGroupItemClick(e:Event):void 
+		{
+			var groupData:GroupEntity = GlobalDataProvider.groups[_list.selectedIndex];
+			dispatchEventWith(ScreenEnum.VIEW_GROUP_SCREEN, false, groupData);
+		}*/
+		
+		override protected function get getEventString():String 
+		{
+			return AppDataLoader.GROUPS_DATA_LOADED;
+		}
+		
+		override protected function get getDataProviderArr():Vector.<*>
+		{
+			return GlobalDataProvider.groups as Vector.<*>;
+		}
+		
+		override protected function get categoryListArr():Array 
+		{
+			return CategoriesConst.groupCategories;
 		}
 		
 	}

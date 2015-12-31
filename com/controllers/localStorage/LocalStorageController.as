@@ -1,4 +1,4 @@
-package localStorage 
+package controllers.localStorage 
 {
 	import com.gamua.flox.Flox;
 	import flash.data.EncryptedLocalStore;

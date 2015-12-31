@@ -17,7 +17,6 @@ package screens
 	 */
 	public class ScreenSubMain extends PanelScreen 
 	{
-		protected var _contentPH:ScrollContainer = new ScrollContainer();
 		private var _preloader:WaitPreloader;
 		public var id:String;
 		
@@ -31,8 +30,6 @@ package screens
 			super.initialize();
 			
 			this.headerFactory = this.customHeaderFactory;
-			
-			addChild(_contentPH);
 		}
 		
 		protected function showPreloader():void 

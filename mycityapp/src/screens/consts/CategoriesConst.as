@@ -6,7 +6,8 @@ package screens.consts
 	 */
 	public class CategoriesConst 
 	{
-		static public const sellItemsCategories:Array = [	"ריהוט",
+		static public const sellItemsCategories:Array = [	
+								"ריהוט",
 								"מוצרי חשמל",
 								"ביגוד",
 								"משחקים",
@@ -15,7 +16,8 @@ package screens.consts
 								"כללי"
 							]
 							
-		static public var sellItemsStates:Array = [	"חדש באריזה",
+		static public var sellItemsStates:Array = [	
+								"חדש באריזה",
 								"חדש",
 								"כמו חדש",
 								"משומש",
@@ -24,13 +26,29 @@ package screens.consts
 								"לא רלוונטי"
 							]
 							
-		static public var GroupCategories:Array = [	"ספורט",
+		static public var groupCategories:Array = [	
+								"ספורט",
 								"כללי",
 								"עסקי",
 								"משחקים",
 								"מוזיקה",
-								"חברה"
+								"חברה",
+								"עסקי"
 							]
+							
+		static public var businessCategories:Array = [	
+								"אוכל",
+								"כללי",
+								"עסקי",
+								"צעצועים",
+								"ביגוד",
+								"חשמל",
+								"בנק",
+								"מספרה",
+								"בידור",
+								"נדלן"
+							]
+		static public var All:String = "הכול";
 		
 
 		

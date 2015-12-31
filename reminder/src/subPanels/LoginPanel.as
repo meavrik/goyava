@@ -9,7 +9,7 @@ package subPanels
 	import feathers.controls.TextInput;
 	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
-	import localStorage.LocalStorageController;
+	import controllers.localStorage.LocalStorageController;
 	import starling.events.Event;
 	import texts.TextLocaleHandler;
 	import texts.TextsConsts;

@@ -1,7 +1,11 @@
 package panels 
 {
+	import com.gamua.flox.AuthenticationType;
 	import com.gamua.flox.Flox;
+	import com.gamua.flox.Player;
 	import data.GlobalDataProvider;
+	import entities.enum.MessageTypeEnum;
+	import entities.MessageEntity;
 	import feathers.controls.Button;
 	import feathers.controls.Callout;
 	import feathers.controls.Header;
@@ -20,9 +24,10 @@ package panels
 	 */
 	public class LoginPanel extends Panel 
 	{
+		static public const RESTORE_LOGIN:String = "restoreLogin";
 		private var _nameInput:TextInput;
 		private var _addressInput:TextInput;
-		private var _loginButton:Button;
+		//private var _loginButton:Button;
 		private var _detailsInput:TextInput;
 		private var _mailInput:TextInput;
 		private var _loginBackButton:Button;
@@ -62,24 +67,29 @@ package panels
 			_mailInput.setSize(UiGenerator.getInstance().fieldWidth, UiGenerator.getInstance().fieldHeight);
 			addChild(_mailInput);
 			
-			
-			/*_loginButton = new Button();
-			_loginButton.label = "יאללה, בוא נראה מה יש פה";
-			_loginButton.move(0, _mailInput.bounds.bottom + 10); 
-			_loginButton.setSize(UiGenerator.getInstance().fieldWidth, UiGenerator.getInstance().fieldHeight);
-			_loginButton.addEventListener(Event.TRIGGERED, onLoginClick);
-			addChild(_loginButton);*/
-			
-			/*_loginBackButton = new Button();
-			_loginBackButton.styleNameList.add(Button.ALTERNATE_NAME_DANGER_BUTTON);
-			_loginBackButton.label = "(מה זה? אני כבר רשום (שחזור חשבון";
-			_loginBackButton.move(0, _loginButton.bounds.bottom + 20);
-			_loginBackButton.setSize(UiGenerator.getInstance().fieldWidth, UiGenerator.getInstance().fieldHeight);
-			//_loginBackButton.addEventListener(Event.TRIGGERED, onLoginClick);
-			addChild(_loginBackButton);*/
-			
 			this.headerFactory = customHeaderFactory;
 			this.footerFactory = customFooterFactory;
+		}
+		
+		private function onLoginBackClick(e:Event):void 
+		{
+			if (_mailInput.text)
+			{
+				//dispatchEventWith(RESTORE_LOGIN)
+				Player.loginWithEmail(_mailInput.text, onLoginBackComplete, onLoginFail);
+			}
+			else
+			{
+				var label:Label = new Label();
+				label.text = "אנא הזן כתובת דוא''ל";
+				Callout.show( label, _mailInput);
+			}
+		}
+		
+		private function onLoginBackComplete():void 
+		{
+			trace("onLoginBackComplete ");
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
 		private function onLoginClick(e:Event):void 
@@ -93,18 +103,17 @@ package panels
 				isEnabled = false;
 				//_loginButton.isEnabled = false;
 			
-				GlobalDataProvider.userPlayer.name = _nameInput.text;
-				GlobalDataProvider.userPlayer.address = _addressInput.text;
-				GlobalDataProvider.userPlayer.details = _detailsInput.text;
-				GlobalDataProvider.userPlayer.score = 10;
-				GlobalDataProvider.userPlayer.save(onLoginSuccess, onLoginFail)
-																
-				GlobalDataProvider.commonEntity.addNewResident(	GlobalDataProvider.commonEntity.residents.length.toString(),
-																GlobalDataProvider.userPlayer.name, 
-																GlobalDataProvider.userPlayer.address,
-																GlobalDataProvider.userPlayer.details,
-																GlobalDataProvider.userPlayer.score
-																);
+				GlobalDataProvider.myUserData.name = _nameInput.text;
+				GlobalDataProvider.myUserData.address = _addressInput.text;
+				GlobalDataProvider.myUserData.details = _detailsInput.text;
+				GlobalDataProvider.myUserData.score = 10;
+				GlobalDataProvider.myUserData.save(onLoginSuccess, onLoginFail);
+				
+				
+				
+				var messageEntity:MessageEntity = new MessageEntity();
+				messageEntity.createNewMessage(GlobalDataProvider.myUserData.id, GlobalDataProvider.myUserData.name, "ברוך הבא", "מברך אותך על הצארפותך לקהילה", MessageTypeEnum.SYSTEM);
+				messageEntity.save(null, null);
 			} else
 			{
 				var label:Label = new Label();
@@ -125,11 +134,31 @@ package panels
 			var loginBackButton:Button = new Button();
 			loginBackButton.label = "התחבר";
 			loginBackButton.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
-			loginBackButton.addEventListener(Event.TRIGGERED, onLoginClick);
+			loginBackButton.addEventListener(Event.TRIGGERED, onLoginBackClick);
 			addChild(loginBackButton);
 			footer.leftItems = new <DisplayObject>[loginBackButton];
 			
 			return footer
+		}
+		
+		
+		
+		private function onHelpClick(e:Event):void 
+		{
+			
+		}
+		
+		private function onLoginFail(message:String):void 
+		{
+			//_loginButton.isEnabled = true;
+			Logger.logError("Login fail " + message);
+		}
+		
+		private function onLoginSuccess():void 
+		{
+			Logger.logEvent("Login Success ");
+			
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
 		protected function customHeaderFactory():Header 
@@ -141,24 +170,6 @@ package panels
 			helpButton.addEventListener(Event.TRIGGERED, onHelpClick);
 			header.leftItems = new <DisplayObject>[helpButton];
 			return header
-		}
-		
-		private function onHelpClick(e:Event):void 
-		{
-			
-		}
-		
-		private function onLoginFail(message:String):void 
-		{
-			_loginButton.isEnabled = true;
-			Logger.logError("Login fail " + message);
-		}
-		
-		private function onLoginSuccess():void 
-		{
-			Logger.logEvent("Login Success ");
-			
-			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
 	}
