@@ -52,7 +52,7 @@ package screens
 			
 			this._searchInput = new AutoComplete();
 			this._searchInput.autoCompleteDelay = .1;
-			this._searchInput.styleNameList.add(TextInput.ALTERNATE_NAME_SEARCH_TEXT_INPUT);
+			this._searchInput.styleNameList.add(TextInput.ALTERNATE_STYLE_NAME_SEARCH_TEXT_INPUT);
 			this._searchInput.prompt = "חפש עסק";
 			this._searchInput.setSize(stage.stageWidth / 2 - 5, UiGenerator.getInstance().fieldHeight);
 			this._searchInput.move(5, 10);
@@ -63,7 +63,7 @@ package screens
 			
 			
 			_categoryPicker = new PickerList();
-			_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_NAME_LIST;
+			_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_STYLE_NAME_BUTTON;
 			_categoryPicker.prompt = "סנן לפי קטגוריה";
 			_categoryPicker.setSize(10, 10);
 			_categoryPicker.listProperties.itemRendererFactory = function():IListItemRenderer
@@ -94,10 +94,11 @@ package screens
 				renderer.labelField = "text";
 				renderer.accessoryField = "address";
 				renderer.iconSourceField = "thumbnail";
+				renderer.height = 120;
 				
 				var contactButn:Button = new Button();
 				contactButn.label = _dataProviderArr[index].phone;
-				contactButn.width = 220;
+				contactButn.width = 250;
 				//contactButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
 				contactButn.move(stage.stageWidth - (contactButn.width + 10), 12);
 				contactButn.addEventListener(Event.TRIGGERED, onContactButnClick);
@@ -106,8 +107,8 @@ package screens
 				var label:Label = new Label();
 				//label.text = GlobalDataProvider.commonEntityy.residents[index].address//"כתובת";
 				label.text = _dataProviderArr[index].address;
-				label.styleNameList.add(Label.ALTERNATE_NAME_DETAIL);
-				label.move(35, 55);
+				label.styleNameList.add(Label.ALTERNATE_STYLE_NAME_DETAIL);
+				label.move(40, 80);
 
 				renderer.addChild(label);
 				index++;

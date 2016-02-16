@@ -51,7 +51,7 @@ package screens
 			
 			this._searchInput = new AutoComplete();
 			this._searchInput.autoCompleteDelay = .1;
-			this._searchInput.styleNameList.add(TextInput.ALTERNATE_NAME_SEARCH_TEXT_INPUT);
+			this._searchInput.styleNameList.add(TextInput.ALTERNATE_STYLE_NAME_SEARCH_TEXT_INPUT);
 			this._searchInput.prompt = "מצא תושב";
 			this._searchInput.setSize(this.width - 10, UiGenerator.getInstance().fieldHeight);
 			this._searchInput.move(5, 10);
@@ -78,21 +78,21 @@ package screens
 				var label:Label = new Label();
 				//label.text = GlobalDataProvider.commonEntity.residents[index].address;
 				label.text = _dataProviderArr[index].address;
-				label.styleNameList.add(Label.ALTERNATE_NAME_DETAIL);
+				label.styleNameList.add(Label.ALTERNATE_STYLE_NAME_DETAIL);
 				//label.move(35, 55);
 				label.move(100, 55);
-
+		
 				renderer.addChild(label);
 				var messageButton:Button = new Button();
 				messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
-				messageButton.move(stage.stageWidth-100, 10);
-				messageButton.setSize(80, 60);
+				messageButton.move(stage.stageWidth - 100, 10);
+				messageButton.setSize(80, 80);
 				messageButton.addEventListener(Event.TRIGGERED, onMessageClick);
 				renderer.addChild(messageButton);
 				 
 				var phoneButton:Button = new Button();
 				phoneButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
-				phoneButton.setSize(80, 60);
+				phoneButton.setSize(80, 80);
 				phoneButton.move(stage.stageWidth - 190, 10);
 				phoneButton.addEventListener(Event.TRIGGERED, onPhoneClick);
 				renderer.addChild(phoneButton);
@@ -224,11 +224,12 @@ package screens
 			_footer = new Header();
 			
 			_sendAllButn.label = "שלח הודעה לחברים נבחרים";
-			_sendAllButn.x = 10;
-			_sendAllButn.setSize(this.stage.stageWidth - 20,  UiGenerator.getInstance().buttonHeight);
+			//_sendAllButn.x = 10;
+			//_sendAllButn.setSize(this.stage.stageWidth - 20,  UiGenerator.getInstance().buttonHeight);
+			_sendAllButn.width = this.stage.stageWidth - 40;
 			_sendAllButn.addEventListener(Event.TRIGGERED, onSendSelectedMessageClick);
 			addChild(_sendAllButn);
-			_footer.rightItems = new <DisplayObject>[_sendAllButn];
+			_footer.centerItems = new <DisplayObject>[_sendAllButn];
 			
 			
 			return _footer;

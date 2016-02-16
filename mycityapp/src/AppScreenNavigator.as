@@ -38,9 +38,8 @@ package
 	{
 		private var _screenNavigator:StackScreenNavigator;
 		private var _mainScreen		:ScreenMainMenu;
-
-		private var _drawers:Drawers;
-		private var _panelPH:DrawerPanel
+		private var _drawers		:Drawers;
+		private var _panelPH		:DrawerPanel
 		
 		public function AppScreenNavigator() 
 		{
@@ -54,6 +53,7 @@ package
 			_panelPH.setSize(stage.stageWidth, stage.stageHeight / 2);
 			
 			_mainScreen = new ScreenMainMenu();
+			//_mainScreen = new ScreenMainMenu_Grid();
 			var mainScreensArr:Array = [
 					{screen:_mainScreen,id:ScreenEnum.MAIN_SCREEN},
 					{screen:new ScreenSecondHand(),id:ScreenEnum.SECOND_HAND_SCREEN},

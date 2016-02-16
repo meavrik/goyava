@@ -18,7 +18,9 @@ package screens
 	import feathers.data.ListCollection;
 	import feathers.data.LocalAutoCompleteSource;
 	import screens.consts.CategoriesConst;
+	import starling.display.Button;
 	import starling.events.Event;
+	import ui.buttons.AddButton;
 	import ui.UiGenerator;
 	
 	/**
@@ -48,7 +50,7 @@ package screens
 			
 			this._searchInput = new AutoComplete();
 			this._searchInput.autoCompleteDelay = .1;
-			this._searchInput.styleNameList.add(TextInput.ALTERNATE_NAME_SEARCH_TEXT_INPUT);
+			this._searchInput.styleNameList.add(TextInput.ALTERNATE_STYLE_NAME_SEARCH_TEXT_INPUT);
 			//this._searchInput.prompt = "חפש מוצר";
 			this._searchInput.setSize(stage.stageWidth / 2 - 5, UiGenerator.getInstance().fieldHeight);
 			this._searchInput.move(5, 10);
@@ -58,7 +60,8 @@ package screens
 			this.addChild(this._searchInput);
 			
 			_categoryPicker = new PickerList();
-			_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_NAME_LIST;
+			//_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_STYLE_NAME_LIST;
+			_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_STYLE_NAME_BUTTON;
 			_categoryPicker.prompt = "סנן לפי קטגוריה";
 			_categoryPicker.setSize(10, 10);
 			_categoryPicker.listProperties.itemRendererFactory = function():IListItemRenderer
@@ -121,6 +124,23 @@ package screens
 			}
 			//AppDataLoader.getInstance().addEventListener(AppDataLoader.SELLITEMS_DATA_LOADED, onDataLoaded);
 			AppDataLoader.getInstance().addEventListener(getEventString, onDataLoaded);
+			
+			
+			var addButton:AddButton = new AddButton(onAddClick);
+			addButton.x = stage.stageWidth - (addButton.width + 20);
+			addButton.y = this.height - (addButton.height + 10)-_list.bounds.top;
+			//editButton.addEventListener(Event.TRIGGERED, onAddClick);
+			addChild(addButton);
+		}
+		
+		private function onAddClick(e:Event):void 
+		{
+			handleAddClick();
+		}
+		
+		protected function handleAddClick():void 
+		{
+			
 		}
 		
 		private function onDataLoaded(e:Event):void 

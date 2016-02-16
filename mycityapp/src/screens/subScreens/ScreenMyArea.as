@@ -108,13 +108,13 @@ package screens.subScreens
 				
 				var deleteButn:Button = new Button();
 				deleteButn.label = "הסר";
-				deleteButn.styleNameList.add(Button.ALTERNATE_NAME_DANGER_BUTTON);
+				deleteButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON);
 				deleteButn.move(stage.stageWidth - 100, 10);
 				deleteButn.addEventListener(Event.TRIGGERED, onDeleteButnClick);
 				renderer.addChild(deleteButn);
 				
 				var editButn:Button = new Button();
-				editButn.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
+				editButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 				editButn.label = "ערוך";
 				editButn.move(stage.stageWidth - 190, 10);
 				editButn.addEventListener(Event.TRIGGERED, onEditButnClick);
@@ -211,9 +211,9 @@ package screens.subScreens
 		{
 			var header:Header = super.customHeaderFactory();
 			_logoutButn = new Button();
-			_logoutButn.styleNameList.add(Button.ALTERNATE_NAME_DANGER_BUTTON);
+			_logoutButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON);
 			_logoutButn.label = "התנתק";
-			_logoutButn.x = 10;
+			//_logoutButn.x = 10;
 			//_logoutButn.setSize(this.stage.stageWidth - 20,  UiGenerator.getInstance().buttonHeight);
 			_logoutButn.addEventListener(Event.TRIGGERED, onLogoutClick);
 			
@@ -232,11 +232,9 @@ package screens.subScreens
 			var footer:Header = new Header();
 			_saveButn = new Button();
 			_saveButn.label = "שמור שינוים";
-			_saveButn.x = 10;
-			_saveButn.setSize(this.stage.stageWidth - 20,  UiGenerator.getInstance().buttonHeight);
+			_saveButn.width = this.stage.stageWidth - 40;
 			_saveButn.addEventListener(Event.TRIGGERED, onSaveChangesClick);
-			//addChild(_saveButn);
-			footer.rightItems = new <DisplayObject>[_saveButn];
+			footer.centerItems = new <DisplayObject>[_saveButn];
 			
 			return footer;
 		}

@@ -66,12 +66,12 @@ package screens
 		{
 			var header:Header=super.customHeaderFactory();
 			var addButton:Button = new Button();
-			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
+			addButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 			addButton.label = "עבדה";
 			addButton.addEventListener(Event.TRIGGERED, addButton_triggeredHandler);
 			
 			var addButton2:Button = new Button();
-			addButton2.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
+			addButton2.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 			addButton2.label = "מציאה";
 			addButton2.addEventListener(Event.TRIGGERED, addButton_triggeredHandler);
 			

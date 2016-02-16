@@ -63,6 +63,7 @@
     <element path="..\swc\airglobal.swc" />
     <element path="..\swc\Maps_beta_2.swc" />
     <element path="..\swc\Starling-Extension-Graphics.swc" />
+    <element path="..\swc\TopcoatLightMobileTheme.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

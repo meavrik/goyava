@@ -19,10 +19,12 @@ package progress
 		private var repeatCall:IAnimatable;
 		private var _canFinish:Boolean;
 		private var _loadingTxt:String;
+		private var _showPrecentage:Boolean;
 		
-		public function MainProgressBar(loadingTxt:String="") 
+		public function MainProgressBar(loadingTxt:String = "", showPrecentage:Boolean = false) 
 		{
 			super();
+			this._showPrecentage = showPrecentage;
 			this._loadingTxt = loadingTxt;
 			
 			minimum = 0;
@@ -32,10 +34,13 @@ package progress
 		override protected function initialize():void 
 		{
 			super.initialize();
-			_label = new Label();
-			_label.text = "";
+			if (_showPrecentage)
+			{
+				_label = new Label();
+				_label.text = "";
+				addChild(_label);
+			}
 			
-			addChild(_label);
 
 			//repeatCall = Starling.juggler.repeatCall(onRepeatCall, .02, 100)
 		}
@@ -60,7 +65,7 @@ package progress
 			
 			move((this.stage.stageWidth - width) / 2, (this.stage.stageHeight - (height + 150)));
 			
-			_label.move((width - _label.width) / 2, -30);
+			if (_label) _label.move((width - _label.width) / 2, -30);
 		}
 
 		override public function set value(value:Number):void 
@@ -69,7 +74,7 @@ package progress
 			{
 				super.value = value;
 				
-				_label.text = value+"% " + _loadingTxt;
+				if (_label) _label.text = value+"% " + _loadingTxt;
 			}
 			
 			

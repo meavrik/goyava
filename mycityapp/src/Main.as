@@ -39,8 +39,6 @@ package
             })*/
 			starling.start();
 			
-			
-			
 			//var mapTest:MapTest = new MapTest();
 			//addChild(mapTest);
 		}

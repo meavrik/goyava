@@ -44,7 +44,7 @@ package screens.subScreens
 			super.initialize();
 			
 			setSize(stage.stageWidth, stage.stageHeight / 2);
-			var size:Number = stage.stageWidth / 2 - 10;;
+			var size:Number = stage.stageWidth - 10;
 			var quad:Quad = new Quad(size, size/2, 0xcccccc);
 			addChild(quad);
 			quad.x = quad.y = 5;
@@ -58,18 +58,19 @@ package screens.subScreens
 			_imageLoader.move(5, 5);
 			
 			_label = new Label();
-			_label.move(_imageLoader.bounds.right + 10, _imageLoader.y);
-			_label.setSize(this.stage.stageWidth - _label.x, _imageLoader.bounds.height);
+			//_label.move(_imageLoader.bounds.right + 10, _imageLoader.y);
+			_label.move(10, _imageLoader.bounds.bottom + 5);
+			//_label.setSize(this.stage.stageWidth - _label.x, _imageLoader.bounds.height);
 			addChild(_label);
 			
 			_label2 = new Label();
 			_label2.y = 100;
 			
-			this.footerFactory = customFooterFactory;
-			
+			//this.footerFactory = customFooterFactory;
+			this.headerFactory = customHeaderFactory
 			title = _dataProvider.name;
 			_label.text = _dataProvider.name+" ב" + FormatHelper.getMoneyFormat(_dataProvider.price, GlobalDataProvider.currencySign) + "\n";
-			_label.styleNameList.add(Label.ALTERNATE_NAME_HEADING);
+			_label.styleNameList.add(Label.ALTERNATE_STYLE_NAME_HEADING);
 
 			if (_dataProvider.description)
 			{
@@ -111,25 +112,47 @@ package screens.subScreens
 			}
 		}
 		
+		protected function customHeaderFactory():Header 
+		{
+			var header:Header = new Header()
+			
+			
+			/*var messageButton:Button = new Button();
+			messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
+			messageButton.addEventListener(Event.TRIGGERED, onMessageClick);*/
+
+			//header.leftItems = new <DisplayObject>[callButton,mailButton];
+			return header
+		}
+		
 		protected function customFooterFactory():Header 
 		{
-			var butnWidth:Number = (this.stage.stageWidth - 20) / 3;
+			//var butnWidth:Number = (this.stage.stageWidth - 20) / 3;
 			
 			var header:Header = new Header()
 
-			var callButton:Button = new Button();
-			callButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
+			/*var callButton:starling.display.Button = new starling.display.Button(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
+			//callButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
 			callButton.addEventListener(Event.TRIGGERED, onCallClick);
 			
-			var mailButton:Button = new Button();
-			mailButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
+			var mailButton:starling.display.Button = new starling.display.Button(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
+			//mailButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
 			mailButton.addEventListener(Event.TRIGGERED, onMailClick);
 			
 			var messageButton:Button = new Button();
 			messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
 			messageButton.addEventListener(Event.TRIGGERED, onMessageClick);
 
-			header.rightItems = new <DisplayObject>[callButton,mailButton,messageButton];
+			header.rightItems = new <DisplayObject>[callButton,mailButton,messageButton];*/
+			
+			
+			var callButton:starling.display.Button = new starling.display.Button(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
+			callButton.addEventListener(Event.TRIGGERED, onCallClick);
+			
+			var mailButton:starling.display.Button = new starling.display.Button(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
+			mailButton.addEventListener(Event.TRIGGERED, onMailClick);
+			
+			header.rightItems = new <DisplayObject>[callButton,mailButton];
 			header.leftItems = new <DisplayObject>[_label2];
 			return header
 		}

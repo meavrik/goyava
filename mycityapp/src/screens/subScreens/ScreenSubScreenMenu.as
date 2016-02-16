@@ -1,12 +1,13 @@
 package screens.subScreens 
 {
-	import feathers.controls.Button;
 	import feathers.controls.Callout;
 	import feathers.controls.Header;
 	import feathers.controls.Label;
 	import feathers.controls.PanelScreen;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
+	import ui.buttons.CloseButton;
+	import ui.buttons.SaveButton;
 	
 	/**
 	 * ...
@@ -14,6 +15,7 @@ package screens.subScreens
 	 */
 	public class ScreenSubScreenMenu extends PanelScreen 
 	{
+		protected var _header:Header;
 		
 		public function ScreenSubScreenMenu() 
 		{
@@ -23,19 +25,38 @@ package screens.subScreens
 			headerFactory = customHeaderFactory;
 		}
 		
+		override protected function initialize():void 
+		{
+			super.initialize();
+			
+			_header = new Header();
+
+			var closeButton:CloseButton = new CloseButton(onCloseClick);
+			addChild(closeButton);
+			
+			var saveButton:SaveButton = new SaveButton(onSaveClick);
+			saveButton.x = stage.stageWidth - (saveButton.width + 20);
+			saveButton.y = this.stage.stageHeight - (saveButton.height + 10) - _header.bounds.bottom;
+			//saveButton.addEventListener(Event.TRIGGERED, onSaveClick);
+			addChild(saveButton);
+			
+			_header.rightItems = new <DisplayObject>[saveButton];
+			_header.leftItems = new <DisplayObject>[closeButton];
+		}
+		
+		private function onSaveClick(e:Event):void 
+		{
+			handleSaveClick();
+		}
+		
+		protected function handleSaveClick():void 
+		{
+			
+		}
+		
 		protected function customHeaderFactory():Header
 		{
-			var header:Header = new Header();
-			var closeButton:Button = new Button();
-			//closeButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_BACK_BUTTON);
-			closeButton.label = "x";
-			closeButton.addEventListener(Event.TRIGGERED, onCloseClick);
-			header.leftItems = new <DisplayObject>
-			[
-				closeButton
-			];
-
-			return header;
+			return _header;
 		}
 		
 		private function onCloseClick(e:Event):void 

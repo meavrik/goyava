@@ -3,25 +3,17 @@ package screens
 	import data.AppDataLoader;
 	import data.GlobalDataProvider;
 	import entities.GroupEntity;
-	import feathers.controls.Button;
-	import feathers.controls.Header;
-	import feathers.data.ListCollection;
-	import log.Logger;
 	import screens.consts.CategoriesConst;
 	import screens.enums.ScreenEnum;
-	import starling.display.DisplayObject;
 	import starling.events.Event;
-	import ui.UiGenerator;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	//public class ScreenGroups extends ScreenSubMain 
+
 	public class ScreenGroups extends ScreenListSearch 
 	{
-		//private var _list:BaseListScreen;
-		
 		public function ScreenGroups() 
 		{
 			super();
@@ -33,22 +25,21 @@ package screens
 		{
 			super.initialize();
 			
-			this.footerFactory = customFooterFactory;
-			
 			this._searchInput.prompt = "חפש קבוצה";
-			/*_list = new BaseListScreen()
-			_list.dataProvider = new ListCollection( [ ]);
-			_list.setSize(this.width, stage.stageHeight - this.y);
-			_list.addEventListener(Event.TRIGGERED, onGroupItemClick);
-			addChild(_list);
-
-			for each (var item:GroupEntity in  GlobalDataProvider.groups) 
-			{
-				_list.dataProvider.addItem( { text:item.name ,id:item.id } );
-			}*/
 		}
 		
-		private function onAddClick(e:Event):void 
+		private function setNewFooterButton(string:String):void 
+		{
+			
+		}
+		
+		override protected function handleAddClick():void 
+		{
+			super.handleAddClick();
+			dispatchEventWith(ScreenEnum.ADD_NEW_GROUP_SCREEN);
+		}
+		
+		/*private function onAddClick(e:Event):void 
 		{
 			dispatchEventWith(ScreenEnum.ADD_NEW_GROUP_SCREEN)
 		}
@@ -57,14 +48,16 @@ package screens
 		{
 			var footer:Header = new Header()
 			var addButton:Button = new Button();
-			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
+			addButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 			addButton.label = "צור קבוצה חדשה";
-			addButton.x = 10;
-			addButton.setSize(this.stage.stageWidth - 20, UiGenerator.getInstance().buttonHeight);
+			//addButton.x = 10;
+			//addButton.setSize(this.stage.stageWidth - 20, UiGenerator.getInstance().buttonHeight);
+			addButton.width = this.stage.stageWidth - 40;
 			addButton.addEventListener(Event.TRIGGERED, onAddClick);
-			footer.rightItems = new <DisplayObject>[addButton];
+			footer.centerItems = new <DisplayObject>[addButton];
 			return footer
-		}
+		}*/
+
 		
 		override protected function onItemClick(e:Event):void 
 		{

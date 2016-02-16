@@ -2,16 +2,12 @@ package screens.subScreens
 {
 	import data.GlobalDataProvider;
 	import entities.GroupEntity;
-	import feathers.controls.Button;
-	import feathers.controls.Header;
 	import feathers.controls.PickerList;
 	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.controls.TextInput;
 	import feathers.data.ListCollection;
 	import screens.consts.CategoriesConst;
-	import starling.display.DisplayObject;
-	import starling.events.Event;
 	import ui.UiGenerator;
 	
 	/**
@@ -24,7 +20,6 @@ package screens.subScreens
 		private var _detailsLabel:TextInput;
 		private var _phoneLabel:TextInput;
 		private var _mailLabel:TextInput;
-		//private var _addButton:Button;
 		private var _categoryPicker:PickerList;
 		
 		public function ScreenGroupAdd() 
@@ -37,7 +32,7 @@ package screens.subScreens
 		{
 			super.initialize();
 			
-			footerFactory = customFooterFactory;
+			//footerFactory = customFooterFactory;
 			var fieldHeight:Number = UiGenerator.getInstance().fieldHeight;
 			var fieldWidth:Number = stage.stageWidth - 20;
 			
@@ -92,23 +87,16 @@ package screens.subScreens
 			_mailLabel.text = GlobalDataProvider.myUserData.email;
 			addChild(_mailLabel);
 			
-			/*_addButton = new Button();
-			_addButton.label = "הוסף קבוצה";
-			addChild(_addButton);
-			_addButton.setSize(UiGenerator.getInstance().buttonWidth, UiGenerator.getInstance().buttonHeight);
-			_addButton.move(10, _mailLabel.bounds.bottom + 10);
-			_addButton.addEventListener(Event.TRIGGERED, onAddClick);*/
-			
 			this.width = this.stage.stageWidth - 20;
 		}
 		
-		private function onAddClick(e:Event):void 
+		override protected function handleSaveClick():void 
 		{
+			super.handleSaveClick();
+			
 			if (isValid())
 			{
 				var groupEntity:GroupEntity = new GroupEntity();
-				//var ordinal:int = GlobalDataProvider.groupsDataProvier.itemsArr?GlobalDataProvider.groupsDataProvier.itemsArr.length:0;
-				//var ordinal:int = GlobalDataProvider.commonEntity.groups?GlobalDataProvider.commonEntity.groups.length:0;
 				groupEntity.createNewGroup(_itemNameLabel.text, _categoryPicker.selectedItem.text, _detailsLabel.text);
 				
 				closeMe();
@@ -130,19 +118,6 @@ package screens.subScreens
 			}
 			
 			return true;
-		}
-		
-		protected function customFooterFactory():Header 
-		{
-			var footer:Header = new Header()
-			var addButton:Button = new Button();
-			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
-			addButton.label = "הוסף קבוצה";
-			addButton.x = 10;
-			addButton.setSize(this.stage.stageWidth - 20, UiGenerator.getInstance().buttonHeight);
-			addButton.addEventListener(Event.TRIGGERED, onAddClick);
-			footer.rightItems = new <DisplayObject>[addButton];
-			return footer
 		}
 	}
 }

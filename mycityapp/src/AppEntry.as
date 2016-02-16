@@ -9,11 +9,14 @@ package
 	import events.GlobalEventController;
 	import feathers.controls.Label;
 	import feathers.themes.FlatThemeGlober;
+	import feathers.themes.TopcoatLightMobileTheme;
 	import flash.desktop.NativeApplication;
 	import flash.display.Bitmap;
 	import flash.events.KeyboardEvent;
 	import flash.events.UncaughtErrorEvent;
 	import flash.ui.Keyboard;
+	import log.Logger;
+	import panels.RegisterPanel;
 	import popups.PopupsController;
 	import progress.MainProgressBar;
 	import starling.core.Starling;
@@ -45,6 +48,7 @@ package
 		private var _userLogin:AppUserLogin;
 		private var _progressBar:MainProgressBar;
 		private var _mainApp:AppMain;
+		private var _registerPanel:RegisterPanel;
 		
 		static public var noConnection:Boolean;
 		
@@ -70,7 +74,8 @@ package
 			addBG();
 			
 			//new MetalWorksMobileTheme(false);
-			new FlatThemeGlober(false);
+			//new FlatThemeGlober(false);
+			new TopcoatLightMobileTheme(false);
 			//new FlatThemeBariol(false);
 			
 			/*_loadingLabel = new Label();
@@ -93,7 +98,7 @@ package
 			Flox.init(FLOX_APP_ID, FLOX_APP_KEY, GAME_VERSION);
 			
 			_progressBar = new MainProgressBar();
-			_progressBar.height = 5;
+			//_progressBar.height = 5;
 			addChild(_progressBar);
 			_progressBar.value = 1;
 			
@@ -168,6 +173,11 @@ package
 			_mainApp = new AppMain();
 			addChild(_mainApp);
 			_mainApp.init();
+			
+			if (_userLogin.isNewUser)
+			{
+				registerNewUser()
+			}
 			//addChild(AppMain.getInstance())
 			//AppMain.getInstance().initNewPlayer(isAdmin);
 			//AppMain.getInstance().addEventListener(Event.READY, onAppReady);
@@ -179,6 +189,26 @@ package
 			
 			_backgroundImg.removeFromParent(true);
 		}*/
+		
+		
+		private function registerNewUser():void 
+		{
+			Logger.logInfo(" -- registerNewUser --");
+			_registerPanel = new RegisterPanel()
+			_registerPanel.addEventListener(Event.COMPLETE, onRegisterComplete);
+			PopupsController.addPopUp(_registerPanel);
+		}
+		
+		private function onRegisterComplete(e:Event):void 
+		{
+			_registerPanel.removeEventListener(Event.COMPLETE, onRegisterComplete);
+			_registerPanel.removeFromParent(true);
+			_registerPanel = null;
+		}
+		
+		
+		
+		
 		
 		
 		private function removeProgressBar():void

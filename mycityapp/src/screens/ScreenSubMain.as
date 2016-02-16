@@ -55,7 +55,7 @@ package screens
 			//app's uses a split layout
 
 			var backButton:Button = new Button();
-			backButton.styleNameList.add(Button.ALTERNATE_NAME_BACK_BUTTON);
+			backButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_BACK_BUTTON);
 			//backButton.label = "חזרה";
 			backButton.label = "";
 			backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);

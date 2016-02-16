@@ -16,7 +16,7 @@ package helpers
 		static public function getDate(time:Number):String 
 		{
 			var dateFormat:DateTimeFormatter = new DateTimeFormatter(LocaleID.DEFAULT);
-			dateFormat.setDateTimeStyles(DateTimeStyle.MEDIUM, DateTimeStyle.NONE);
+			dateFormat.setDateTimeStyles(DateTimeStyle.SHORT, DateTimeStyle.NONE);
 			
 			var date:Date = new Date();
 			date.setTime(time);

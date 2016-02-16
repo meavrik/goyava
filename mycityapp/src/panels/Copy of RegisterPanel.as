@@ -16,13 +16,14 @@ package panels
 	import log.Logger;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
+	import ui.buttons.CloseButton;
 	import ui.UiGenerator;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class LoginPanel extends Panel 
+	public class RegisterPanel extends Panel 
 	{
 		static public const RESTORE_LOGIN:String = "restoreLogin";
 		private var _nameInput:TextInput;
@@ -32,7 +33,7 @@ package panels
 		private var _mailInput:TextInput;
 		private var _loginBackButton:Button;
 		
-		public function LoginPanel() 
+		public function RegisterPanel() 
 		{
 			super();
 			title = "ברוך הבא לאבן יהודה"
@@ -126,6 +127,7 @@ package panels
 		{
 			var footer:Header = new Header();
 			var loginButton:Button = new Button();
+			loginButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON)
 			loginButton.label = "הצטרף";
 			loginButton.addEventListener(Event.TRIGGERED, onLoginClick);
 			addChild(loginButton);
@@ -133,7 +135,7 @@ package panels
 			
 			var loginBackButton:Button = new Button();
 			loginBackButton.label = "התחבר";
-			loginBackButton.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
+			loginBackButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 			loginBackButton.addEventListener(Event.TRIGGERED, onLoginBackClick);
 			addChild(loginBackButton);
 			footer.leftItems = new <DisplayObject>[loginBackButton];
@@ -168,8 +170,17 @@ package panels
 			//helpButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
 			helpButton.label = "?";
 			helpButton.addEventListener(Event.TRIGGERED, onHelpClick);
-			header.leftItems = new <DisplayObject>[helpButton];
+			
+			var closeButton:CloseButton = new CloseButton(onCloseClick);
+			
+			//header.leftItems = new <DisplayObject>[helpButton];
+			header.leftItems = new <DisplayObject>[closeButton];
 			return header
+		}
+		
+		private function onCloseClick(e:Event):void 
+		{
+			removeFromParent(true);
 		}
 		
 	}

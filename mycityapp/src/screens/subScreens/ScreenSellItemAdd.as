@@ -1,5 +1,6 @@
 package screens.subScreens 
 {
+	import assets.AssetsHelper;
 	import data.AppDataLoader;
 	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
@@ -63,11 +64,10 @@ package screens.subScreens
 			super.initialize();
 			title = "הוספת פריט חדש";
 			
-			this.footerFactory = customFooterFactory;
+			//this.footerFactory = customFooterFactory;
 			
 			var fieldHeight:Number = UiGenerator.getInstance().fieldHeight
 			var fieldWidth:Number = stage.stageWidth - 20;//UiGenerator.getInstance().fieldWidth;
-			
 			
 			_categoryPicker = new PickerList();
 			_categoryPicker.prompt = "קטגורייה";
@@ -190,6 +190,34 @@ package screens.subScreens
 			this.width = this.stage.stageWidth - 20;
 		}
 		
+		override protected function handleSaveClick():void 
+		{
+			super.handleSaveClick();
+			if (isValid())
+			{
+				var sellItemEntity:SellItemEntity = new SellItemEntity();
+				sellItemEntity.createNewSellItem(	_itemNameLabel.text, 
+													parseFloat(_priceLabel.text), 
+													_categoryPicker.selectedItem.text, 
+													_detailsLabel.text, 
+													_pictersData,
+													_phoneLabel.text,
+													_mailLabel.text
+													);
+
+				dispatchEventWith(Event.CLOSE);
+				dispatchEventWith(Event.COMPLETE);
+				
+				var alert:Alert = Alert.show("תודה על השיתוף, המוצר יתווסף בקרוב", _itemNameLabel.text, new ListCollection(
+				[
+					{ label: "סבבה" },
+				]), null, false);
+				alert.width = this.width - 40;
+				
+				
+				AppDataLoader.getInstance().loadSellItemsData();
+			}
+		}
 		
 		private function onUploadPhotoClick1(e:Event):void 
 		{
@@ -262,58 +290,17 @@ package screens.subScreens
 			uploadImgButton2.addChild(_img2);
 		}
 		
-		private function onAddClick(e:Event):void 
-		{
-			if (isValid())
-			{
-				var sellItemEntity:SellItemEntity = new SellItemEntity();
-				sellItemEntity.createNewSellItem(	_itemNameLabel.text, 
-													parseFloat(_priceLabel.text), 
-													_categoryPicker.selectedItem.text, 
-													_detailsLabel.text, 
-													_pictersData,
-													_phoneLabel.text,
-													_mailLabel.text
-													);
-
-				dispatchEventWith(Event.CLOSE);
-				dispatchEventWith(Event.COMPLETE);
-				
-				var alert:Alert = Alert.show("תודה על השיתוף, המוצר יתווסף בקרוב", _itemNameLabel.text, new ListCollection(
-				[
-					{ label: "סבבה" },
-				]), null, false);
-				alert.width = this.width - 40;
-				
-				
-				AppDataLoader.getInstance().loadSellItemsData();
-			}
-		}
-		
-		protected function customFooterFactory():Header 
+		/*protected function customFooterFactory():Header 
 		{
 			var footer:Header = new Header()
 			var addButton:Button = new Button();
-			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
+			addButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 			addButton.label = "פרסם מודעה";
 			addButton.x = 10;
 			addButton.setSize(this.stage.stageWidth - 20, UiGenerator.getInstance().buttonHeight);
-			addButton.addEventListener(Event.TRIGGERED, onAddClick);
+			addButton.addEventListener(Event.TRIGGERED, onSaveClick);
 			footer.rightItems = new <DisplayObject>[addButton];
 			return footer
-		}
-		
-		/*override protected function customHeaderFactory():Header 
-		{
-			var header:Header = super.customHeaderFactory();
-			//header.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
-			var addButton:Button = new Button();
-			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
-			addButton.label = "שתף";
-			addButton.addEventListener(Event.TRIGGERED, onAddClick);
-			
-			header.rightItems = new <DisplayObject>[addButton];
-			return header
 		}*/
 		
 		private function isValid():Boolean 

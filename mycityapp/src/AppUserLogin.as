@@ -2,13 +2,14 @@ package
 {
 	import com.gamua.flox.AuthenticationType;
 	import com.gamua.flox.Entity;
+	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	import controllers.localStorage.LocalStorageController;
 	import data.GlobalDataProvider;
 	import entities.FloxUser;
 	import log.LogEventsEnum;
 	import log.Logger;
-	import panels.LoginPanel;
+	import panels.RegisterPanel;
 	import popups.PopupsController;
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
@@ -19,8 +20,9 @@ package
 	public class AppUserLogin extends EventDispatcher
 	{
 		static public const HERO_LOGIN_KEY:String = "kYWB9PVebJzgOS0O";
+		public var isNewUser:Boolean;
 		
-		private var _registerPanel:LoginPanel;
+		private var _registerPanel:RegisterPanel;
 		
 		public function AppUserLogin() 
 		{
@@ -45,15 +47,17 @@ package
 		
 		public function loginUser():void
 		{
-			/*if (LocalStorageController.getInstance().userMail)
+			/*trace("AAAAAAAAAAA ==== " + LocalStorageController.getInstance().userLoginToken);
+			if (LocalStorageController.getInstance().userLoginToken)
 			{
-				Flox.logEvent(LogEventsEnum.LOGIN_WITH_MAIL, LocalStorageController.getInstance().userMail);
-				Player.loginWithEmail(LocalStorageController.getInstance().userMail, onLoginComplete, onLoginError);
+				Logger.logEvent(LogEventsEnum.LOGIN_WITH_KEY, LocalStorageController.getInstance().userLoginToken);
+				Player.loginWithKey(LocalStorageController.getInstance().userLoginToken, onLoginComplete, onLoginError);
 			} 
 			else
 			{*/
 				Logger.logEvent(LogEventsEnum.LOGIN_WITH_KEY, Player.current.id);
 				Player.login(AuthenticationType.KEY, Player.current.id , null, onLoginComplete, onLoginError);
+			//}
 		}
 		
 		private function onLoginError(message:String):void
@@ -77,23 +81,30 @@ package
 		{
 			GlobalDataProvider.myUserData = userData;
 			LocalStorageController.getInstance().userLoginToken = userData.id;
-			if (userData.name)
+			Logger.logInfo("onUserDataLoadComplete name :" + userData.name);
+			/*if (userData.name)
 			{
 				userIsLoggedIn();
 			} else
 			{
 				handleNewUser();
+			}*/
+			if (!userData.name)
+			{
+				handleNewUser();
 			}
+			userIsLoggedIn();
 		}
 		
 		private function handleNewUser():void 
 		{
-			registerNewUser();
+			//registerNewUser();
+			isNewUser = true;
 		}
 		
-		private function registerNewUser():void 
+		/*private function registerNewUser():void 
 		{
-			_registerPanel = new LoginPanel()
+			_registerPanel = new RegisterPanel()
 			_registerPanel.addEventListener(Event.COMPLETE, onRegisterComplete);
 			PopupsController.addPopUp(_registerPanel);
 		}
@@ -103,9 +114,7 @@ package
 			_registerPanel.removeEventListener(Event.COMPLETE, onRegisterComplete);
 			_registerPanel.removeFromParent(true);
 			_registerPanel = null;
-			
-			userIsLoggedIn();
-		}
+		}*/
 		
 		private function userIsLoggedIn():void 
 		{

@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'15/12/2015'</value>
+      <value>'16/02/2016'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -46,6 +46,7 @@
       <path-element>D:\work\testing\swc\airglobal.swc</path-element>
       <path-element>D:\work\testing\swc\Maps_beta_2.swc</path-element>
       <path-element>D:\work\testing\swc\Starling-Extension-Graphics.swc</path-element>
+      <path-element>D:\work\testing\swc\TopcoatLightMobileTheme.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>

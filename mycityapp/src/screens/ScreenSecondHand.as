@@ -1,5 +1,6 @@
 package screens 
 {
+	import assets.AssetsHelper;
 	import data.AppDataLoader;
 	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
@@ -9,7 +10,9 @@ package screens
 	import screens.consts.CategoriesConst;
 	import screens.enums.ScreenEnum;
 	import starling.display.DisplayObject;
+	import starling.display.Image;
 	import starling.events.Event;
+	import starling.textures.Texture;
 	import ui.UiGenerator;
 	
 	/**
@@ -24,15 +27,16 @@ package screens
 			super();
 			
 			title = "לוח יד שניה";
-			
 		}
 		
 		override protected function initialize():void 
 		{
 			super.initialize();
 
-			footerFactory = customFooterFactory;
+			//footerFactory = customFooterFactory;
 			this._searchInput.prompt = "חפש מוצר";
+			
+			
 		}
 		
 		override protected function getListItemObject(item:Object):Object 
@@ -65,23 +69,23 @@ package screens
 			dispatchEventWith(ScreenEnum.SELL_ITEM_VIEW_SCREEN, false, sellData)
 		}
 
-		private function onAddClick(e:Event):void 
+		override protected function handleAddClick():void 
 		{
+			super.handleAddClick();
 			dispatchEventWith(ScreenEnum.SELL_ITEM_ADD_SCREEN)
 		}
 		
-		protected function customFooterFactory():Header 
+		/*protected function customFooterFactory():Header 
 		{
 			var footer:Header = new Header()
 			var addButton:Button = new Button();
-			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
+			addButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 			addButton.label = "צור מודעה חדשה";
-			addButton.x = 10;
-			addButton.setSize(this.stage.stageWidth - 20, UiGenerator.getInstance().buttonHeight);
+			addButton.width = this.stage.stageWidth - 40;
 			addButton.addEventListener(Event.TRIGGERED, onAddClick);
-			footer.rightItems = new <DisplayObject>[addButton];
+			footer.centerItems = new <DisplayObject>[addButton];
 			return footer
-		}
+		}*/
 	}
 
 }
