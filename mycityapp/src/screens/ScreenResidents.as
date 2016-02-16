@@ -19,6 +19,8 @@ package screens
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
+	import ui.buttons.MailButton;
+	import ui.buttons.MainCallButton;
 	import ui.UiGenerator;
 	
 	/**
@@ -81,21 +83,31 @@ package screens
 				label.styleNameList.add(Label.ALTERNATE_STYLE_NAME_DETAIL);
 				//label.move(35, 55);
 				label.move(100, 55);
+				label.height = 200;
 		
 				renderer.addChild(label);
-				var messageButton:Button = new Button();
-				messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
-				messageButton.move(stage.stageWidth - 100, 10);
-				messageButton.setSize(80, 80);
-				messageButton.addEventListener(Event.TRIGGERED, onMessageClick);
+				var messageButton:MailButton = new MailButton(onMessageClick);
+				messageButton.scaleX = messageButton.scaleY = .8;
+				messageButton.x = stage.stageWidth - 100;
+				messageButton.y = 10;
+				//messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
+				//messageButton.move(stage.stageWidth - 100, 10);
+				//messageButton.setSize(80, 80);
+				//messageButton.addEventListener(Event.TRIGGERED, onMessageClick);
 				renderer.addChild(messageButton);
 				 
-				var phoneButton:Button = new Button();
-				phoneButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
+				
+				var phoneButton:MainCallButton = new MainCallButton(onPhoneClick);
+				phoneButton.scaleX = phoneButton.scaleY = .8;
+				phoneButton.x = stage.stageWidth - 200;
+				phoneButton.y = 10;
+				renderer.addChild(phoneButton);
+				/*var phoneButton:Button = new Button();
+				phoneButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
 				phoneButton.setSize(80, 80);
 				phoneButton.move(stage.stageWidth - 190, 10);
 				phoneButton.addEventListener(Event.TRIGGERED, onPhoneClick);
-				renderer.addChild(phoneButton);
+				renderer.addChild(phoneButton);*/
 				
 				renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_LEFT; 
 				renderer.addEventListener(Event.CHANGE, onSelect);
@@ -254,7 +266,7 @@ package screens
 			PopupsController.addPopUp(messagePanel);
 		}
 		
-		private function onPhoneClick(e:Event):void 
+		private function onPhoneClick():void 
 		{
 			
 		}

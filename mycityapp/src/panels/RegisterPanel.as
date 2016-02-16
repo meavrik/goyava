@@ -52,6 +52,7 @@ package panels
 		{
 			super.initialize();
 			headerStyleName = Header.TITLE_ALIGN_PREFER_LEFT;
+			this.headerFactory = customHeaderFactory
 			
 			_addressInput = new TextInput();
 			_addressInput.prompt = "כתובת";
@@ -157,7 +158,6 @@ package panels
 		
 		private function onLoginClick(e:Event):void 
 		{
-			trace("111111");
 			if (_nameInput.text)
 			{
 				_nameInput.isEnabled = false;
@@ -229,20 +229,20 @@ package panels
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
-		/*protected function customHeaderFactory():Header 
+		protected function customHeaderFactory():Header 
 		{
 			var header:Header = new Header();
-			var helpButton:Button = new Button();
+			/*var helpButton:Button = new Button();
 			//helpButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
 			helpButton.label = "?";
-			helpButton.addEventListener(Event.TRIGGERED, onHelpClick);
+			helpButton.addEventListener(Event.TRIGGERED, onHelpClick);*/
 			
 			var closeButton:CloseButton = new CloseButton(onCloseClick);
 			
 			//header.leftItems = new <DisplayObject>[helpButton];
 			header.leftItems = new <DisplayObject>[closeButton];
 			return header
-		}*/
+		}
 		
 		private function onCloseClick(e:Event):void 
 		{

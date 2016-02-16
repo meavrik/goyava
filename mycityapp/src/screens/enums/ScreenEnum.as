@@ -26,6 +26,7 @@ package screens.enums
 		static public const VIEW_GROUP_SCREEN:String = "viewGroupScreen";
 		
 		static public const OPEN_BOTTOM_DRAWER:String = "openBottomDrawer";
+		static public const VIEW_MAIN_PHONE_CALLS:String = "viewMainPhoneCalls";
 		
 		
 		

@@ -1,9 +1,7 @@
 package panels 
 {
 	import feathers.controls.Panel;
-	import feathers.controls.PanelScreen;
 	import feathers.core.FeathersControl;
-	import screens.subScreens.ScreenSellItemView;
 	
 	/**
 	 * ...

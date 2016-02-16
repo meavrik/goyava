@@ -235,7 +235,11 @@ package screens
 			/*const callURL:String = "tel:" + PHONE_NUMBER;
 			var targetURL:URLRequest = new URLRequest(callURL);
 			navigateToURL(targetURL);*/
-			_callOpen = !_callOpen;
+			
+			
+			dispatchEventWith(ScreenEnum.VIEW_MAIN_PHONE_CALLS);
+			
+			/*_callOpen = !_callOpen;
 
 			var target1:Point
 			var target2:Point
@@ -261,7 +265,7 @@ package screens
 			
 			tween= new Tween(_emergencyCallButton2, .4,transition);
 			tween.moveTo(target2.x, target2.y);
-			Starling.juggler.add(tween);
+			Starling.juggler.add(tween);*/
 			
 			
 			

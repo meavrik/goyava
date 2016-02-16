@@ -27,6 +27,7 @@ package
 	import screens.subScreens.ScreenMyArea;
 	import screens.subScreens.ScreenSellItemAdd;
 	import screens.subScreens.ScreenSellItemView;
+	import screens.subScreens.SubScreenMainPhonesView;
 	import starling.events.Event;
 	
 	/**
@@ -109,6 +110,10 @@ package
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.MATNAS_SCREEN, ScreenEnum.MATNAS_SCREEN);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.EDUCATION_SCREEN, ScreenEnum.EDUCATION_SCREEN);
 					//navigatorItem.setScreenIDForPushEvent(id, id);
+					
+					
+					navigatorItem.setFunctionForPushEvent(ScreenEnum.VIEW_MAIN_PHONE_CALLS, onMainPhonesViewOpen);
+					
 				}
 				
 				if (id == ScreenEnum.GROUPS_SCREEN)
@@ -154,6 +159,7 @@ package
 			_drawers = new Drawers();
 			_drawers.content = this._screenNavigator
 			_drawers.bottomDrawer = _panelPH;
+			_drawers.bottomDrawerToggleEventType = ScreenEnum.VIEW_MAIN_PHONE_CALLS;
 			this.addChild( _drawers )
 		}
 		
@@ -178,6 +184,12 @@ package
 		private function onSellItemViewOpen(e:Event):void 
 		{
 			var panel:ScreenSellItemView = new ScreenSellItemView(e.data as SellItemEntity);
+			_panelPH.setScreen(panel);
+		}
+		
+		private function onMainPhonesViewOpen(e:Event):void 
+		{
+			var panel:SubScreenMainPhonesView = new SubScreenMainPhonesView();
 			_panelPH.setScreen(panel);
 		}
 		
