@@ -1,8 +1,5 @@
-package screens.subScreens 
+package screens.subScreens.viewItem 
 {
-	import assets.AssetsHelper;
-	import com.gamua.flox.Entity;
-	import com.gamua.flox.Flox;
 	import data.GlobalDataProvider;
 	import entities.GroupEntity;
 	import feathers.controls.Alert;
@@ -10,7 +7,6 @@ package screens.subScreens
 	import feathers.controls.GroupedList;
 	import feathers.controls.Header;
 	import feathers.controls.Label;
-	import feathers.controls.PanelScreen;
 	import feathers.controls.renderers.DefaultGroupedListItemRenderer;
 	import feathers.controls.renderers.IGroupedListItemRenderer;
 	import feathers.data.HierarchicalCollection;
@@ -18,22 +14,20 @@ package screens.subScreens
 	import panels.MessagePanelSend;
 	import popups.PopupsController;
 	import starling.display.DisplayObject;
-	import starling.display.Image;
 	import starling.events.Event;
-	import ui.UiGenerator;
 	/**
 	 * ...
 	 * @author Avrik
 	 */
 
-	public class ScreenGroupView extends PanelScreen
+	public class SubScreenView_Group extends SubScreenView
 	{
 		private var _friendsList:GroupedList;
 		private var _dataProvider:GroupEntity;
 		private var _joinButton:Button;
 		private var _detailLabel:Label;
 		
-		public function ScreenGroupView(dataProvider:GroupEntity)
+		public function SubScreenView_Group(dataProvider:GroupEntity)
 		{
 			super();
 			_dataProvider = dataProvider;
@@ -53,15 +47,11 @@ package screens.subScreens
 			addChild(_detailLabel)
 			
 			_joinButton = new Button();
-			
-			_joinButton.x = 10;
-			_joinButton.setSize(this.stage.stageWidth - 20,  UiGenerator.getInstance().buttonHeight);
-			//_joinButton.label = "בקש להצטרף";
-			//_joinButton.addEventListener(Event.TRIGGERED, onJoinClick);
+			_joinButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
+			_joinButton.width = this.stage.stageWidth - 40;
 			_joinButton.isEnabled = false;
 			
 			_friendsList = new GroupedList();
-			
 	 
 			 this._friendsList.dataProvider = new HierarchicalCollection(
 				[
@@ -77,8 +67,6 @@ package screens.subScreens
 			{
 				return "https://graph.facebook.com/v2.2/665289619/picture?type=square";
 			}
-			
-			setSize(stage.stageWidth, stage.stageHeight / 2);
 			_friendsList.setSize(this.stage.stageWidth - 10, this.height - _friendsList.y-180);
 
 			title = _dataProvider.name;
@@ -93,12 +81,12 @@ package screens.subScreens
 			 {
 				var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
 				renderer.labelField = "text";
-				renderer.height = 60;
+				//renderer.height = 60;
 				renderer.data = _dataProvider.members[indexCount];
 				renderer.itemIndex = indexCount;
 				indexCount++;
 				 
-				if (renderer.data.id != GlobalDataProvider.myUserData.ownerId)
+				/*if (renderer.data.id != GlobalDataProvider.myUserData.ownerId)
 				{
 					var messageButton:Button = new Button();
 					messageButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 2));
@@ -113,7 +101,7 @@ package screens.subScreens
 					phoneButton.move(stage.stageWidth-190, 5);
 					phoneButton.addEventListener(Event.TRIGGERED, onPhoneClick);
 					renderer.addChild(phoneButton);
-				}
+				}*/
 				return renderer;
 			 };
 			
@@ -176,7 +164,6 @@ package screens.subScreens
 		
 		protected function customFooterFactory():Header 
 		{
-			//addChild(_joinButton);
 			var footer:Header = new Header()
 			footer.rightItems = new <DisplayObject>[_joinButton];
 			return footer

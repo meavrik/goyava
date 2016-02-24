@@ -22,6 +22,7 @@ package screens
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import screens.consts.CategoriesConst;
+	import screens.enums.ScreenEnum;
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
@@ -81,8 +82,6 @@ package screens
 			_categoryPicker.selectedIndex = -1;
 			addChild(_categoryPicker);
 			
-			
-			
 			_list = new GroupedList();
 			_list.move(0, this._searchInput.bounds.bottom + 10);
 			_list.dataProvider = new HierarchicalCollection([]);
@@ -97,6 +96,7 @@ package screens
 				renderer.height = 120;
 				
 				var contactButn:Button = new Button();
+				contactButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 				contactButn.label = _dataProviderArr[index].phone;
 				contactButn.width = 250;
 				//contactButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 0));
@@ -115,8 +115,9 @@ package screens
 				return renderer;
 			 };
 			 
-			_list.addEventListener( Event.CHANGE, list_changeHandler );
+			//_list.addEventListener( Event.CHANGE, list_changeHandler );
 			_list.setSize(this.width, this.height - _list.bounds.top);
+			_list.addEventListener(Event.TRIGGERED, onItemClick);
 			 
 			this.addChild(_list);
 			 
@@ -126,6 +127,12 @@ package screens
 			} 
 			
 			AppDataLoader.getInstance().addEventListener(AppDataLoader.BUSINESS_DATA_LOADED, onBusinessDataLoaded);
+		}
+		
+		private function onItemClick(e:Event):void 
+		{
+			var businessData:BusinessEntity = GlobalDataProvider.businesses[_list.selectedItem.itemIndex];
+			dispatchEventWith(ScreenEnum.BUSINESS_ITEM_VIEW_SCREEN, false, businessData)
 		}
 		
 		private function onBusinessDataLoaded(e:Event):void 

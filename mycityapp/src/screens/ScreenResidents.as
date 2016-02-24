@@ -20,7 +20,7 @@ package screens
 	import starling.display.Image;
 	import starling.events.Event;
 	import ui.buttons.MailButton;
-	import ui.buttons.MainCallButton;
+	import ui.buttons.CallButton;
 	import ui.UiGenerator;
 	
 	/**
@@ -97,7 +97,7 @@ package screens
 				renderer.addChild(messageButton);
 				 
 				
-				var phoneButton:MainCallButton = new MainCallButton(onPhoneClick);
+				var phoneButton:CallButton = new CallButton(onPhoneClick);
 				phoneButton.scaleX = phoneButton.scaleY = .8;
 				phoneButton.x = stage.stageWidth - 200;
 				phoneButton.y = 10;

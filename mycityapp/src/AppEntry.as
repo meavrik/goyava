@@ -138,8 +138,13 @@ package
 			var bitmap:Bitmap = new background();
 			bitmap.smoothing = true;
 			_backgroundImg = new Image(Texture.fromBitmap(bitmap));
-			_backgroundImg.width = stage.stageWidth;
-			_backgroundImg.height = stage.stageHeight;
+			var factor:Number = Math.min(stage.stageWidth / _backgroundImg.width, stage.stageHeight / _backgroundImg.height);
+			trace("Aaa == " + factor);
+			//_backgroundImg.width = stage.stageWidth;
+			//_backgroundImg.height = stage.stageHeight;
+			
+			_backgroundImg.scaleX = _backgroundImg.scaleY = factor;
+			_backgroundImg.x = (stage.stageWidth - _backgroundImg.width) / 2;
 			addChild(_backgroundImg);
 		}
 		

@@ -1,19 +1,12 @@
 package screens 
 {
-	import assets.AssetsHelper;
 	import data.AppDataLoader;
 	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
-	import feathers.controls.Button;
-	import feathers.controls.Header;
 	import helpers.FormatHelper;
 	import screens.consts.CategoriesConst;
 	import screens.enums.ScreenEnum;
-	import starling.display.DisplayObject;
-	import starling.display.Image;
 	import starling.events.Event;
-	import starling.textures.Texture;
-	import ui.UiGenerator;
 	
 	/**
 	 * ...
@@ -33,10 +26,7 @@ package screens
 		{
 			super.initialize();
 
-			//footerFactory = customFooterFactory;
 			this._searchInput.prompt = "חפש מוצר";
-			
-			
 		}
 		
 		override protected function getListItemObject(item:Object):Object 
@@ -74,18 +64,6 @@ package screens
 			super.handleAddClick();
 			dispatchEventWith(ScreenEnum.SELL_ITEM_ADD_SCREEN)
 		}
-		
-		/*protected function customFooterFactory():Header 
-		{
-			var footer:Header = new Header()
-			var addButton:Button = new Button();
-			addButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
-			addButton.label = "צור מודעה חדשה";
-			addButton.width = this.stage.stageWidth - 40;
-			addButton.addEventListener(Event.TRIGGERED, onAddClick);
-			footer.centerItems = new <DisplayObject>[addButton];
-			return footer
-		}*/
 	}
 
 }

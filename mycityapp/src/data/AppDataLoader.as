@@ -4,6 +4,7 @@ package data
 	import entities.BusinessEntity;
 	import entities.FloxUser;
 	import entities.GroupEntity;
+	import entities.LostAndFoundEntity;
 	import entities.MessageEntity;
 	import entities.SellItemEntity;
 	import log.Logger;
@@ -25,6 +26,7 @@ package data
 		static public const SELLITEMS_DATA_LOADED:String = "sellitemsDataLoaded";
 		static public const USERS_DATA_LOADED:String = "usersDataLoaded";
 		static public const BUSINESS_DATA_LOADED:String = "businessDataLoaded";
+		static public const LOST_FOUND_DATA_LOADED:String = "lostFoundDataLoaded";
 		
 		private static var _instance:AppDataLoader = new AppDataLoader();
 		public function AppDataLoader() 
@@ -45,6 +47,13 @@ package data
 			loadUsersData();
 			loadSellItemsData();
 			loadBusinessData();
+			loadLostAndFoundData();
+		}
+		
+		public function loadLostAndFoundData():void 
+		{
+			var query:Query = new Query(LostAndFoundEntity);
+			query.find(onLostFoundComplete, onLoadDataError);
 		}
 		
 		public function loadBusinessData():void 
@@ -56,6 +65,23 @@ package data
 		private function onLoadDataError(error:String):void 
 		{
 			Logger.logError(this, "error getting data : " + error);
+		}
+		
+		private function onLostFoundComplete(items:Array):void 
+		{
+			Logger.logInfo("LostFound found : {0}", items);
+			
+			GlobalDataProvider.lostAndFound = new Vector.<LostAndFoundEntity>;
+			
+			for each (var item:BusinessEntity in items) 
+			{
+				if (item.name)
+				{
+					GlobalDataProvider.lostAndFound.push(item);
+				}
+			}
+			
+			dispatchEventWith(LOST_FOUND_DATA_LOADED)
 		}
 		
 		private function onBusinessLoadComplete(businesses:Array):void 

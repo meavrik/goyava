@@ -92,14 +92,7 @@ package screens
 			_list.dataProvider = new HierarchicalCollection([])
 			_list.addEventListener(Event.TRIGGERED, onItemClick);
 			
-			_list.itemRendererFactory = function():IGroupedListItemRenderer
-			{
-				var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
-				renderer.isQuickHitAreaEnabled = true;
-				renderer.labelField = "label";
-				//renderer.iconSourceField = "thumbnail";
-				return renderer;
-			};
+			_list.itemRendererFactory = custemItemRenderer
 			
 			_list.itemRendererProperties.iconSourceFunction = function(item:Object):String
 			{
@@ -131,6 +124,16 @@ package screens
 			addButton.y = this.height - (addButton.height + 10)-_list.bounds.top;
 			//editButton.addEventListener(Event.TRIGGERED, onAddClick);
 			addChild(addButton);
+		}
+		
+		
+		protected function custemItemRenderer():IGroupedListItemRenderer
+		{
+			var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
+			renderer.isQuickHitAreaEnabled = true;
+			renderer.labelField = "label";
+			//renderer.iconSourceField = "thumbnail";
+			return renderer;
 		}
 		
 		private function onAddClick(e:Event):void 

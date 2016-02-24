@@ -3,6 +3,7 @@ package data
 	import entities.BusinessEntity;
 	import entities.FloxUser;
 	import entities.GroupEntity;
+	import entities.LostAndFoundEntity;
 	import entities.SellItemEntity;
 	/**
 	 * ...
@@ -24,6 +25,7 @@ package data
 		static public var mySellItems:Vector.<SellItemEntity> = new Vector.<SellItemEntity>;
 		
 		static public var businesses:Vector.<BusinessEntity>= new Vector.<BusinessEntity>;
+		static public var lostAndFound:Vector.<LostAndFoundEntity>= new Vector.<LostAndFoundEntity>;
 	}
 
 }

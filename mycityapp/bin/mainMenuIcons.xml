@@ -17,9 +17,9 @@
 	<SubTexture name="iconsMC instance 10012" x="5" y="653" width="171" height="103"/>
 	<SubTexture name="iconsMC instance 10013" x="181" y="653" width="171" height="103"/>
 	<SubTexture name="iconsMC instance 10014" x="5" y="761" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10015" x="5" y="761" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10016" x="5" y="761" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10017" x="5" y="761" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10018" x="5" y="761" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10019" x="5" y="761" width="171" height="103"/>
+	<SubTexture name="iconsMC instance 10015" x="181" y="761" width="171" height="103"/>
+	<SubTexture name="iconsMC instance 10016" x="5" y="869" width="171" height="103"/>
+	<SubTexture name="iconsMC instance 10017" x="181" y="869" width="171" height="103"/>
+	<SubTexture name="iconsMC instance 10018" x="181" y="869" width="171" height="103"/>
+	<SubTexture name="iconsMC instance 10019" x="181" y="869" width="171" height="103"/>
 </TextureAtlas>

@@ -1,4 +1,4 @@
-package screens.subScreens 
+package screens.subScreens.viewItem 
 {
 	import feathers.controls.Button;
 	import feathers.controls.ButtonGroup;
@@ -14,9 +14,9 @@ package screens.subScreens
 	 * @author Avrik
 	 */
 
-	public class SubScreenMainPhonesView extends Panel
+	public class SubScreenView_MainPhones extends Panel
 	{
-		public function SubScreenMainPhonesView()
+		public function SubScreenView_MainPhones()
 		{
 			super();
 

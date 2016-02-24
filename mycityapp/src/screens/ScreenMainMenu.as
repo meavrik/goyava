@@ -23,7 +23,8 @@ package screens
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
-	import ui.buttons.MainCallButton;
+	import ui.buttons.CallButton;
+	import ui.buttons.ProfileButton;
 	
 	/**
 	 * ...
@@ -46,11 +47,11 @@ package screens
 		private var _footer:Header;
 		private var _insideMenu:MainMenuList;
 		private var _header:Header;
-		private var _myButton:Button;
+		private var _profileButton:ProfileButton;
 		
-		private var _emergencyCallMainButton:MainCallButton;
-		private var _emergencyCallButton:MainCallButton;
-		private var _emergencyCallButton2:MainCallButton;
+		private var _emergencyCallMainButton:CallButton;
+		private var _emergencyCallButton:CallButton;
+		private var _emergencyCallButton2:CallButton;
 		private var _callOpen:Boolean;
 		
 		public function ScreenMainMenu() 
@@ -63,33 +64,15 @@ package screens
 			super.initialize();
 			
 			_footer = new Header();
-			/*var _emergencyCallButton:Button = new Button();
-			_emergencyCallButton.styleNameList.add( Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON );
-			_emergencyCallButton.label = "התקשר לקב''ט : " + PHONE_NUMBER;
-			_emergencyCallButton.width = this.stage.stageWidth - 40;
-			_emergencyCallButton.addEventListener(Event.TRIGGERED, onEmergancyCallClick);
-			_footer.rightItems = new <DisplayObject>[_emergencyCallButton];*/
-			
-			
-			//_emergencyCallButton.y = stage.stageHeight - 20;
-			//_footer.rightItems = new <DisplayObject>[_emergencyCallButton];
-			
 			
 			_header = new Header();
-			_myButton = new Button();
-			_myButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
-			//myButton.label = "הגדרות";
-			_myButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 5));
-			_myButton.scaleX = _myButton.scaleY = .7;
-			_myButton.addEventListener(Event.TRIGGERED, myAreaClick);
-			_header.leftItems = new <DisplayObject>[_myButton];
-			
-			/*_messagesButton = new Button();
-			_messagesButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 1));
-			_messagesButton.isEnabled = false;
-			_messagesButton.addEventListener(Event.TRIGGERED, onMessagesClick);
-			_header.leftItems = new <DisplayObject>[_messagesButton];*/
-			
+			_profileButton = new ProfileButton(profileButtonClick);
+			/*_profileButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
+			_profileButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 5));
+			_profileButton.scaleX = _profileButton.scaleY = .7;*/
+			//_profileButton.addEventListener(Event.TRIGGERED, profileButtonClick);
+			_header.leftItems = new <DisplayObject>[_profileButton];
+
 			var bgImg:Bitmap = new MainViewPng();
 			_bgImage = new Image(Texture.fromBitmap(bgImg));
 			var factor:Number = stage.stageWidth / _bgImage.width;
@@ -113,11 +96,13 @@ package screens
 					header: "במושבה",
 					children:
 					[
-						addNewDataItem("עסקים בעיר", ScreenEnum.BUSINESS_SCREEN, 11),
-						addNewDataItem("מתנס : צהרונים, חוגים וארועים", ScreenEnum.MATNAS_SCREEN, 6),
-						addNewDataItem("בתי ספר וגנים", ScreenEnum.EDUCATION_SCREEN, 7),
-						addNewDataItem("בריאות", ScreenEnum.MATNAS_SCREEN, 8),
-						addNewDataItem("תחבורה", ScreenEnum.MATNAS_SCREEN, 9),
+						addNewDataItem("עסקים במושבה", ScreenEnum.BUSINESS_SCREEN, 10),
+						addNewDataItem("אנשי מקצוע באזור", ScreenEnum.BUSINESS_SCREEN, 11),
+						addNewDataItem("מתנס : צהרונים, חוגים וארועים", ScreenEnum.MATNAS_SCREEN, 5),
+						addNewDataItem("בתי ספר וגנים", ScreenEnum.EDUCATION_SCREEN, 6),
+						addNewDataItem("בריאות", ScreenEnum.MATNAS_SCREEN, 7),
+						addNewDataItem("תחבורה", ScreenEnum.MATNAS_SCREEN, 14),
+						addNewDataItem("נדל''ן", ScreenEnum.REALESTATE_SCREEN, 5),
 					]	
 					
 				},
@@ -125,21 +110,21 @@ package screens
 					header: "בקהילה",
 					children:
 					[
-						_usersObject = addNewDataItem(" תושבים", ScreenEnum.RESIDENTS_SCREEN, 1),
-						_seconHandObject = addNewDataItem(" יד שניה", ScreenEnum.SECOND_HAND_SCREEN, 0),
-						_groupObject = addNewDataItem(" קבוצות", ScreenEnum.GROUPS_SCREEN, 2),
-						addNewDataItem(" ארועים", ScreenEnum.EVENTS_SCREEN, 3),
-						addNewDataItem(" אבדות ומציאות", ScreenEnum.LOST_AND_FOUND, 4),
+						_usersObject = addNewDataItem("תושבים", ScreenEnum.RESIDENTS_SCREEN, 2),
+						_seconHandObject = addNewDataItem("יד שניה", ScreenEnum.SECOND_HAND_SCREEN, 0,5),
+						_groupObject = addNewDataItem("קבוצות", ScreenEnum.GROUPS_SCREEN, 1,2),
+						addNewDataItem("ארועים", ScreenEnum.EVENTS_SCREEN, 3,1),
+						addNewDataItem("אבדות ומציאות", ScreenEnum.LOST_AND_FOUND_SCREEN, 4),
+						addNewDataItem("התנדבות בקהילה", ScreenEnum.LOST_AND_FOUND_SCREEN, 17),
 					]
 				},
 				{
-					header: "בנוסף",
+					header: "אישי",
 					children:
 					[
-						//addNewDataItem("בתי עסק", ScreenEnum.BUSINESS_SCREEN, 11),
-						addNewDataItem("אנשי מקצוע", ScreenEnum.BUSINESS_SCREEN, 12),
-						addNewDataItem("נדל''ן", ScreenEnum.REALESTATE_SCREEN, 13),
-						addNewDataItem("מפה", ScreenEnum.MAP_SCREEN, 15),
+						addNewDataItem("הטבות ומבצעים עבורך", ScreenEnum.MATNAS_SCREEN, 16),
+						addNewDataItem("הודעות", ScreenEnum.MATNAS_SCREEN, 15),
+						addNewDataItem("מפה", ScreenEnum.MAP_SCREEN, 14),
 					]
 				},
 				/*{
@@ -156,35 +141,19 @@ package screens
 			this._insideMenu.move(0, _bgImage.bounds.bottom);
 			addChild(_insideMenu);
 			
-			_emergencyCallMainButton = new MainCallButton(onEmergancyCallClick);
+			_emergencyCallMainButton = new CallButton(onEmergancyCallClick, 1);
 			_emergencyCallMainButton.x = stage.stageWidth - _emergencyCallMainButton.width-20;
 			_emergencyCallMainButton.y = stage.stageHeight-_emergencyCallMainButton.height-150;
 			addChild(_emergencyCallMainButton);
-			
-			
-			
-			
-			_emergencyCallButton = new MainCallButton(onEmergancyCall2Click,"קב''ט");
-			_emergencyCallButton.x = _emergencyCallMainButton.x;
-			_emergencyCallButton.y = _emergencyCallMainButton.y
-			
-			
-			_emergencyCallButton2 = new MainCallButton(onEmergancyCall2Click,"קב''ט");
-			_emergencyCallButton2.x = _emergencyCallMainButton.x;
-			_emergencyCallButton2.y = _emergencyCallMainButton.y
-			
-			//addChild(emergencyCallButton2);
-			
-			
-			/*var reportCallButton:MainCallButton = new MainCallButton(onEmergancyCallClick,"דווח למוקד");
-			reportCallButton.x = 20;
-			reportCallButton.y = emergencyCallButton.y;
-			addChild(reportCallButton);*/
 		}
 		
-		private function addNewDataItem(text:String, eventName:String, iconIndex:Number):Object 
+		private function addNewDataItem(text:String, eventName:String, iconIndex:Number,count:int=0):Object 
 		{
-			return { label: text, event: eventName, thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.MAIN_MENU_ICONS, iconIndex) };
+			return { 	label: text,
+						count:count,
+						event: eventName, 
+						thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.MAIN_MENU_ICONS, iconIndex)
+						};
 		}
 		
 		private function onSellItemLoaded(e:Event):void 
@@ -209,7 +178,11 @@ package screens
 		{
 			//_messagesButton.label = GlobalDataProvider.myMessages.length?GlobalDataProvider.myMessages.length.toString():"";
 			//_messagesButton.isEnabled = GlobalDataProvider.myMessages.length?true:false;
-			_myButton.label = GlobalDataProvider.myMessages.length?GlobalDataProvider.myMessages.length.toString():"";
+			//_profileButton.label = GlobalDataProvider.myMessages.length?GlobalDataProvider.myMessages.length.toString():"";
+			if (GlobalDataProvider.myMessages.length)
+			{
+				_profileButton.messageCounter = GlobalDataProvider.myMessages.length;
+			}
 		}
 		
 		private function showGift(position:Number):void
@@ -296,7 +269,7 @@ package screens
 			PopupsController.addPopUp(new MessagePanelView());
 		}
 		
-		private function myAreaClick(e:Event):void 
+		private function profileButtonClick(e:Event):void 
 		{
 			dispatchEvent(new Event(ScreenEnum.MY_AREA_SCREEN));
 		}

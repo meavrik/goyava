@@ -34,8 +34,10 @@ package screens
 			this._list = new List();
 			this._list.dataProvider = new ListCollection(
 			[
+				{ label: "ארועי המתנס החודש", event: ScreenEnum.BUSINESS_SCREEN },
 				{ label: "חוגים", event: ScreenEnum.BUSINESS_SCREEN },
-				{ label: "צהרונים", event: ScreenEnum.EVENTS_SCREEN },
+				{ label: "צהרון", event: ScreenEnum.EVENTS_SCREEN },
+				{ label: "טפסים", event: ScreenEnum.EVENTS_SCREEN },
 				{ label: "טלפונים", event: ScreenEnum.MAP_SCREEN },
 			]);
 

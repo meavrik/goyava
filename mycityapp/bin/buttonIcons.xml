@@ -4,10 +4,11 @@
 	<!-- http://www.adobe.com/products/flash.html -->
 	<SubTexture name="iconsMC instance 10000" x="5" y="5" width="100" height="100" pivotX="0" pivotY="0"/>
 	<SubTexture name="iconsMC instance 10001" x="110" y="5" width="100" height="100"/>
-	<SubTexture name="iconsMC instance 10002" x="5" y="110" width="100" height="100"/>
-	<SubTexture name="iconsMC instance 10003" x="110" y="110" width="100" height="100"/>
-	<SubTexture name="iconsMC instance 10004" x="5" y="215" width="100" height="100"/>
-	<SubTexture name="iconsMC instance 10005" x="110" y="215" width="96" height="96" frameX="-1" frameY="-1" frameWidth="100" frameHeight="100"/>
-	<SubTexture name="iconsMC instance 10006" x="5" y="320" width="100" height="100"/>
-	<SubTexture name="iconsMC instance 10007" x="110" y="320" width="96" height="96" frameX="-1" frameY="-1" frameWidth="100" frameHeight="100"/>
+	<SubTexture name="iconsMC instance 10002" x="215" y="5" width="100" height="100"/>
+	<SubTexture name="iconsMC instance 10003" x="320" y="5" width="100" height="100"/>
+	<SubTexture name="iconsMC instance 10004" x="5" y="110" width="100" height="100"/>
+	<SubTexture name="iconsMC instance 10005" x="110" y="110" width="96" height="96" frameX="-1" frameY="-1" frameWidth="100" frameHeight="100"/>
+	<SubTexture name="iconsMC instance 10006" x="211" y="110" width="100" height="100"/>
+	<SubTexture name="iconsMC instance 10007" x="316" y="110" width="103" height="103" frameX="0" frameY="0" frameWidth="100" frameHeight="100"/>
+	<SubTexture name="iconsMC instance 10008" x="5" y="218" width="100" height="100"/>
 </TextureAtlas>

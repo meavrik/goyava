@@ -13,11 +13,11 @@ package screens.subScreens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenSubScreenMenu extends PanelScreen 
+	public class SubScreenMenu extends PanelScreen 
 	{
 		protected var _header:Header;
 		
-		public function ScreenSubScreenMenu() 
+		public function SubScreenMenu() 
 		{
 			super();
 			

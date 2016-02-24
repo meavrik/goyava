@@ -1,6 +1,7 @@
 package screens.mainMenu 
 {
 	import feathers.controls.GroupedList;
+	import feathers.controls.Label;
 	import feathers.controls.List;
 	import feathers.controls.renderers.DefaultGroupedListHeaderOrFooterRenderer;
 	import feathers.controls.renderers.DefaultGroupedListItemRenderer;
@@ -12,10 +13,12 @@ package screens.mainMenu
 	import feathers.core.FeathersControl;
 	import feathers.data.HierarchicalCollection;
 	import feathers.data.ListCollection;
+	import feathers.events.FeathersEventType;
 	import feathers.skins.StandardIcons;
 	import starling.display.Graphics;
 	import starling.events.Event;
 	import starling.textures.Texture;
+	import ui.ItemCounter;
 	
 	/**
 	 * ...
@@ -25,7 +28,7 @@ package screens.mainMenu
 	{
 		private var _list:List;
 		private var _dataProvider:Object;
-		private var _tab:TabBar;
+		private var _tab:MainTabBar;
 		
 		public function MainMenuList(dataProvider:Object) 
 		{
@@ -37,7 +40,8 @@ package screens.mainMenu
 		{
 			super.initialize();
 			
-			_tab = new TabBar();
+			_tab = new MainTabBar();
+
 			var tabInfo:Array = [];
 			
 			for (var i:int = 0; i < this._dataProvider.length; i++) 
@@ -51,7 +55,9 @@ package screens.mainMenu
 			_tab.dataProvider = new ListCollection(tabInfo);
 			_tab.setSize(this.stage.stageWidth, 80);
 			_tab.addEventListener( Event.CHANGE, tabs_changeHandler );
+			
 			addChild(_tab)
+			
 			
 			this._list = new List();
 			//this._list.dataProvider = new HierarchicalCollection(this._dataProvider);
@@ -62,7 +68,7 @@ package screens.mainMenu
 			//the list. otherwise, the list items may be displayed outside of
 			//the list's bounds.
 			var itemRendererAccessorySourceFunction:Function = this.accessorySourceFunction;
-
+			var count:int;
 			this._list.itemRendererFactory = function():IListItemRenderer
 			{
 				var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
@@ -78,16 +84,25 @@ package screens.mainMenu
 				renderer.height = 130;
 				renderer.iconOffsetX = -80;
 				renderer.labelOffsetX = -90;
+				renderer.itemHasAccessory = false;
+				//renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_BOTTOM;
 				//renderer.itemIndex++
 				renderer.isEnabled = false;
+				var counter:ItemCounter = new ItemCounter();
+				//counter.count = 2;
+				counter.x = 130;
+				counter.y = 10;
+				renderer.addChild(counter);
 
 				//renderer.selectableField = "isSelected";
 				//renderer.selectableFunction = null
-				renderer.accessorySourceFunction = itemRendererAccessorySourceFunction;
-				renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_LEFT; 
-		
+				//renderer.accessorySourceFunction = itemRendererAccessorySourceFunction;
+				//renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_LEFT; 
+				
 				renderer.horizontalAlign = DefaultGroupedListHeaderOrFooterRenderer.HORIZONTAL_ALIGN_RIGHT
+				renderer.index = count;
 
+				count++;
 				return renderer;
 			};
 			
@@ -96,6 +111,11 @@ package screens.mainMenu
 			this._list.move(0, this._tab.bounds.bottom);
 			
 			this.addChild(this._list);
+		}
+		
+		private function custemLabelFactory():String 
+		{
+			return "test";
 		}
 		
 		public function update(index:int):void 

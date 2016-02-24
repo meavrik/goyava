@@ -19,13 +19,14 @@ package screens.subScreens
 	import log.Logger;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
+	import ui.buttons.LogoutButton;
 	import ui.UiGenerator;
 	/**
 	 * ...
 	 * @author Avrik
 	 */
 
-	public class ScreenMyArea extends ScreenSubScreenMenu 
+	public class SubScreenMyArea extends SubScreenMenu 
 	{
 		private var nameInput:TextInput;
 		private var mailInput:TextInput;
@@ -34,9 +35,9 @@ package screens.subScreens
 		private var _listItem:Object;
 		private var _list:GroupedList;
 		private var _saveButn:Button;
-		private var _logoutButn:Button;
+		//private var _logoutButn:Button;
 		
-		public function ScreenMyArea() 
+		public function SubScreenMyArea() 
 		{
 			super();
 			
@@ -80,14 +81,14 @@ package screens.subScreens
 			mailInput.move(phoneInput.bounds.x, phoneInput.bounds.bottom + 10);
 			addChild(mailInput);
 			
-			var toggle:ToggleSwitch = new ToggleSwitch();
+			/*var toggle:ToggleSwitch = new ToggleSwitch();
 			toggle.onText = "מופעל";
 			toggle.offText = "כבוי";
 			toggle.showThumb = true;
 
 			toggle.move(10, addressInput.bounds.bottom + 10);
 			toggle.setSize(120, UiGenerator.getInstance().buttonHeight);
-			addChild(toggle);
+			addChild(toggle);*/
 			
 			_list = new GroupedList();
 			_list.itemRendererProperties.labelField = "text";
@@ -105,18 +106,20 @@ package screens.subScreens
 				var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
 				renderer.labelField = "text";
 				renderer.accessoryField = "accessory";
+				renderer.height = 130;
 				
 				var deleteButn:Button = new Button();
 				deleteButn.label = "הסר";
 				deleteButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON);
-				deleteButn.move(stage.stageWidth - 100, 10);
+				deleteButn.move(stage.stageWidth - 150, 10);
 				deleteButn.addEventListener(Event.TRIGGERED, onDeleteButnClick);
 				renderer.addChild(deleteButn);
 				
 				var editButn:Button = new Button();
 				editButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 				editButn.label = "ערוך";
-				editButn.move(stage.stageWidth - 190, 10);
+				
+				editButn.move(stage.stageWidth - 250, 10);
 				editButn.addEventListener(Event.TRIGGERED, onEditButnClick);
 				renderer.addChild(editButn);
 				renderer.itemIndex ++;
@@ -124,7 +127,7 @@ package screens.subScreens
 				return renderer;
 			};
 			
-			_list.move(5, toggle.bounds.bottom + 10);
+			_list.move(5, mailInput.bounds.bottom + 10);
 			//_list.setSize(this.width, this.height - _list.bounds.top);
 			_list.setSize(this.stage.stageWidth -10, this.stage.stageHeight - _list.bounds.top);
 			this.addChild(_list);
@@ -210,18 +213,18 @@ package screens.subScreens
 		override protected function customHeaderFactory():Header 
 		{
 			var header:Header = super.customHeaderFactory();
-			_logoutButn = new Button();
+			/*_logoutButn = new Button();
 			_logoutButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON);
 			_logoutButn.label = "התנתק";
-			//_logoutButn.x = 10;
-			//_logoutButn.setSize(this.stage.stageWidth - 20,  UiGenerator.getInstance().buttonHeight);
-			_logoutButn.addEventListener(Event.TRIGGERED, onLogoutClick);
+			_logoutButn.addEventListener(Event.TRIGGERED, onLogoutClick);*/
+			var logoutButn:LogoutButton = new LogoutButton(onLogoutClick)
 			
-			header.rightItems = new <DisplayObject>[_logoutButn];
+			header.rightItems = new <DisplayObject>[logoutButn];
 			return header;
 		}
 		
-		private function onLogoutClick(e:Event):void 
+		//private function onLogoutClick(e:Event):void 
+		private function onLogoutClick():void 
 		{
 			Player.logout();
 			GlobalEventController.getInstance().dispatchEventWith(GlobalEventController.RELOAD_APP);

@@ -18,8 +18,11 @@ package panels
 	import feathers.controls.TextInput;
 	import feathers.core.ToggleGroup;
 	import feathers.data.ListCollection;
+	import feathers.layout.AnchorLayout;
 	import feathers.skins.StyleNameFunctionStyleProvider;
+	import flash.geom.Rectangle;
 	import log.Logger;
+	import screens.components.GLabel;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
@@ -54,10 +57,17 @@ package panels
 			headerStyleName = Header.TITLE_ALIGN_PREFER_LEFT;
 			this.headerFactory = customHeaderFactory
 			
+			var rect:Rectangle = new Rectangle(10, 0, stage.stageWidth - 80, 30);
+			//var label1:GLabel = new GLabel(rect);
+			var label1:Label = new Label();
+			label1.text = "הזן מספר פרטים מזהים והיכנס למערכת";
+			label1.setSize(rect.width, rect.height);
+			addChild(label1);
+			
 			_addressInput = new TextInput();
 			_addressInput.prompt = "כתובת";
 			_addressInput.setSize(UiGenerator.getInstance().fieldWidth/2-10, UiGenerator.getInstance().fieldHeight);
-			//_addressInput.move(0, _nameInput.bounds.y);
+			_addressInput.move(0, label1.bounds.bottom + 10);
 			addChild(_addressInput);
 			
 			_nameInput = new TextInput();
@@ -80,29 +90,6 @@ package panels
 			_phoneInput.setSize(UiGenerator.getInstance().fieldWidth/2-10, UiGenerator.getInstance().fieldHeight);
 			addChild(_phoneInput);
 			
-			/*var group:ButtonGroup = new ButtonGroup();
-			group.buttonInitializer = function( button:Button, item:Object ):void
-			{
-				button.label = item.label;
-				// button.labelOffsetY = -50;
-				 //button.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
-				button.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 7));
-				//button.iconPosition = Button.ICON_POSITION_BOTTOM
-				button.iconPosition = Button.ICON_POSITION_LEFT
-			};
-			
-			//group.direction = ButtonGroup.DIRECTION_HORIZONTAL
-			group.customButtonStyleName = Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON;
-			group.dataProvider = new ListCollection(
-			 [
-				 { label: "התחבר", triggered: onLoginClick },
-				 { label: "כנס", triggered: onLoginClick },
-				 //{ label: "אורח", triggered: register_triggeredHandler },
-			 ]);
-			 addChild( group );
-			group.setSize(UiGenerator.getInstance().fieldWidth, 250);
-			group.move(0, _phoneInput.bounds.bottom+10);*/
-			
 			
 			var loginButn:Button = new Button();
 			loginButn.addEventListener(Event.TRIGGERED, onLoginClick);
@@ -110,16 +97,32 @@ package panels
 			loginButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
 			loginButn.move(0, _phoneInput.bounds.bottom + 10);
 			loginButn.setSize(UiGenerator.getInstance().fieldWidth, 120);
+			loginButn.iconPosition = Button.ICON_POSITION_RIGHT
+			loginButn.horizontalAlign = Button.HORIZONTAL_ALIGN_RIGHT;
 			addChild(loginButn);
+			
+			
+			//var label2:GLabel = new GLabel(rect);
+			var label2:Label = new Label();
+			label2.move(0,loginButn.bounds.bottom + 10);
+			label2.text = "או פשוט התחבר בעזרת הפייסבוק";
+			label2.setSize(rect.width, rect.height);
+		
+			//label2.x = this.width - label2.textRendererProperties.textWidth;
+			addChild(label2);
+			
 			
 			var loginFBButn:Button = new Button();
 			loginFBButn.addEventListener(Event.TRIGGERED, onLoginClick);
 			loginFBButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_CALL_TO_ACTION_BUTTON);
-			//loginFBButn.label = "התחבר";
-			loginFBButn.move(0, loginButn.bounds.bottom + 10);
+			loginFBButn.label = "כניסה בעזרת";
+			loginFBButn.move(0, label2.bounds.bottom + 10);
+			loginFBButn.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 7));
+			//loginFBButn.iconPosition = Button.ICON_POSITION_RIGHT
+			loginFBButn.horizontalAlign = Button.HORIZONTAL_ALIGN_RIGHT;
+			loginFBButn.paddingRight = 2;
+			loginFBButn.iconOffsetX = 2;
 			loginFBButn.setSize(UiGenerator.getInstance().fieldWidth, 120);
-			loginFBButn.defaultIcon=new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 7));
-			loginFBButn.iconPosition = Button.ICON_POSITION_LEFT;
 			addChild(loginFBButn);
 			
 			_isCityzenCB = new Check();

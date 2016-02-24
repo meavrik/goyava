@@ -61,9 +61,9 @@
     <element path="..\swc\Flox-AS3.swc" />
     <element path="..\swc\MetalWorksMobileTheme.swc" />
     <element path="..\swc\airglobal.swc" />
-    <element path="..\swc\Maps_beta_2.swc" />
     <element path="..\swc\Starling-Extension-Graphics.swc" />
     <element path="..\swc\TopcoatLightMobileTheme.swc" />
+    <element path="..\swc\iMaps_r11.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

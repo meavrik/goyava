@@ -1,4 +1,4 @@
-package screens.subScreens 
+package screens.subScreens.addItem 
 {
 	import data.GlobalDataProvider;
 	import entities.GroupEntity;
@@ -8,13 +8,14 @@ package screens.subScreens
 	import feathers.controls.TextInput;
 	import feathers.data.ListCollection;
 	import screens.consts.CategoriesConst;
+	import screens.subScreens.SubScreenMenu;
 	import ui.UiGenerator;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenGroupAdd extends ScreenSubScreenMenu 
+	public class SubScreenAdd_Group extends SubScreenMenu 
 	{
 		private var _itemNameLabel:TextInput;
 		private var _detailsLabel:TextInput;
@@ -22,7 +23,7 @@ package screens.subScreens
 		private var _mailLabel:TextInput;
 		private var _categoryPicker:PickerList;
 		
-		public function ScreenGroupAdd() 
+		public function SubScreenAdd_Group() 
 		{
 			super();
 			title = "קבוצה חדשה";

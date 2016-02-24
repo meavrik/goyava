@@ -1,12 +1,10 @@
-package screens.subScreens 
+package screens.subScreens.addItem 
 {
-	import assets.AssetsHelper;
 	import data.AppDataLoader;
 	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
 	import feathers.controls.Alert;
 	import feathers.controls.Button;
-	import feathers.controls.Header;
 	import feathers.controls.Label;
 	import feathers.controls.NumericStepper;
 	import feathers.controls.PickerList;
@@ -22,7 +20,7 @@ package screens.subScreens
 	import log.Logger;
 	import media.CameraHelper;
 	import screens.consts.CategoriesConst;
-	import starling.display.DisplayObject;
+	import screens.subScreens.SubScreenMenu;
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
@@ -32,7 +30,7 @@ package screens.subScreens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenSellItemAdd extends ScreenSubScreenMenu 
+	public class SubScreenAdd_SellItem extends SubScreenMenu 
 	{
 		private var _itemNameLabel:TextInput;
 		private var _addButton:Button;
@@ -53,7 +51,7 @@ package screens.subScreens
 		private var _priceStepper:NumericStepper;
 		private var _statePicker:PickerList;
 		
-		public function ScreenSellItemAdd() 
+		public function SubScreenAdd_SellItem() 
 		{
 			super();
 			

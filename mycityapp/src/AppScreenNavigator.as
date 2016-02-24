@@ -1,5 +1,6 @@
 package 
 {
+	import entities.BusinessEntity;
 	import entities.GroupEntity;
 	import entities.SellItemEntity;
 	import feathers.controls.Drawers;
@@ -22,12 +23,13 @@ package
 	import screens.ScreenRealestate;
 	import screens.ScreenResidents;
 	import screens.ScreenSecondHand;
-	import screens.subScreens.ScreenGroupAdd;
-	import screens.subScreens.ScreenGroupView;
-	import screens.subScreens.ScreenMyArea;
-	import screens.subScreens.ScreenSellItemAdd;
-	import screens.subScreens.ScreenSellItemView;
-	import screens.subScreens.SubScreenMainPhonesView;
+	import screens.subScreens.addItem.SubScreenAdd_Group;
+	import screens.subScreens.viewItem.SubScreenView_Group;
+	import screens.subScreens.SubScreenMyArea;
+	import screens.subScreens.addItem.SubScreenAdd_SellItem;
+	import screens.subScreens.viewItem.SubScreenView_SellItem;
+	import screens.subScreens.viewItem.SubScreenView_Business;
+	import screens.subScreens.viewItem.SubScreenView_MainPhones;
 	import starling.events.Event;
 	
 	/**
@@ -66,14 +68,14 @@ package
 					{screen:new ScreenEvents(),id:ScreenEnum.EVENTS_SCREEN},
 					{screen:new ScreenRealestate(),id:ScreenEnum.REALESTATE_SCREEN},
 					{screen:new ScreenMap(),id:ScreenEnum.MAP_SCREEN},
-					{screen:new ScreenLostAndFound(),id:ScreenEnum.LOST_AND_FOUND},
+					{screen:new ScreenLostAndFound(),id:ScreenEnum.LOST_AND_FOUND_SCREEN},
 			]
 			
 			var subScreensArr:Array = [
 					
-					{screen:ScreenMyArea, id:ScreenEnum.MY_AREA_SCREEN },
-					{screen:ScreenSellItemAdd,id:ScreenEnum.SELL_ITEM_ADD_SCREEN},
-					{screen:ScreenGroupAdd,id:ScreenEnum.ADD_NEW_GROUP_SCREEN},
+					{screen:SubScreenMyArea, id:ScreenEnum.MY_AREA_SCREEN },
+					{screen:SubScreenAdd_SellItem,id:ScreenEnum.SELL_ITEM_ADD_SCREEN},
+					{screen:SubScreenAdd_Group,id:ScreenEnum.ADD_NEW_GROUP_SCREEN},
 					//{screen:_groupViewScreen,id:ScreenEnum.VIEW_GROUP_SCREEN},
 					//{screen:_sellItemViewScreen,id:ScreenEnum.SELL_ITEM_VIEW_SCREEN},
 			]
@@ -102,18 +104,17 @@ package
 					//navigatorItem.setScreenIDForPushEvent(ScreenEnum.GROUPS_SCREEN, ScreenEnum.GROUPS_SCREEN);
 					navigatorItem.setFunctionForPushEvent(ScreenEnum.GROUPS_SCREEN, onGroupsOpen);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.RESIDENTS_SCREEN, ScreenEnum.RESIDENTS_SCREEN);
-					navigatorItem.setScreenIDForPushEvent(ScreenEnum.LOST_AND_FOUND, ScreenEnum.LOST_AND_FOUND);
-					navigatorItem.setScreenIDForPushEvent(ScreenEnum.BUSINESS_SCREEN, ScreenEnum.BUSINESS_SCREEN);
+					navigatorItem.setScreenIDForPushEvent(ScreenEnum.LOST_AND_FOUND_SCREEN, ScreenEnum.LOST_AND_FOUND_SCREEN);
+					//navigatorItem.setScreenIDForPushEvent(ScreenEnum.BUSINESS_SCREEN, ScreenEnum.BUSINESS_SCREEN);
+					navigatorItem.setFunctionForPushEvent(ScreenEnum.BUSINESS_SCREEN, onBusinessOpen);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.REALESTATE_SCREEN, ScreenEnum.REALESTATE_SCREEN);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.MAP_SCREEN, ScreenEnum.MAP_SCREEN);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.EVENTS_SCREEN, ScreenEnum.EVENTS_SCREEN);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.MATNAS_SCREEN, ScreenEnum.MATNAS_SCREEN);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.EDUCATION_SCREEN, ScreenEnum.EDUCATION_SCREEN);
-					//navigatorItem.setScreenIDForPushEvent(id, id);
 					
-					
+
 					navigatorItem.setFunctionForPushEvent(ScreenEnum.VIEW_MAIN_PHONE_CALLS, onMainPhonesViewOpen);
-					
 				}
 				
 				if (id == ScreenEnum.GROUPS_SCREEN)
@@ -126,8 +127,13 @@ package
 				if (id == ScreenEnum.SECOND_HAND_SCREEN)
 				{
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.SELL_ITEM_ADD_SCREEN, ScreenEnum.SELL_ITEM_ADD_SCREEN);
-					//navigatorItem.setScreenIDForPushEvent(ScreenEnum.SELL_ITEM_VIEW_SCREEN, ScreenEnum.SELL_ITEM_VIEW_SCREEN);
 					navigatorItem.setFunctionForPushEvent(ScreenEnum.SELL_ITEM_VIEW_SCREEN, onSellItemViewOpen);
+				}
+				
+				if (id == ScreenEnum.BUSINESS_SCREEN)
+				{
+					//navigatorItem.setScreenIDForPushEvent(ScreenEnum.SELL_ITEM_ADD_SCREEN, ScreenEnum.SELL_ITEM_ADD_SCREEN);
+					navigatorItem.setFunctionForPushEvent(ScreenEnum.BUSINESS_ITEM_VIEW_SCREEN, onBusinessItemViewOpen);
 				}
 				_screenNavigator.addScreen(id, navigatorItem);
 			}
@@ -160,7 +166,13 @@ package
 			_drawers.content = this._screenNavigator
 			_drawers.bottomDrawer = _panelPH;
 			_drawers.bottomDrawerToggleEventType = ScreenEnum.VIEW_MAIN_PHONE_CALLS;
-			this.addChild( _drawers )
+			this.addChild(_drawers);
+		}
+		
+		private function onBusinessOpen():void 
+		{
+			_drawers.bottomDrawerToggleEventType = ScreenEnum.BUSINESS_ITEM_VIEW_SCREEN;
+			_screenNavigator.pushScreen(ScreenEnum.BUSINESS_SCREEN);
 		}
 		
 		private function onSecondHandOpen():void 
@@ -177,31 +189,32 @@ package
 		
 		private function onGroupViewOpen(e:Event):void 
 		{
-			var panel:ScreenGroupView = new ScreenGroupView(e.data as GroupEntity);
+			var panel:SubScreenView_Group = new SubScreenView_Group(e.data as GroupEntity);
+			_panelPH.setScreen(panel);
+		}
+		
+		private function onBusinessItemViewOpen(e:Event):void 
+		{
+			var panel:SubScreenView_Business = new SubScreenView_Business(e.data as BusinessEntity);
 			_panelPH.setScreen(panel);
 		}
 		
 		private function onSellItemViewOpen(e:Event):void 
 		{
-			var panel:ScreenSellItemView = new ScreenSellItemView(e.data as SellItemEntity);
+			var panel:SubScreenView_SellItem = new SubScreenView_SellItem(e.data as SellItemEntity);
 			_panelPH.setScreen(panel);
 		}
 		
 		private function onMainPhonesViewOpen(e:Event):void 
 		{
-			var panel:SubScreenMainPhonesView = new SubScreenMainPhonesView();
+			var panel:SubScreenView_MainPhones = new SubScreenView_MainPhones();
 			_panelPH.setScreen(panel);
 		}
 		
-		private function onScreenClick(e:Event):void 
-		{
-			//trace("CLICK");
-			_mainScreen.focus()
-			//_screenNavigator.showScreen(e.type);
-		}
 		
 		private function onBackToMainClick(e:Event):void 
 		{
+			_drawers.bottomDrawerToggleEventType = ScreenEnum.VIEW_MAIN_PHONE_CALLS;
 			//_screenNavigator.showScreen(ScreenEnum.MAIN_SCREEN);
 			_mainScreen.focus()
 		}

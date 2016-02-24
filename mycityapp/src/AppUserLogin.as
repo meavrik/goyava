@@ -75,6 +75,8 @@ package
 		{	
 			Logger.logError("onUserDataLoadError : " + message);
 			handleNewUser();
+			
+			userIsLoggedIn();
 		}
 		
 		private function onUserDataLoadComplete(userData:FloxUser):void 
