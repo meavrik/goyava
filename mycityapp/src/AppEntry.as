@@ -121,7 +121,8 @@ package
 		
 		private function onAppReload(e:Event):void 
 		{
-			startApplication();
+			//startApplication();
+			setNewMainApp(true);
 		}
 		
 		private function removeBg():void
@@ -139,7 +140,7 @@ package
 			bitmap.smoothing = true;
 			_backgroundImg = new Image(Texture.fromBitmap(bitmap));
 			var factor:Number = Math.min(stage.stageWidth / _backgroundImg.width, stage.stageHeight / _backgroundImg.height);
-			trace("Aaa == " + factor);
+
 			//_backgroundImg.width = stage.stageWidth;
 			//_backgroundImg.height = stage.stageHeight;
 			
@@ -164,30 +165,27 @@ package
 			removeProgressBar();
 			removeBg();
 			
-			if (_mainApp)
-			{
-				_mainApp.removeFromParent(true);
-			}
-			
 			//AppDataLoader.getInstance().loadUsersData();
 			//AppDataLoader.getInstance().loadGroupsData();
 			//AppDataLoader.getInstance().loadSellItemsData();
 			AppDataLoader.getInstance().loadCommonData();
 			AppDataLoader.getInstance().loadMyMessagesData();
 			
-			_mainApp = new AppMain();
-			addChild(_mainApp);
-			_mainApp.init();
-			
-			if (_userLogin.isNewUser)
-			{
-				registerNewUser()
-			}
-			//addChild(AppMain.getInstance())
-			//AppMain.getInstance().initNewPlayer(isAdmin);
-			//AppMain.getInstance().addEventListener(Event.READY, onAppReady);
+			setNewMainApp(_userLogin.isNewUser);
 		}
 		
+		private function setNewMainApp(newUser:Boolean):void
+		{
+			if (_mainApp)
+			{
+				_mainApp.removeFromParent(true);
+				_mainApp = null;
+			}
+			
+			_mainApp = new AppMain(newUser);
+			addChild(_mainApp);
+			_mainApp.init();
+		}
 		/*private function onAppReady(e:Event):void 
 		{
 			AppMain.getInstance().removeEventListener(Event.READY, onAppReady);

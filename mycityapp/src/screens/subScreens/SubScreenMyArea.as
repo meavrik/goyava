@@ -151,22 +151,28 @@ package screens.subScreens
 		
 		private function showMyGroupsList():void
 		{
-			_list.dataProvider.data[0].children = [];
-			for (var i:int = 0; i < GlobalDataProvider.myGroups.length ; i++)
+			if (_list && _list.dataProvider)
 			{
-				_list.dataProvider.data[0].children[i] = { text:GlobalDataProvider.myGroups[i].name, data:GlobalDataProvider.myGroups[i] };
+				_list.dataProvider.data[0].children = [];
+				for (var i:int = 0; i < GlobalDataProvider.myGroups.length ; i++)
+				{
+					_list.dataProvider.data[0].children[i] = { text:GlobalDataProvider.myGroups[i].name, data:GlobalDataProvider.myGroups[i] };
+				}
+				_list.dataProvider.updateItemAt(0);
 			}
-			_list.dataProvider.updateItemAt(0);
 		}
 		
 		private function showMySellItemsList():void
 		{
-			_list.dataProvider.data[1].children = [];
-			for (var j:int = 0; j < GlobalDataProvider.mySellItems.length; j++) 
+			if (_list && _list.dataProvider)
 			{
-				_list.dataProvider.data[1].children[j] = { text:GlobalDataProvider.mySellItems[j].name, data:GlobalDataProvider.mySellItems[j] };
+				_list.dataProvider.data[1].children = [];
+				for (var j:int = 0; j < GlobalDataProvider.mySellItems.length; j++) 
+				{
+					_list.dataProvider.data[1].children[j] = { text:GlobalDataProvider.mySellItems[j].name, data:GlobalDataProvider.mySellItems[j] };
+				}
+				_list.dataProvider.updateItemAt(1);
 			}
-			_list.dataProvider.updateItemAt(1);
 		}
 		
 		private function onEditButnClick(e:Event):void 
@@ -255,6 +261,17 @@ package screens.subScreens
 				{ label: "סבבה" },
 			]));
 			alert.width = this.width - 40;
+		}
+		
+		override public function dispose():void 
+		{
+			if (_list)
+			{
+				_list.removeEventListeners();
+				_list.removeFromParent(true);
+				_list = null;
+			}
+			super.dispose();
 		}
 		
 	}

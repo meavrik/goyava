@@ -29,6 +29,7 @@ package screens.enums
 		static public const VIEW_MAIN_PHONE_CALLS:String = "viewMainPhoneCalls";
 		static public const BUSINESS_ITEM_VIEW_SCREEN:String = "businessItemViewScreen";
 		static public const LOST_FOUND_ITEM_ADD_SCREEN:String = "lostFoundItemAddScreen";
+		static public const WELCOME_SCREEN:String = "welcomeScreen";
 		
 		
 		

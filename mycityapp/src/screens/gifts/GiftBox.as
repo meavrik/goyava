@@ -27,8 +27,8 @@ package screens.gifts
 		{
 			super();
 			//this._img = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 30));
-			this._mc = new MovieClip(AssetsHelper.getInstance().assetManager.getTextureAtlas(AssetsHelper.GIFT_ANIMATION).getTextures(), 25);
-			addChild(_mc);
+			//this._mc = new MovieClip(AssetsHelper.getInstance().assetManager.getTextureAtlas(AssetsHelper.GIFT_ANIMATION).getTextures(), 25);
+			//addChild(_mc);
 			
 			
 			_mc.scaleX = _mc.scaleY = 0;
@@ -65,7 +65,6 @@ package screens.gifts
 		
 		private function onClick(e:Event):void 
 		{
-			trace("1111");
 			dispatchEventWith(Event.SELECT);
 		}
 		

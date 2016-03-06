@@ -89,17 +89,18 @@ package screens.mainMenu
 				//renderer.itemIndex++
 				renderer.isEnabled = false;
 				var counter:ItemCounter = new ItemCounter();
-				//counter.count = 2;
 				counter.x = 130;
 				counter.y = 10;
 				renderer.addChild(counter);
+
+				renderer.iconPosition = DefaultListItemRenderer.ICON_POSITION_RIGHT
+				renderer.horizontalAlign = DefaultListItemRenderer.HORIZONTAL_ALIGN_RIGHT;
 
 				//renderer.selectableField = "isSelected";
 				//renderer.selectableFunction = null
 				//renderer.accessorySourceFunction = itemRendererAccessorySourceFunction;
 				//renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_LEFT; 
-				
-				renderer.horizontalAlign = DefaultGroupedListHeaderOrFooterRenderer.HORIZONTAL_ALIGN_RIGHT
+
 				renderer.index = count;
 
 				count++;

@@ -30,6 +30,7 @@ package
 	import screens.subScreens.viewItem.SubScreenView_SellItem;
 	import screens.subScreens.viewItem.SubScreenView_Business;
 	import screens.subScreens.viewItem.SubScreenView_MainPhones;
+	import screens.welcome.ScreenWelcome;
 	import starling.events.Event;
 	
 	/**
@@ -92,9 +93,10 @@ package
 				screen = mainScreensArr[i].screen;
 				screen.addEventListener(Event.COMPLETE, onBackToMainClick);
 				screen.screenID = id;
-				screen.setSize(this.stage.stageWidth, this.stage.stageHeight-90);
+				screen.setSize(this.stage.stageWidth, this.stage.stageHeight - 90);
 				
-				navigatorItem = new StackScreenNavigatorItem(mainScreensArr[i].screen);
+				//navigatorItem = new StackScreenNavigatorItem(mainScreensArr[i].screen);
+				navigatorItem = new StackScreenNavigatorItem(screen);
 				navigatorItem.addPopEvent(Event.COMPLETE);
 				if (id == ScreenEnum.MAIN_SCREEN)
 				{
@@ -112,8 +114,6 @@ package
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.EVENTS_SCREEN, ScreenEnum.EVENTS_SCREEN);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.MATNAS_SCREEN, ScreenEnum.MATNAS_SCREEN);
 					navigatorItem.setScreenIDForPushEvent(ScreenEnum.EDUCATION_SCREEN, ScreenEnum.EDUCATION_SCREEN);
-					
-
 					navigatorItem.setFunctionForPushEvent(ScreenEnum.VIEW_MAIN_PHONE_CALLS, onMainPhonesViewOpen);
 				}
 				
@@ -216,6 +216,7 @@ package
 		{
 			_drawers.bottomDrawerToggleEventType = ScreenEnum.VIEW_MAIN_PHONE_CALLS;
 			//_screenNavigator.showScreen(ScreenEnum.MAIN_SCREEN);
+			trace("! onBackToMainClick !");
 			_mainScreen.focus()
 		}
 
