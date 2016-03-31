@@ -36,18 +36,7 @@ package screens.consts
 								"עסקי"
 							]
 							
-		static public var businessCategories:Array = [	
-								"אוכל",
-								"כללי",
-								"עסקי",
-								"צעצועים",
-								"ביגוד",
-								"חשמל",
-								"בנק",
-								"מספרה",
-								"בידור",
-								"נדלן"
-							]
+		static public var businessCategories:Array = [	]
 		static public var All:String = "הכול";
 		
 

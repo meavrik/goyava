@@ -132,14 +132,14 @@ package screens.subScreens
 			_list.setSize(this.stage.stageWidth -10, this.stage.stageHeight - _list.bounds.top);
 			this.addChild(_list);
 			
-			AppDataLoader.getInstance().addEventListener(AppDataLoader.GROUPS_DATA_LOADED, onGroupsLoaded);
-			AppDataLoader.getInstance().addEventListener(AppDataLoader.SELLITEMS_DATA_LOADED, onSellItemsLoaded);
+			//AppDataLoader.getInstance().addEventListener(AppDataLoader.GROUPS_DATA_LOADED, onGroupsLoaded);
+			//AppDataLoader.getInstance().addEventListener(AppDataLoader.SELLITEMS_DATA_LOADED, onSellItemsLoaded);
 			
 			showMySellItemsList();
 			showMyGroupsList();
 		}
 		
-		private function onSellItemsLoaded(e:Event):void
+		/*private function onSellItemsLoaded(e:Event):void
 		{
 			showMySellItemsList();
 		}
@@ -147,7 +147,7 @@ package screens.subScreens
 		private function onGroupsLoaded(e:Event):void 
 		{
 			showMyGroupsList();
-		}
+		}*/
 		
 		private function showMyGroupsList():void
 		{
@@ -191,7 +191,7 @@ package screens.subScreens
 			
 			Entity.destroy(SellItemEntity, sellItem.id , onDeleteComplete, onDeleteError);
 			//GlobalDataProvider.sellItems.splice(GlobalDataProvider.sellItems.indexOf(sellItem), 1);
-			AppDataLoader.getInstance().loadSellItemsData();
+			//AppDataLoader.getInstance().loadSellItemsData();
 		}
 		
 		private function onDeleteError(message:String):void 
@@ -213,7 +213,7 @@ package screens.subScreens
 			alert.width = this.width - 40;
 			//showListData();
 			showMySellItemsList();
-			AppDataLoader.getInstance().loadSellItemsData();
+			//AppDataLoader.getInstance().loadSellItemsData();
 		}
 		
 		override protected function customHeaderFactory():Header 

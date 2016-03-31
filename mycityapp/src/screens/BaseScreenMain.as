@@ -15,12 +15,12 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenSubMain extends PanelScreen 
+	public class BaseScreenMain extends PanelScreen 
 	{
 		private var _preloader:WaitPreloader;
 		public var id:String;
 		
-		public function ScreenSubMain() 
+		public function BaseScreenMain() 
 		{
 			super();
 			
@@ -36,8 +36,8 @@ package screens
 		{
 			_preloader = new WaitPreloader();
 			addChild(_preloader);
-			_preloader.x = (this.width - _preloader.width) / 2;
-			_preloader.y = (this.height - _preloader.height) / 2;
+			_preloader.x = (stage.stageWidth) / 2;
+			_preloader.y = (stage.stageHeight) / 2;
 		}
 		
 		protected function removePreloader():void

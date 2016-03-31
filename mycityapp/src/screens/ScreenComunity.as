@@ -6,7 +6,7 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenComunity extends ScreenSubMain 
+	public class ScreenComunity extends BaseScreenMain 
 	{
 		
 		public function ScreenComunity() 

@@ -3,14 +3,20 @@ package screens.subScreens.viewItem
 	import assets.AssetsHelper;
 	import entities.BusinessEntity;
 	import entities.SellItemEntity;
+	import feathers.controls.Header;
 	import feathers.controls.ImageLoader;
 	import feathers.controls.Label;
 	import feathers.controls.PanelScreen;
 	import flash.events.ErrorEvent;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	import progress.WaitPreloader;
 	import screens.components.ImageLoaderComponent;
+	import starling.display.DisplayObject;
 	import starling.display.Quad;
 	import starling.events.Event;
+	import ui.buttons.CallButton;
+	import ui.buttons.MailButton;
 	/**
 	 * ...
 	 * @author Avrik
@@ -45,6 +51,27 @@ package screens.subScreens.viewItem
 				_label.styleNameList.add(Label.ALTERNATE_STYLE_NAME_HEADING);
 				addChild(_label);
 				_label.text += _dataProvider.description + "\n";
+			}
+			
+			this.headerFactory = customHeaderFactory
+		}
+		
+		protected function customHeaderFactory():Header 
+		{
+			var header:Header = new Header()
+			var callButton:CallButton = new CallButton(onCallClick);
+			
+			header.rightItems = new <DisplayObject>[callButton];
+			return header
+		}
+		
+		private function onCallClick(e:Event):void 
+		{
+			if (this._dataProvider && this._dataProvider.phone)
+			{
+				const callURL:String = "sms:" + this._dataProvider.phone;
+				var targetURL:URLRequest = new URLRequest(callURL);
+				navigateToURL(targetURL);
 			}
 		}
 		

@@ -22,10 +22,7 @@ package login
 		override protected function initialize():void 
 		{
 			
-			_screenImg = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.LOGIN_FRAMES, 2));
-			_screenImg.x = (stage.stageWidth - _screenImg.width) / 2;
-			_screenImg.y = 10;
-			addChild(_screenImg);
+			
 			
 			super.initialize();
 
@@ -34,6 +31,12 @@ package login
 			title = " ברוך הבא לאבן יהודה";
 			_nextButton.label = "הרשם כתושב";
 
+			_screenImg = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.LOGIN_FRAMES, 2));
+			_screenImg.x = (stage.stageWidth - _screenImg.width) / 2;
+			_screenImg.y = (_nextButton.bounds.top - _screenImg.height) / 2;
+			addChild(_screenImg);
+			addChild(_nextButton);
+			
 			var loginGuestButn:Button = new Button();
 			loginGuestButn.addEventListener(Event.TRIGGERED, onGuestClick);
 			loginGuestButn.label = "היכנס כאורח";

@@ -7,6 +7,7 @@ package
 	import controllers.localStorage.LocalStorageController;
 	import data.GlobalDataProvider;
 	import entities.FloxUser;
+	import flash.events.ErrorEvent;
 	import log.LogEventsEnum;
 	import log.Logger;
 	import panels.RegisterPanel;
@@ -20,6 +21,7 @@ package
 	public class AppUserLogin extends EventDispatcher
 	{
 		static public const HERO_LOGIN_KEY:String = "kYWB9PVebJzgOS0O";
+		static public const LOGIN_ERROR:String = "loginError";
 		public var isNewUser:Boolean;
 		
 		private var _registerPanel:RegisterPanel;
@@ -63,7 +65,8 @@ package
 		private function onLoginError(message:String):void
 		{
 			Logger.logError(this, "onLoginError : {0}" + message);
-			dispatchEventWith(Event.COMPLETE);
+			//dispatchEventWith(ErrorEvent.ERROR);
+			dispatchEventWith(LOGIN_ERROR);
 		}
 		
 		private function onLoginComplete(userData:FloxUser):void

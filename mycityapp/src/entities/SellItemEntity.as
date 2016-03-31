@@ -46,7 +46,9 @@ package entities
 		private function onSaveComplete():void 
 		{
 			Logger.logInfo("save sell item success");
-			AppDataLoader.getInstance().loadSellItemsData();
+			//AppDataLoader.getInstance().loadSellItemsData();
+			//AppDataLoader.getInstance().loadEntityData(SellItemEntity);
+			
 			//GlobalDataProvider.commonEntity.addSellItem(this.id, name, price, GlobalDataProvider.currencySign, category,description,updatedAt.time);
 			//GlobalDataProvider.userPlayer.mySales.push( { id:this.id, name:name, price:price, category:category } );
 			//GlobalDataProvider.userPlayer.save(null, null);

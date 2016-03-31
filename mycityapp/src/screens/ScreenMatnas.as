@@ -17,7 +17,7 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenMatnas extends ScreenSubMain 
+	public class ScreenMatnas extends BaseScreenMain 
 	{
 		private var _list:List;
 		

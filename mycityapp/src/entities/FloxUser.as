@@ -1,5 +1,6 @@
 package entities
 {
+	import com.gamua.flox.Entity;
 	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	

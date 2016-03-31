@@ -11,7 +11,7 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenRealestate extends ScreenSubMain 
+	public class ScreenRealestate extends BaseScreenMain 
 	{
 		private var _list:GroupedList;
 		

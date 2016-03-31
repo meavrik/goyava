@@ -47,7 +47,7 @@ package entities
 		
 		private function onSaveComplete():void 
 		{
-			AppDataLoader.getInstance().loadGroupsData();
+			//AppDataLoader.getInstance().loadGroupsData();
 		}
 		
 		public function get name():String 

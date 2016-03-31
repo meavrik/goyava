@@ -1,10 +1,8 @@
 package screens 
 {
-	import data.AppDataLoader;
 	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
 	import helpers.FormatHelper;
-	import screens.consts.CategoriesConst;
 	import screens.enums.ScreenEnum;
 	import starling.events.Event;
 	
@@ -13,7 +11,7 @@ package screens
 	 * @author Avrik
 	 */
 
-	public class ScreenSecondHand extends ScreenListSearch 
+	public class ScreenSecondHand extends BaseScreenListSearch 
 	{
 		public function ScreenSecondHand() 
 		{
@@ -25,8 +23,10 @@ package screens
 		override protected function initialize():void 
 		{
 			super.initialize();
-
 			this._searchInput.prompt = "חפש מוצר";
+			assignAddButton();
+			
+			this.loadPageData(SellItemEntity);
 		}
 		
 		override protected function getListItemObject(item:Object):Object 
@@ -37,26 +37,10 @@ package screens
 			return obj;
 		}
 		
-		override protected function get getEventString():String 
-		{
-			return AppDataLoader.SELLITEMS_DATA_LOADED;
-		}
-		
-		override protected function get getDataProviderArr():Vector.<*>
-		{
-			return GlobalDataProvider.sellItems as Vector.<*>;
-		}
-		
-		override protected function get categoryListArr():Array 
-		{
-			return CategoriesConst.sellItemsCategories;
-		}
-		
 		override protected function onItemClick(e:Event):void 
 		{
 			super.onItemClick(e);
-			var sellData:SellItemEntity = GlobalDataProvider.sellItems[_list.selectedItem.index];
-			dispatchEventWith(ScreenEnum.SELL_ITEM_VIEW_SCREEN, false, sellData)
+			dispatchEventWith(ScreenEnum.SELL_ITEM_VIEW_SCREEN, false, _selectedItemData)
 		}
 
 		override protected function handleAddClick():void 

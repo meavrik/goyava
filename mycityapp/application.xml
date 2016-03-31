@@ -21,7 +21,7 @@
 <key>UIRequiresPersistentWiFi</key>
 <string>NO</string>
 <key>UIApplicationExitsOnSuspend</key>
-<true />
+<false />
 <key>UIDeviceFamily</key>
 <array>
 	<string>1</string>

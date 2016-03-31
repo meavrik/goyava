@@ -1,5 +1,8 @@
 package 
 {
+	import flash.desktop.NativeApplication;
+	import flash.events.KeyboardEvent;
+	import flash.ui.Keyboard;
 	import log.Logger;
 	import login.AppLoginNavigator;
 	import starling.display.Sprite;
@@ -41,6 +44,9 @@ package
 			{
 				addChild(_mainScreenNavigator);
 			}
+			
+			
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, checkKeypress);
 		}
 		
 		private function onLoginComplete(e:Event):void 
@@ -55,11 +61,21 @@ package
 			addChild(_mainScreenNavigator);
 		}
 		
-		
-		
-		
-		
-		
+
+		private function checkKeypress(event:KeyboardEvent):void 
+		{
+			switch (event.keyCode) 
+			{ 
+				case Keyboard.BACK: 
+					event.preventDefault();
+					
+					_mainScreenNavigator.goBack();
+					break; 
+				case Keyboard.MENU: 
+				case Keyboard.SEARCH: 
+					break; 
+			}
+		}
 		override public function dispose():void 
 		{
 			if (_loginScreenNavigator)

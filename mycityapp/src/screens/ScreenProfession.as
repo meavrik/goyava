@@ -1,6 +1,7 @@
 package screens 
 {
 	import entities.BusinessEntity;
+	import entities.ProfessionEntity;
 	import feathers.controls.Button;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
@@ -11,28 +12,23 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenBusiness extends BaseScreenListSearch
+	public class ScreenProfession extends BaseScreenListSearch
 	{
-		public function ScreenBusiness() 
+		public function ScreenProfession() 
 		{
 			super();
 			
-			title = "עסקים בעיר";
+			title = "בעלי מקצוע באזור";
 			
 		}
 		
 
-		/*override protected function get getEntityClass():Class 
-		{
-			return BusinessEntity
-		}*/
-		
 		override protected function initialize():void 
 		{
 			super.initialize();
 			
 			this._searchInput.prompt = "חפש עסק";
-			this.loadPageData(BusinessEntity)
+			this.loadPageData(ProfessionEntity);
 		}
 		
 		override protected function onItemClick(e:Event):void 

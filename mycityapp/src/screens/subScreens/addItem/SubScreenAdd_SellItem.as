@@ -213,7 +213,7 @@ package screens.subScreens.addItem
 				alert.width = this.width - 40;
 				
 				
-				AppDataLoader.getInstance().loadSellItemsData();
+				//AppDataLoader.getInstance().loadSellItemsData();
 			}
 		}
 		

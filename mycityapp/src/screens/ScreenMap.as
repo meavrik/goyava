@@ -9,7 +9,7 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenMap extends ScreenSubMain 
+	public class ScreenMap extends BaseScreenMain 
 	{
 		//private var googleMap:Map;
 		private const MAP_KEY:String = "AIzaSyBD3qb2JMNfv7UUzCZV98rtWxnIHbKx7gM";

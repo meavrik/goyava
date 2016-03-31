@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
+
 	<business name="פלאפל המייסדים" category="אוכל" address="המייסדים 15" phone="050-5555511" email="" description="" website="" type="" pictureUrl="" logoUrl=""></business>
 	<business name="אישאימוטו סושי" category="אוכל" address="המייסדים 12" phone="050-5555522" email="" description="" website="" type="" pictureUrl="" logoUrl=""></business>
 	<business name="מגה בעיר" category="אוכל" address="המייסדים 10" phone="050-5555533" email="" description="" website="" type="" pictureUrl="" logoUrl=""></business>
 	<business name="קצוצים מספרה" category="מספרה" address="המייסדים 12" phone="050-5555544" email="" description="" website="" type="" pictureUrl="" logoUrl=""></business>
 	<business name="קולנוע לב" category="בידור" address="המייסדים 5" phone="050-5555555" email="" description="" website="" type="" pictureUrl="" logoUrl=""></business>
 	<business name="המייסדות" category="ביגוד" address="המייסדים 100" phone="050-1234545" email="" description="" website="" type="" pictureUrl="" logoUrl=""></business>
+	<business name="מוסך הנגבי" category="רכב" address="המייסדים 100" phone="050-1234545" email="" description="" website="" type="" pictureUrl="" logoUrl=""></business>
+
+	
+	<profession name="דוד האינסטלטור" category="אינסטלציה" address="" phone="050-1234545" email="" description="" website="" type="" pictureUrl="" logoUrl=""></profession>
+	<profession name="משה האינסטלטור" category="אינסטלציה" address="" phone="050-1234545" email="" description="" website="" type="" pictureUrl="" logoUrl=""></profession>
+	<profession name="החשמלאי" category="חשמל" address="" phone="050-1234545" email="" description="" website="" type="" pictureUrl="" logoUrl=""></profession>
 </data>

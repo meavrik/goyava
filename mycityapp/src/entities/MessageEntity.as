@@ -11,6 +11,8 @@ package entities
 	{
 		public var toUserId:String;
 		public var toUserName:String;
+		public var name:String;
+		public var category:String = "";
 		public var title:String;
 		public var message:String;
 		public var messageType:String;
@@ -30,6 +32,7 @@ package entities
 			//this.fromName = GlobalDataProvider.myUserData.name;
 			this.title = title;
 			this.message = message;
+			this.name = title;
 			
 			
 		}

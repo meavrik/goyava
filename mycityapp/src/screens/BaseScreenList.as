@@ -2,53 +2,52 @@ package screens
 {
 	import assets.AssetsHelper;
 	import com.gamua.flox.Entity;
+	import com.gamua.flox.Query;
 	import data.AppDataLoader;
-	import entities.interfaces.ICategorizedEntity;
-	import entities.SellItemEntity;
+	import data.GlobalDataProvider;
 	import feathers.controls.AutoComplete;
 	import feathers.controls.GroupedList;
 	import feathers.controls.ImageLoader;
 	import feathers.controls.PickerList;
+	import feathers.controls.TextInput;
 	import feathers.controls.renderers.DefaultGroupedListItemRenderer;
 	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.controls.renderers.IGroupedListItemRenderer;
 	import feathers.controls.renderers.IListItemRenderer;
-	import feathers.controls.TextInput;
 	import feathers.data.HierarchicalCollection;
 	import feathers.data.ListCollection;
 	import feathers.data.LocalAutoCompleteSource;
+	import log.Logger;
 	import screens.consts.CategoriesConst;
-	import starling.display.Button;
 	import starling.events.Event;
-	import ui.buttons.AddButton;
 	import ui.UiGenerator;
+	import ui.buttons.AddButton;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenListSearch extends ScreenSubMain 
+	public class BaseScreenList extends BaseScreenMain 
 	{
 		protected var _list:GroupedList;
-		protected var _categoryPicker:PickerList;
-		protected var _searchInput:AutoComplete;
-		protected var _dataProviderArr:Vector.<*>;
-		private var _itemsByCategory:Array = new Array();
+		//protected var _categoryPicker:PickerList;
+		//protected var _searchInput:AutoComplete;
+		protected var _dataProviderArr:Vector.<Entity>;
+		protected var _itemsByCategory:Array = new Array();
+		protected var _categoriesArr:Array;
+		protected var _selectedItemData:Entity;
 		
-		public function ScreenListSearch() 
+		public function BaseScreenList() 
 		{
 			super();
+			
 		}
 		
 		override protected function initialize():void 
 		{
 			super.initialize();
 
-			//_categoryListArr = CategoriesConst.sellItemsCategories;
-			//footerFactory = customFooterFactory;
-			this._dataProviderArr = getDataProviderArr;
-			
-			this._searchInput = new AutoComplete();
+			/*this._searchInput = new AutoComplete();
 			this._searchInput.autoCompleteDelay = .1;
 			this._searchInput.styleNameList.add(TextInput.ALTERNATE_STYLE_NAME_SEARCH_TEXT_INPUT);
 			//this._searchInput.prompt = "חפש מוצר";
@@ -60,8 +59,8 @@ package screens
 			this.addChild(this._searchInput);
 			
 			_categoryPicker = new PickerList();
-			//_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_STYLE_NAME_LIST;
-			_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_STYLE_NAME_BUTTON;
+			_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_STYLE_NAME_LIST;
+			//_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_STYLE_NAME_BUTTON;
 			_categoryPicker.prompt = "סנן לפי קטגוריה";
 			_categoryPicker.setSize(10, 10);
 			_categoryPicker.listProperties.itemRendererFactory = function():IListItemRenderer
@@ -77,18 +76,11 @@ package screens
 			_categoryPicker.dataProvider = new ListCollection([]);
 			_categoryPicker.labelField = "text";
 			_categoryPicker.selectedIndex = -1;
-			addChild(_categoryPicker);
+			addChild(_categoryPicker);*/
 			 
-			for (var i:int = 0; i < categoryListArr.length; i++) 
-			{
-				_categoryPicker.dataProvider.addItem( { text:categoryListArr[i], code:i } );
-			}
-			_categoryPicker.dataProvider.addItem( { text:"הכול", code:categoryListArr.length } );
-			
-
 			_list = new GroupedList();
 			_list.setSize(this.width, this.height - _list.bounds.top - 170);
-			_list.move(0, _categoryPicker.bounds.bottom + 10);
+			_list.move(0, 0);
 			_list.dataProvider = new HierarchicalCollection([])
 			_list.addEventListener(Event.TRIGGERED, onItemClick);
 			
@@ -108,24 +100,49 @@ package screens
 			}
 			addChild(_list);
 
-			if (_dataProviderArr && _dataProviderArr.length)
+			//loadPageData()
+		}
+		
+		protected function loadPageData(EntityClass:Class,constraints:String=null,...rest):void
+		{
+			showPreloader();
+			if (!_dataProviderArr)
 			{
-				handleNewData();
-			} else
-			{
-				showPreloader();
+				//AppDataLoader.getInstance().loadEntityData(EntityClass, onDataComplete, constraints);
+				
+				var query:Query = new Query(EntityClass, constraints, rest);
+				query.find(onDataComplete, onLoadDataError);
+				query.limit = 20;
 			}
-			//AppDataLoader.getInstance().addEventListener(AppDataLoader.SELLITEMS_DATA_LOADED, onDataLoaded);
-			AppDataLoader.getInstance().addEventListener(getEventString, onDataLoaded);
-			
-			
+		}
+		
+		protected function onDataComplete(items:Array):void 
+		{
+			trace("onDataComplete : " + items);
+			_dataProviderArr = new Vector.<Entity>;
+			for each (var item:Entity in items) 
+			{
+				_dataProviderArr.push(item);
+				if (item.ownerId == GlobalDataProvider.myUserData.ownerId)
+				{
+					GlobalDataProvider.addOwnedEntity(item)
+				}
+			}
+			handleNewData();
+		}
+		
+		protected function onLoadDataError(error:String):void 
+		{
+			Logger.logError(this, "error getting data : " + error);
+		}
+		
+		protected function assignAddButton():void
+		{
 			var addButton:AddButton = new AddButton(onAddClick);
 			addButton.x = stage.stageWidth - (addButton.width + 20);
 			addButton.y = this.height - (addButton.height + 10)-_list.bounds.top;
-			//editButton.addEventListener(Event.TRIGGERED, onAddClick);
 			addChild(addButton);
 		}
-		
 		
 		protected function custemItemRenderer():IGroupedListItemRenderer
 		{
@@ -146,28 +163,7 @@ package screens
 			
 		}
 		
-		private function onDataLoaded(e:Event):void 
-		{
-			this._dataProviderArr = getDataProviderArr
-			handleNewData();
-		}
-		
-		
-		protected function get getEventString():String
-		{
-			throw new Error("no EventString is set");
-		}
-		
-		protected function get getDataProviderArr():Vector.<*>
-		{
-			throw new Error("no DataProviderArr is set");
-		}
-		
-		protected function get categoryListArr():Array
-		{
-			throw new Error("no categoryListArr is set");
-		}
-		
+
 		public function handleNewData():void
 		{
 			removePreloader();
@@ -177,31 +173,55 @@ package screens
 			}
 			_itemsByCategory = new Array();
 			
+			_categoriesArr = [CategoriesConst.All];
+			
 			if (_dataProviderArr && _dataProviderArr.length)
 			{
 				var obj:Object;
 				var indexCount:int = 0;
-				var autoCompleteArr:Vector.<String> = new Vector.<String>;
+				//var autoCompleteArr:Vector.<String> = new Vector.<String>;
 				
 				for each (var item:Object in _dataProviderArr) 
 				{
-					autoCompleteArr.push(item.name);
+					//autoCompleteArr.push(item.name);
 
-					if (!_itemsByCategory[item.category])
+					if (item.category)
 					{
-						_itemsByCategory[item.category] = new Array();
+						if (!_itemsByCategory[item.category])
+						{
+							_itemsByCategory[item.category] = new Array();
+						}
 					}
 					
 					obj = getListItemObject(item)
 					obj.index = indexCount;
-					_itemsByCategory[item.category].push(obj);
+					if (_itemsByCategory[item.category] is Array)
+					{
+						_itemsByCategory[item.category].push(obj);
+					} else
+					{
+						if (!_itemsByCategory[CategoriesConst.All])
+						{
+							_itemsByCategory[CategoriesConst.All] = new Array();
+						}
+						_itemsByCategory[CategoriesConst.All].push(obj);
+						
+					}
+					
 					indexCount ++;
+					
+					if (_categoriesArr.indexOf(item.category) ==-1)
+					{
+						_categoriesArr.push(item.category);
+					}
 				}
 				
-				this._searchInput.source = new LocalAutoCompleteSource(new ListCollection(autoCompleteArr));
+				//this._searchInput.source = new LocalAutoCompleteSource(new ListCollection(autoCompleteArr));
 				
 				populateList();
 			}
+			
+			_list.dataProvider.updateItemAt(0);
 		}
 		
 		
@@ -214,30 +234,33 @@ package screens
 			return obj;
 		}
 		
-		private function populateList():void
+		protected function populateList():void
 		{
 			var count:int = 0;
-			
-			for each (var categoryName:String in categoryListArr) 
+			/*if (_categoryPicker.dataProvider)
 			{
-				//_categoryPicker.dataProvider.addItem( { text:categoryListArr[i], code:i } );
-				var itemsInCategory:Array = _itemsByCategory[categoryName];
+				_categoryPicker.dataProvider.removeAll();
+			}*/
+			
+			for each (var categoryOption:String in _categoriesArr) 
+			{
+				//_categoryPicker.dataProvider.addItem( { text:categoryOption, code:categoryOption } );
+
+				var childArr:Array = _itemsByCategory[categoryOption];
 				
-				if (itemsInCategory && itemsInCategory.length && _list.dataProvider.data)
+				if (childArr)
 				{
-					_list.dataProvider.data[count] = 
+					this._list.dataProvider.data[count] = 
 					{	
-						header : categoryName,
-						children: itemsInCategory
+						header : categoryOption,
+						children: childArr
 					}
 					count ++;
 				}
 			}
-			//_categoryPicker.dataProvider.addItem( { text:"הכול", code:categoryListArr.length } );
-			_list.dataProvider.updateItemAt(0);
 		}
 		
-		private function onCategorySort(e:Event):void 
+		/*private function onCategorySort(e:Event):void 
 		{
 			if (!_categoryPicker.selectedItem) return;
 			
@@ -260,8 +283,6 @@ package screens
 			}
 			else
 			{
-				//populateList()
-				
 				this._list.dataProvider.data[0] = 
 				{	
 					header : "לא נמצאו התאמות",
@@ -270,31 +291,13 @@ package screens
 			}
 			
 			_list.dataProvider.updateItemAt(0);
-		}
+		}*/
 		
 		protected function onItemClick(e:Event):void 
 		{
-			//var entityData:Entity = getDataProviderArr[_list.selectedItem.index];
-			//dispatchEventWith(ScreenEnum.SELL_ITEM_VIEW_SCREEN, false, entityData)
-		}
-
-		/*private function onAddClick(e:Event):void 
-		{
-			dispatchEventWith(ScreenEnum.SELL_ITEM_ADD_SCREEN)
+			_selectedItemData = _dataProviderArr[_list.selectedItem.index];
 		}
 		
-		protected function customFooterFactory():Header 
-		{
-			var footer:Header = new Header()
-			var addButton:Button = new Button();
-			addButton.styleNameList.add(Button.ALTERNATE_NAME_CALL_TO_ACTION_BUTTON);
-			addButton.label = "צור מודעה חדשה";
-			addButton.x = 10;
-			addButton.setSize(this.stage.stageWidth - 20, UiGenerator.getInstance().buttonHeight);
-			addButton.addEventListener(Event.TRIGGERED, onAddClick);
-			footer.rightItems = new <DisplayObject>[addButton];
-			return footer
-		}*/
 	}
 
 }

@@ -6,9 +6,9 @@ package entities
 	 * ...
 	 * @author Avrik
 	 */
-	public class BusinessEntity extends Entity 
+	public class BusinessEntity extends CommonEntity 
 	{
-		public var name:String;
+		
 		public var address:String = "";
 		public var category:String = "";
 		public var description:String = "";
@@ -19,13 +19,19 @@ package entities
 		public var logoUrl:String;
 		public var buisnessType:String;
 		
-		public function BusinessEntity(data:Object=null) 
+		public function BusinessEntity() 
 		{
 			super();
 			
+		}
+		
+		override public function generate(data:Object):void 
+		{
+			super.generate(data);
+			
 			if (data)
 			{
-				name = data.@name;
+				//name = data.@name;
 				address = data.@address;
 				category = data.@category;
 				description = data.@description;
@@ -36,7 +42,6 @@ package entities
 				logoUrl = data.@logoUrl;
 				buisnessType = data.@type;
 			}
-			this.publicAccess = Access.READ;
 		}
 		
 	}

@@ -1,9 +1,11 @@
 package screens 
 {
 	import assets.AssetsHelper;
+	import com.gamua.flox.Entity;
 	import data.AppDataLoader;
 	import data.GlobalDataProvider;
 	import entities.FloxUser;
+	import entities.UserItemEntity;
 	import feathers.controls.AutoComplete;
 	import feathers.controls.Button;
 	import feathers.controls.Header;
@@ -27,7 +29,7 @@ package screens
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenResidents extends ScreenSubMain 
+	public class ScreenResidents extends BaseScreenMain 
 	{
 		private var _list:List;
 		private var _searchInput:AutoComplete;
@@ -123,24 +125,30 @@ package screens
 				return "https://graph.facebook.com/v2.2/665289619/picture?type=square";
 			}
 			
-			if (GlobalDataProvider.users && GlobalDataProvider.users.length)
+			/*if (GlobalDataProvider.users && GlobalDataProvider.users.length)
 			{
 				handleListData()
 			} else
 			{
 				showPreloader();
-			}
+			}*/
 				
-			AppDataLoader.getInstance().addEventListener(AppDataLoader.USERS_DATA_LOADED, onUsersLoaded);
+			showPreloader();
+			if (!_dataProviderArr)
+			{
+				AppDataLoader.getInstance().loadEntityData(FloxUser, onDataComplete);
+			}
+			//AppDataLoader.getInstance().addEventListener(AppDataLoader.USERS_DATA_LOADED, onUsersLoaded);
 			
 		}
+		
 		
 		private function handleListData():void 
 		{
 			removePreloader();
-			_dataProviderArr = new Vector.<FloxUser>;
+			/*_dataProviderArr = new Vector.<FloxUser>;
 			_dataProviderArr = _dataProviderArr.concat(GlobalDataProvider.users);
-			_dataProviderArr.sort(sortList)
+			_dataProviderArr.sort(sortList)*/
 			
 			updateList();
 		}
@@ -157,10 +165,20 @@ package screens
 			return 0;
 		}
 		
-		private function onUsersLoaded(e:Event):void 
+
+		private function onDataComplete(items:Array):void 
 		{
+			_dataProviderArr = new Vector.<FloxUser>;
+			for each (var item:FloxUser in items) 
+			{
+				_dataProviderArr.push(item);
+			}
 			handleListData()
 		}
+		
+		
+		
+		
 		
 		private function updateList():void
 		{

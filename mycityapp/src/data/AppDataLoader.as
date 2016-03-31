@@ -2,11 +2,9 @@ package data
 {
 	import com.gamua.flox.Query;
 	import entities.BusinessEntity;
-	import entities.FloxUser;
-	import entities.GroupEntity;
-	import entities.LostAndFoundEntity;
-	import entities.MessageEntity;
-	import entities.SellItemEntity;
+	import entities.CommonEntity;
+	import entities.ProfessionEntity;
+	import flash.utils.Dictionary;
 	import log.Logger;
 	import starling.events.EventDispatcher;
 	
@@ -16,17 +14,13 @@ package data
 	 */
 	public class AppDataLoader extends EventDispatcher 
 	{
-		[Embed(source = "../../bin/xml/businessData.xml", mimeType = "application/octet-stream")]
-		private var BusinessXML:Class;
+		[Embed(source = "../../bin/xml/appData.xml", mimeType = "application/octet-stream")]
+		private var AppDataXML:Class;
 		
 		
 		
-		static public const GROUPS_DATA_LOADED:String = "groupsDataLoaded";
-		static public const MY_MESSAGES_LOADED:String = "myMessagesLoaded";
-		static public const SELLITEMS_DATA_LOADED:String = "sellitemsDataLoaded";
-		static public const USERS_DATA_LOADED:String = "usersDataLoaded";
-		static public const BUSINESS_DATA_LOADED:String = "businessDataLoaded";
-		static public const LOST_FOUND_DATA_LOADED:String = "lostFoundDataLoaded";
+		private var _dataDictionary:Dictionary = new Dictionary();
+		
 		
 		private static var _instance:AppDataLoader = new AppDataLoader();
 		public function AppDataLoader() 
@@ -40,216 +34,70 @@ package data
 			return _instance;
 		}
 		
-		
 		public function loadCommonData():void
 		{
-			loadGroupsData();
-			loadUsersData();
-			loadSellItemsData();
-			loadBusinessData();
-			loadLostAndFoundData();
+			//updateDataFromXml()
+		}
+
+
+		public function loadEntityData(entity:Class, onComplete:Function = null, constraints:String = null,limit:int=20):void
+		{
+			var query:Query = new Query(entity, constraints);
+			query.find(onComplete, onLoadDataError);
+			query.limit = limit;
 		}
 		
-		public function loadLostAndFoundData():void 
-		{
-			var query:Query = new Query(LostAndFoundEntity);
-			query.find(onLostFoundComplete, onLoadDataError);
-		}
-		
-		public function loadBusinessData():void 
-		{
-			var query:Query = new Query(BusinessEntity);
-			query.find(onBusinessLoadComplete, onLoadDataError);
-		}
 		
 		private function onLoadDataError(error:String):void 
 		{
 			Logger.logError(this, "error getting data : " + error);
 		}
 		
-		private function onLostFoundComplete(items:Array):void 
-		{
-			Logger.logInfo("LostFound found : {0}", items);
-			
-			GlobalDataProvider.lostAndFound = new Vector.<LostAndFoundEntity>;
-			
-			for each (var item:BusinessEntity in items) 
-			{
-				if (item.name)
-				{
-					GlobalDataProvider.lostAndFound.push(item);
-				}
-			}
-			
-			dispatchEventWith(LOST_FOUND_DATA_LOADED)
-		}
 		
-		private function onBusinessLoadComplete(businesses:Array):void 
-		{
-			Logger.logInfo("business found : {0}", businesses);
-			
-			GlobalDataProvider.businesses = new Vector.<BusinessEntity>;
-
-			for each (var item:BusinessEntity in businesses) 
-			{
-				if (item.name && item.id)
-				{
-					GlobalDataProvider.businesses.push(item);
-				}
-			}
-			
-			if (GlobalDataProvider.myUserData.isAdmin)
-			{
-				addBusinessesFromXml();
-			}
-			
-			dispatchEventWith(BUSINESS_DATA_LOADED)
-		}
 		
 
-		private function addBusinessesFromXml():void
+		private function updateDataFromXml():void
 		{
-			var BusinessData:XML = XML(new BusinessXML());
-			
-			for (var i:int = 0; i < BusinessData.business.length(); i++) 
+			Logger.logInfo("!! updateDataFromXml!! ");
+			var xmlData:XML = XML(new AppDataXML());
+
+			for each (var businessItem:Object in xmlData.business) 
 			{
-				addNewBusiness(BusinessData.business[i]);
+				addNewDataToEntity(businessItem,BusinessEntity);
+			}
+			
+			for each (var professionItem:Object in xmlData.profession) 
+			{
+				addNewDataToEntity(professionItem, ProfessionEntity);
 			}
 		}
 		
-		private function addNewBusiness(data:Object):void 
+		private function addNewDataToEntity(data:Object,EntityClass:Class):void 
 		{
-			var buisness:BusinessEntity = new BusinessEntity(data);
+			var entity:CommonEntity = new EntityClass();
+			entity.generate(data);
+			
 			var exist:Boolean;
-			for each (var item:BusinessEntity in GlobalDataProvider.businesses) 
+			for each (var item:CommonEntity in GlobalDataProvider.businesses) 
 			{
-				if (item.name == buisness.name) 
+				if (item.name == entity.name) 
 				{
-					buisness.id = item.id;
+					entity.id = item.id;
 					exist = true;
 				};
 			}
+			
 			if (exist)
 			{
-				buisness.refresh(null, null);
+				entity.refresh(null, null);
 			} else
 			{
-				buisness.save(null,null);
+				trace("ADD NEW " + entity.type + " |  " + entity.name);
+				entity.save(null,null);
 			}
 			
 		}
 		
-		
-		
-		
-		public function loadUsersData():void 
-		{
-			var query:Query = new Query(FloxUser);
-			query.find(onUsersLoadComplete, onLoadDataError);
-		}
-		
-		private function onUsersLoadComplete(users:Array):void 
-		{
-			Logger.logInfo("users found : {0}", users);
-			
-			GlobalDataProvider.users = new Vector.<FloxUser>;
-			for each (var item:FloxUser in users) 
-			{
-				if (item.name && item.id)
-				{
-					GlobalDataProvider.users.push(item);
-				}
-			}
-			
-			dispatchEventWith(USERS_DATA_LOADED)
-		}
-		
-		
-		
-		
-		
-		public function loadGroupsData():void 
-		{
-			var query:Query = new Query(GroupEntity);
-			query.find(onGroupsLoadComplete,onLoadDataError);
-		}
-		
-		private function onGroupsLoadComplete(groups:Array):void 
-		{
-			Logger.logInfo("groups found : {0}", groups);
-			
-			GlobalDataProvider.groups = new Vector.<GroupEntity>;
-			GlobalDataProvider.myGroups = new Vector.<GroupEntity>;
-			for each (var item:GroupEntity in groups) 
-			{
-				if (item.name && item.id)
-				{
-					GlobalDataProvider.groups.push(item);
-					if (item.ownerId == GlobalDataProvider.myUserData.id)
-					{
-						GlobalDataProvider.myGroups.push(item);
-					}
-				}
-			}
-			
-			dispatchEventWith(GROUPS_DATA_LOADED)
-		}
-		
-		
-		
-		public function loadSellItemsData():void 
-		{
-			var query:Query = new Query(SellItemEntity);
-			query.find(onSellItemsLoadComplete,onLoadDataError);
-		}
-		
-		private function onSellItemsLoadComplete(sellItems:Array):void 
-		{
-			Logger.logInfo("sellItems found : {0}", sellItems);
-			GlobalDataProvider.sellItems = new Vector.<SellItemEntity>;
-			GlobalDataProvider.mySellItems = new Vector.<SellItemEntity>;
-			
-			for each (var item:SellItemEntity in sellItems) 
-			{
-				if (item.name && item.id)
-				{
-					GlobalDataProvider.sellItems.push(item);
-					if (item.ownerId == GlobalDataProvider.myUserData.ownerId)
-					{
-						GlobalDataProvider.mySellItems.push(item);
-					}
-				}
-			}
-			
-			dispatchEventWith(SELLITEMS_DATA_LOADED)
-		}
-		
-		public function loadMyMessagesData():void 
-		{
-			var query:Query = new Query(MessageEntity, "toUserId == ?", GlobalDataProvider.myUserData.id);
-			query.find(onMessagesComplete, onLoadDataError);
-		}
-		
-		private function onMessagesComplete(messages:Array):void 
-		{
-			Logger.logInfo("messages found : {0}", messages);
-			
-			GlobalDataProvider.myMessages = messages;
-			dispatchEventWith(MY_MESSAGES_LOADED)
-		}
-		
-		private function existInArr(item:*,arr:*):Boolean
-		{
-			for each (var itemInArr:SellItemEntity in arr) 
-			{
-				if (item.id == itemInArr.id)
-				{
-					return true;
-				}
-			}
-			
-			return false;
-		}
 		
 	}
 

@@ -69,6 +69,7 @@ package screens.mainMenu
 			//the list's bounds.
 			var itemRendererAccessorySourceFunction:Function = this.accessorySourceFunction;
 			var count:int;
+			
 			this._list.itemRendererFactory = function():IListItemRenderer
 			{
 				var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
@@ -81,17 +82,32 @@ package screens.mainMenu
 				renderer.labelField = "label";
 				
 				renderer.iconSourceField = "thumbnail";
+				renderer.accessoryField = "accessory";
+
+				//renderer.accessoryFunction = itemRendererAccessorySourceFunction;
+				
 				renderer.height = 130;
 				renderer.iconOffsetX = -80;
-				renderer.labelOffsetX = -90;
-				renderer.itemHasAccessory = false;
-				//renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_BOTTOM;
+				renderer.labelOffsetX = -100;
+				renderer.labelOffsetY = -20;
+				
+				trace(" count " + count);
+
+				var subLabel:Label = new Label();
+				subLabel.styleNameList.add(Label.ALTERNATE_STYLE_NAME_DETAIL);
+				subLabel.text = _dataProvider[0].children[count].subText;
+				subLabel.x = 150;
+				subLabel.y = 70;
+				renderer.addChild(subLabel);
+				
+				//renderer.itemHasAccessory = false;
+				renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_BOTTOM;
 				//renderer.itemIndex++
 				renderer.isEnabled = false;
-				var counter:ItemCounter = new ItemCounter();
+				/*var counter:ItemCounter = new ItemCounter();
 				counter.x = 130;
 				counter.y = 10;
-				renderer.addChild(counter);
+				renderer.addChild(counter);*/
 
 				renderer.iconPosition = DefaultListItemRenderer.ICON_POSITION_RIGHT
 				renderer.horizontalAlign = DefaultListItemRenderer.HORIZONTAL_ALIGN_RIGHT;
@@ -101,7 +117,7 @@ package screens.mainMenu
 				//renderer.accessorySourceFunction = itemRendererAccessorySourceFunction;
 				//renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_LEFT; 
 
-				renderer.index = count;
+				renderer.index=count;
 
 				count++;
 				return renderer;

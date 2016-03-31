@@ -7,8 +7,6 @@ package
 	import data.AppDataLoader;
 	import entities.FloxUser;
 	import events.GlobalEventController;
-	import feathers.controls.Label;
-	import feathers.themes.FlatThemeGlober;
 	import feathers.themes.TopcoatLightMobileTheme;
 	import flash.desktop.NativeApplication;
 	import flash.display.Bitmap;
@@ -98,16 +96,42 @@ package
 			Flox.init(FLOX_APP_ID, FLOX_APP_KEY, GAME_VERSION);
 			
 			_progressBar = new MainProgressBar();
-			//_progressBar.height = 5;
 			addChild(_progressBar);
+			_progressBar.addEventListener(EnterFrameEvent.ENTER_FRAME, onEnterFrame);
+			
+			startLoginProccess();
+		}
+		
+		private function startLoginProccess():void
+		{
 			_progressBar.value = 1;
 			
 			_userLogin = new AppUserLogin();
 			_userLogin.addEventListener(Event.COMPLETE, onLoginUserComplete);
+			_userLogin.addEventListener(AppUserLogin.LOGIN_ERROR, onLoginUserError);
 			_userLogin.loginUser();
 			//_userLogin.loginHero();
-			
-			_progressBar.addEventListener(EnterFrameEvent.ENTER_FRAME, onEnterFrame);
+		}
+		
+		private function removeLogin():void
+		{
+			if (_userLogin)
+			{
+				_userLogin.removeEventListeners();
+			}
+		}
+		
+		private function onLoginUserComplete(e:Event):void 
+		{
+			removeLogin();
+			_progressBar.value = 100;
+			Starling.juggler.delayCall(startApplication, .2);
+		}
+		
+		private function onLoginUserError(e:Event):void 
+		{
+			removeLogin();
+			ErrorController.showNoConnection(startLoginProccess);
 		}
 		
 		private function onEnterFrame(e:EnterFrameEvent):void 
@@ -149,11 +173,7 @@ package
 			addChild(_backgroundImg);
 		}
 		
-		private function onLoginUserComplete(e:Event):void 
-		{
-			_progressBar.value = 100;
-			Starling.juggler.delayCall(startApplication, .2);
-		}
+		
 		
 		private function onUncaughtError(e:UncaughtErrorEvent):void
 		{
@@ -169,7 +189,7 @@ package
 			//AppDataLoader.getInstance().loadGroupsData();
 			//AppDataLoader.getInstance().loadSellItemsData();
 			AppDataLoader.getInstance().loadCommonData();
-			AppDataLoader.getInstance().loadMyMessagesData();
+			//AppDataLoader.getInstance().loadMyMessagesData();
 			
 			setNewMainApp(_userLogin.isNewUser);
 		}

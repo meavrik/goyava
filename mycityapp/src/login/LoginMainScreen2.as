@@ -55,7 +55,7 @@ package login
 			
 			if (_nameInput.text)
 			{
-				isEnabled = false;
+				//isEnabled = false;
 
 				GlobalDataProvider.myUserData.name = _nameInput.text;
 				GlobalDataProvider.myUserData.score = 10;
