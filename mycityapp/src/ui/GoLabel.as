@@ -1,4 +1,4 @@
-package screens.components 
+package ui 
 {
 	import feathers.controls.Label;
 	import flash.geom.Rectangle;
@@ -12,14 +12,14 @@ package screens.components
 	 * ...
 	 * @author Avrik
 	 */
-	public class GLabel extends Sprite 
+	public class GoLabel extends Sprite 
 	{
 		public static var LOCALE:String = "HE";
 		
 		private var _areaRect:Rectangle;
 		private var _tf:TextField;
 		private var _text:String;
-		public function GLabel(areaRect:Rectangle=null) 
+		public function GoLabel(areaRect:Rectangle=null) 
 		{
 			super();
 			this._areaRect = areaRect;

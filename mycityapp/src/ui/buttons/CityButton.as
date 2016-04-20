@@ -11,24 +11,16 @@ package ui.buttons
 	 * ...
 	 * @author Avrik
 	 */
-	public class ProfileButton extends GoButton 
+	public class CityButton extends GoButton 
 	{
 		private var _messagesCounter:ItemCounter
 		
-		public function ProfileButton(func:Function) 
+		public function CityButton(func:Function) 
 		{
 			super();
-			var butn:Button = new Button(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 5));
+			var butn:Button = new Button(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS, 9));
 			butn.addEventListener(Event.TRIGGERED, func);
 			addChild(butn);
-			
-			_messagesCounter = new ItemCounter();
-			addChild(_messagesCounter);
-		}
-		
-		public function set messageCounter(value:int):void
-		{
-			_messagesCounter.count = 1;
 		}
 		
 	}

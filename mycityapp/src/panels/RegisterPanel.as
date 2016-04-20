@@ -1,33 +1,24 @@
 package panels 
 {
 	import assets.AssetsHelper;
-	import com.gamua.flox.AuthenticationType;
-	import com.gamua.flox.Flox;
 	import com.gamua.flox.Player;
 	import data.GlobalDataProvider;
-	import entities.enum.MessageTypeEnum;
 	import entities.MessageEntity;
+	import entities.enum.MessageTypeEnum;
 	import feathers.controls.Button;
-	import feathers.controls.ButtonGroup;
 	import feathers.controls.Callout;
 	import feathers.controls.Check;
 	import feathers.controls.Header;
 	import feathers.controls.Label;
 	import feathers.controls.Panel;
-	import feathers.controls.Radio;
 	import feathers.controls.TextInput;
-	import feathers.core.ToggleGroup;
-	import feathers.data.ListCollection;
-	import feathers.layout.AnchorLayout;
-	import feathers.skins.StyleNameFunctionStyleProvider;
 	import flash.geom.Rectangle;
 	import log.Logger;
-	import screens.components.GLabel;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
-	import ui.buttons.CloseButton;
 	import ui.UiGenerator;
+	import ui.buttons.CloseButton;
 	
 	/**
 	 * ...

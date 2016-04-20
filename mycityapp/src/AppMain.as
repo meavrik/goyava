@@ -5,6 +5,8 @@ package
 	import flash.ui.Keyboard;
 	import log.Logger;
 	import login.AppLoginNavigator;
+	import panels.QuitPanel;
+	import popups.PopupsController;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
@@ -27,6 +29,8 @@ package
 		
 		public function init():void
 		{
+			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, checkKeypress);
+			
 			if (_mainScreenNavigator)
 			{
 				_mainScreenNavigator.removeFromParent();
@@ -44,9 +48,6 @@ package
 			{
 				addChild(_mainScreenNavigator);
 			}
-			
-			
-			NativeApplication.nativeApplication.addEventListener(KeyboardEvent.KEY_DOWN, checkKeypress);
 		}
 		
 		private function onLoginComplete(e:Event):void 
@@ -64,12 +65,23 @@ package
 
 		private function checkKeypress(event:KeyboardEvent):void 
 		{
+			event.preventDefault();
+			
 			switch (event.keyCode) 
 			{ 
 				case Keyboard.BACK: 
-					event.preventDefault();
-					
-					_mainScreenNavigator.goBack();
+					PopupsController.addPopUp(new QuitPanel());
+					/*if (_loginScreenNavigator)
+					{
+						_loginScreenNavigator.goBack();
+					} else 
+					if (_mainScreenNavigator)
+					{
+						_mainScreenNavigator.goBack();
+					} else
+					{
+						PopupsController.addPopUp(new QuitPanel());
+					}*/
 					break; 
 				case Keyboard.MENU: 
 				case Keyboard.SEARCH: 

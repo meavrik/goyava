@@ -1,20 +1,14 @@
 package screens 
 {
-	import feathers.controls.GroupedList;
-	import feathers.controls.PanelScreen;
-	import feathers.controls.renderers.DefaultGroupedListItemRenderer;
-	import feathers.controls.renderers.IGroupedListItemRenderer;
-	import feathers.data.HierarchicalCollection;
-	import starling.events.Event;
+	import screens.enums.ScreenEnum;
+	import ui.GoTabList;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenRealestate extends BaseScreenMain 
+	public class ScreenRealestate extends BaseScreenMain_TabedList 
 	{
-		private var _list:GroupedList;
-		
 		public function ScreenRealestate() 
 		{
 			super();
@@ -25,42 +19,36 @@ package screens
 		{
 			super.initialize();
 			
-			this._list = new GroupedList();
-			this._list.dataProvider = new HierarchicalCollection(
-			[
-				{
+			var dataObj:Object = 
+				[ {
 					header: "רכישה",
 					children:
 					[
-						{ label: "בית גדול ברחוב..." },
-					]
+						setNewListItemData("דירת 4 חדרים", "רח אסותא 2",	ScreenEnum.VIEW_INFO_SCREEN,getPhoneButton()),
+						setNewListItemData("דופלקס 6 חדרים", "רחוב הלוחמים 9 ",ScreenEnum.VIEW_INFO_SCREEN,getPhoneButton()),
+					]	
+					
 				},
 				{
 					header: "השכרה",
 					children:
 					[
-						{ label: "בית קטן ב.." },
+						setNewListItemData("קוטג גדול ומרווח", "התפוח 12",	ScreenEnum.VIEW_INFO_SCREEN,getPhoneButton()),
+						setNewListItemData("בית 5 חדרים", "העצמאות 57",	ScreenEnum.VIEW_INFO_SCREEN),
+						setNewListItemData("דירת 3 חדרים", "הבצל 3",		ScreenEnum.VIEW_INFO_SCREEN,getPhoneButton()),
 					]
 				},
-			]);
-
-			this._list.itemRendererFactory = function():IGroupedListItemRenderer
-			{
-				var renderer:DefaultGroupedListItemRenderer = new DefaultGroupedListItemRenderer();
-				renderer.isQuickHitAreaEnabled = true;
-				renderer.labelField = "label";
-				return renderer;
-			};
+				{
+					header: "תיווך",
+					children:
+					[
+						setNewListItemData("קוטג גדול ומרווח", "תיווך המושבה",ScreenEnum.VIEW_INFO_SCREEN,getPhoneButton()),
+					]
+				},
+				]
 			
-			this._list.addEventListener(Event.CHANGE, list_changeHandler);
-			this.addChild(this._list);
-			
-			this._list.setSize(this.width, this.height);
-		}
-		
-		private function list_changeHandler(e:Event):void 
-		{
-			
+			var insideMenu:GoTabList = new GoTabList(dataObj, false);
+			addChild(insideMenu);
 		}
 	}
 

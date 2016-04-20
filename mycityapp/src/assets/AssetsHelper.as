@@ -18,8 +18,8 @@ package assets
 		static public const BUTTON_ICONS:String = "buttonIcons";
 		static public const MAIN_MENU_ICONS:String = "mainMenuIcons";
 		static public const LOGIN_FRAMES:String = "loginFrames";
-		//static public const GIFT_ANIMATION:String = "gift_animation";
-		//static public const BUTTON_ICONS2:String = "buttonIcons2";
+		static public const TAB_ICONS:String = "tabIcons";
+
 		
 		[Embed(source = "../../bin/mainMenuIcons.png")]
 		private var MAIN_MENU_ICONS_IMAGE:Class;
@@ -31,20 +31,16 @@ package assets
 		[Embed(source = "../../bin/buttonIcons.xml", mimeType="application/octet-stream")]
 		private var BUTTON_ICONS_XML:Class;
 		
-		/*[Embed(source = "../../bin/buttonIcons2.png")]
-		private var BUTTON_ICONS2_IMAGE:Class;
-		[Embed(source = "../../bin/buttonIcons2.xml", mimeType="application/octet-stream")]
-		private var BUTTON_ICONS2_XML:Class;*/
+		[Embed(source = "../../bin/tabIcons.png")]
+		private var TAB_BUTTON_ICONS_IMAGE:Class;
+		[Embed(source = "../../bin/tabIcons.xml", mimeType="application/octet-stream")]
+		private var TAB_BUTTON_ICONS_XML:Class;
 		
 		[Embed(source = "../../bin/loginPath.png")]
 		private var LOGIN_IMAGE:Class;
 		[Embed(source = "../../bin/loginPath.xml", mimeType="application/octet-stream")]
 		private var LOGIN_XML:Class;
 		
-		/*[Embed(source = "../../bin/giftAnimation.png")]
-		private var GIFT_ANIMATION_IMAGE:Class;
-		[Embed(source = "../../bin/giftAnimation.xml", mimeType="application/octet-stream")]
-		private var GIFT_ANIMATION_XML:Class;*/
 		
 		private var _assetManager:AssetManager;
 		
@@ -67,13 +63,12 @@ package assets
 			var buttonsAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new BUTTON_ICONS_IMAGE(), false), XML(new BUTTON_ICONS_XML()));
 			_assetManager.addTextureAtlas(BUTTON_ICONS, buttonsAtlas);
 			
+			var tabIconsAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new TAB_BUTTON_ICONS_IMAGE(), false), XML(new TAB_BUTTON_ICONS_XML()));
+			_assetManager.addTextureAtlas(TAB_ICONS, tabIconsAtlas);
+			
 			var loginAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new LOGIN_IMAGE(), false), XML(new LOGIN_XML()));
 			_assetManager.addTextureAtlas(LOGIN_FRAMES, loginAtlas);
-			//var buttonsAtlas2:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new BUTTON_ICONS2_IMAGE(), false), XML(new BUTTON_ICONS2_XML()));
-			//_assetManager.addTextureAtlas(BUTTON_ICONS2, buttonsAtlas2);
-			
-			//var giftAnimationAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new GIFT_ANIMATION_IMAGE(), false), XML(new GIFT_ANIMATION_XML()));
-			//_assetManager.addTextureAtlas(GIFT_ANIMATION, giftAnimationAtlas);
+
 			
 		}
 		

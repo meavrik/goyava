@@ -5,12 +5,13 @@ package ui.buttons
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
+	import ui.GoButton;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class MailButton extends Sprite 
+	public class MailButton extends GoButton 
 	{
 		
 		public function MailButton(func:Function) 

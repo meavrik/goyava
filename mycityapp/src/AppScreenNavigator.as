@@ -17,6 +17,7 @@ package
 	import screens.ScreenEducation;
 	import screens.ScreenEvents;
 	import screens.ScreenGroups;
+	import screens.ScreenHealth;
 	import screens.ScreenLostAndFound;
 	import screens.ScreenMainMenu;
 	import screens.ScreenMap;
@@ -26,12 +27,15 @@ package
 	import screens.ScreenRealestate;
 	import screens.ScreenResidents;
 	import screens.ScreenSecondHand;
+	import screens.ScreenTransport;
 	import screens.enums.ScreenEnum;
 	import screens.subScreens.SubScreenMyArea;
+	import screens.ScreenMyCityArea;
 	import screens.subScreens.addItem.SubScreenAdd_Group;
 	import screens.subScreens.addItem.SubScreenAdd_SellItem;
 	import screens.subScreens.viewItem.SubScreenView_Business;
 	import screens.subScreens.viewItem.SubScreenView_Group;
+	import screens.subScreens.viewItem.SubScreenView_Info;
 	import screens.subScreens.viewItem.SubScreenView_MainPhones;
 	import screens.subScreens.viewItem.SubScreenView_SellItem;
 	import starling.events.Event;
@@ -69,17 +73,20 @@ package
 					{screen:new ScreenEducation(),		id:ScreenEnum.EDUCATION_SCREEN},
 					{screen:new ScreenMatnas(),			id:ScreenEnum.MATNAS_SCREEN},
 					{screen:new ScreenBusiness(),		id:ScreenEnum.BUSINESS_SCREEN},
+					{screen:new ScreenHealth(),			id:ScreenEnum.HEALTH_SCREEN},
 					{screen:new ScreenProfession(),		id:ScreenEnum.PROFFESION_SCREEN},
 					{screen:new ScreenEvents(),			id:ScreenEnum.EVENTS_SCREEN},
 					{screen:new ScreenRealestate(),		id:ScreenEnum.REALESTATE_SCREEN},
 					{screen:new ScreenMap(),			id:ScreenEnum.MAP_SCREEN},
 					{screen:new ScreenLostAndFound(),	id:ScreenEnum.LOST_AND_FOUND_SCREEN},
 					{screen:new ScreenMessages(),		id:ScreenEnum.MESSAGES_SCREEN},
+					{screen:new ScreenTransport(),		id:ScreenEnum.TRANSPORT_SCREEN},
 			]
 			
 			var subScreensArr:Array = [
 					
 					{screen:SubScreenMyArea, 			id:ScreenEnum.MY_AREA_SCREEN },
+					{screen:ScreenMyCityArea, 		id:ScreenEnum.MY_CITY_AREA_SCREEN },
 					{screen:SubScreenAdd_SellItem,		id:ScreenEnum.SELL_ITEM_ADD_SCREEN},
 					{screen:SubScreenAdd_Group,			id:ScreenEnum.ADD_NEW_GROUP_SCREEN},
 			]
@@ -103,12 +110,15 @@ package
 				if (id == ScreenEnum.MAIN_SCREEN)
 				{
 					addScreenEventHandler(navigatorItem, ScreenEnum.MY_AREA_SCREEN);
+					addScreenEventHandler(navigatorItem, ScreenEnum.MY_CITY_AREA_SCREEN);
 					
 					addScreenEventHandler(navigatorItem, ScreenEnum.BUSINESS_SCREEN);
 					addScreenEventHandler(navigatorItem, ScreenEnum.PROFFESION_SCREEN);
 					addScreenEventHandler(navigatorItem, ScreenEnum.REALESTATE_SCREEN);
 					addScreenEventHandler(navigatorItem, ScreenEnum.EDUCATION_SCREEN);
 					addScreenEventHandler(navigatorItem, ScreenEnum.MATNAS_SCREEN);
+					addScreenEventHandler(navigatorItem, ScreenEnum.HEALTH_SCREEN);
+					addScreenEventHandler(navigatorItem, ScreenEnum.TRANSPORT_SCREEN);
 					addScreenEventHandler(navigatorItem, ScreenEnum.EVENTS_SCREEN);
 					
 					addScreenEventHandler(navigatorItem, ScreenEnum.RESIDENTS_SCREEN);
@@ -121,6 +131,11 @@ package
 					addScreenEventHandler(navigatorItem, ScreenEnum.MAP_SCREEN);
 					
 					addScreenEventHandler(navigatorItem, ScreenEnum.VIEW_MAIN_PHONE_CALLS);
+				}
+				
+				if (id == ScreenEnum.EDUCATION_SCREEN)
+				{
+					addScreenEventHandler(navigatorItem, ScreenEnum.VIEW_INFO_SCREEN);
 				}
 				
 				if (id == ScreenEnum.GROUPS_SCREEN)
@@ -185,6 +200,9 @@ package
 			
 			switch (screenType) 
 			{
+				case ScreenEnum.VIEW_INFO_SCREEN:
+					pushToDrawer(new SubScreenView_Info( { name:"בדיקה", description:"123" } ));
+					return 
 				case ScreenEnum.VIEW_MAIN_PHONE_CALLS:
 					pushToDrawer(new SubScreenView_MainPhones());
 					return
@@ -199,6 +217,9 @@ package
 					return		
 					
 					
+				case ScreenEnum.EDUCATION_SCREEN:
+					_drawers.bottomDrawerToggleEventType = ScreenEnum.VIEW_INFO_SCREEN;
+					break;
 				case ScreenEnum.BUSINESS_SCREEN:
 					_drawers.bottomDrawerToggleEventType = ScreenEnum.BUSINESS_ITEM_VIEW_SCREEN;
 					break;

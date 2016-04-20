@@ -5,12 +5,13 @@ package ui.buttons
 	import starling.display.Button;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import ui.GoButton;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class CallButton extends Sprite 
+	public class CallButton extends GoButton 
 	{
 		
 		public function CallButton(func:Function, type:int = 0) 

@@ -3,24 +3,16 @@ package screens
 	import assets.AssetsHelper;
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Query;
-	import data.AppDataLoader;
 	import data.GlobalDataProvider;
-	import feathers.controls.AutoComplete;
 	import feathers.controls.GroupedList;
 	import feathers.controls.ImageLoader;
-	import feathers.controls.PickerList;
-	import feathers.controls.TextInput;
 	import feathers.controls.renderers.DefaultGroupedListItemRenderer;
-	import feathers.controls.renderers.DefaultListItemRenderer;
 	import feathers.controls.renderers.IGroupedListItemRenderer;
-	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.HierarchicalCollection;
-	import feathers.data.ListCollection;
-	import feathers.data.LocalAutoCompleteSource;
+	import feathers.layout.AnchorLayout;
 	import log.Logger;
 	import screens.consts.CategoriesConst;
 	import starling.events.Event;
-	import ui.UiGenerator;
 	import ui.buttons.AddButton;
 	
 	/**
@@ -30,8 +22,6 @@ package screens
 	public class BaseScreenList extends BaseScreenMain 
 	{
 		protected var _list:GroupedList;
-		//protected var _categoryPicker:PickerList;
-		//protected var _searchInput:AutoComplete;
 		protected var _dataProviderArr:Vector.<Entity>;
 		protected var _itemsByCategory:Array = new Array();
 		protected var _categoriesArr:Array;
@@ -47,37 +37,9 @@ package screens
 		{
 			super.initialize();
 
-			/*this._searchInput = new AutoComplete();
-			this._searchInput.autoCompleteDelay = .1;
-			this._searchInput.styleNameList.add(TextInput.ALTERNATE_STYLE_NAME_SEARCH_TEXT_INPUT);
-			//this._searchInput.prompt = "חפש מוצר";
-			this._searchInput.setSize(stage.stageWidth / 2 - 5, UiGenerator.getInstance().fieldHeight);
-			this._searchInput.move(5, 10);
-			//this._searchInput.addEventListener(Event.OPEN, onAutoCompleteOpen);
-			//this._searchInput.addEventListener(Event.CLOSE, onAutoCompleteClose);
-			//this._searchInput.addEventListener(Event.CHANGE, onAutoCompleteChange);
-			this.addChild(this._searchInput);
+			this.layout = new AnchorLayout();
 			
-			_categoryPicker = new PickerList();
-			_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_STYLE_NAME_LIST;
-			//_categoryPicker.customListStyleName = PickerList.DEFAULT_CHILD_STYLE_NAME_BUTTON;
-			_categoryPicker.prompt = "סנן לפי קטגוריה";
-			_categoryPicker.setSize(10, 10);
-			_categoryPicker.listProperties.itemRendererFactory = function():IListItemRenderer
-			 {
-				var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
-				renderer.labelField = "text";
-				return renderer;
-			 };
-			 
-			_categoryPicker.setSize(stage.stageWidth / 2 - 15, UiGenerator.getInstance().buttonHeight);
-			_categoryPicker.addEventListener(Event.CHANGE, onCategorySort);
-			_categoryPicker.move(stage.stageWidth / 2 + 5, 10);
-			_categoryPicker.dataProvider = new ListCollection([]);
-			_categoryPicker.labelField = "text";
-			_categoryPicker.selectedIndex = -1;
-			addChild(_categoryPicker);*/
-			 
+			
 			_list = new GroupedList();
 			_list.setSize(this.width, this.height - _list.bounds.top - 170);
 			_list.move(0, 0);
@@ -85,22 +47,34 @@ package screens
 			_list.addEventListener(Event.TRIGGERED, onItemClick);
 			
 			_list.itemRendererFactory = custemItemRenderer
+			var iconUrl:String = getIconUrl()
 			
-			_list.itemRendererProperties.iconSourceFunction = function(item:Object):String
+			if (iconUrl)
 			{
-				return AssetsHelper.SERVER_ASSETS_URL + "secondhand/table1.jpg";
-			}
+				_list.itemRendererProperties.iconSourceFunction = function(item:Object):String
+				{
+					return iconUrl;
+				}
 
-			_list.itemRendererProperties.iconLoaderFactory = function():ImageLoader
-			{
-				var loader:ImageLoader = new ImageLoader();
-				loader.width = 100;
-				loader.height = 80;
-				return loader;
-			}
+				_list.itemRendererProperties.iconLoaderFactory = function():ImageLoader
+				{
+					var loader:ImageLoader = new ImageLoader();
+					loader.width = 120;
+					loader.height =100;
+					return loader;
+				}
+			} 
+			
 			addChild(_list);
-
-			//loadPageData()
+			
+			this.backButtonHandler = this.goBack;
+		}
+		
+		
+		protected function getIconUrl():String
+		{
+			//return AssetsHelper.SERVER_ASSETS_URL + "secondhand/table1.jpg";
+			return "";// AssetsHelper.SERVER_ASSETS_URL + "secondhand/table1.jpg";
 		}
 		
 		protected function loadPageData(EntityClass:Class,constraints:String=null,...rest):void
@@ -108,8 +82,6 @@ package screens
 			showPreloader();
 			if (!_dataProviderArr)
 			{
-				//AppDataLoader.getInstance().loadEntityData(EntityClass, onDataComplete, constraints);
-				
 				var query:Query = new Query(EntityClass, constraints, rest);
 				query.find(onDataComplete, onLoadDataError);
 				query.limit = 20;
@@ -216,12 +188,9 @@ package screens
 					}
 				}
 				
-				//this._searchInput.source = new LocalAutoCompleteSource(new ListCollection(autoCompleteArr));
-				
 				populateList();
+				_list.dataProvider.updateItemAt(0);
 			}
-			
-			_list.dataProvider.updateItemAt(0);
 		}
 		
 		
@@ -237,15 +206,9 @@ package screens
 		protected function populateList():void
 		{
 			var count:int = 0;
-			/*if (_categoryPicker.dataProvider)
-			{
-				_categoryPicker.dataProvider.removeAll();
-			}*/
-			
+
 			for each (var categoryOption:String in _categoriesArr) 
 			{
-				//_categoryPicker.dataProvider.addItem( { text:categoryOption, code:categoryOption } );
-
 				var childArr:Array = _itemsByCategory[categoryOption];
 				
 				if (childArr)
@@ -259,39 +222,6 @@ package screens
 				}
 			}
 		}
-		
-		/*private function onCategorySort(e:Event):void 
-		{
-			if (!_categoryPicker.selectedItem) return;
-			
-			if (_list.dataProvider)
-			{
-				_list.dataProvider.removeAll();
-			}
-			
-			var categoryPickedName:String = _categoryPicker.selectedItem.text;
-			if (_itemsByCategory[categoryPickedName])
-			{
-				this._list.dataProvider.data[0] = 
-				{	
-					header : categoryPickedName,
-					children: _itemsByCategory[categoryPickedName]
-				}
-			} else if (categoryPickedName == CategoriesConst.All)
-			{
-				populateList();
-			}
-			else
-			{
-				this._list.dataProvider.data[0] = 
-				{	
-					header : "לא נמצאו התאמות",
-					children:[]
-				}
-			}
-			
-			_list.dataProvider.updateItemAt(0);
-		}*/
 		
 		protected function onItemClick(e:Event):void 
 		{

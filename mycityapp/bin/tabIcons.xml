@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="tabIcons.png">
+	<!-- Created with Adobe Animate version 15.1.1.13 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="tabIcons instance 10000" x="5" y="5" width="63" height="57" pivotX="54.1" pivotY="46.35" frameX="-23" frameY="-25" frameWidth="114" frameHeight="82"/>
+	<SubTexture name="tabIcons instance 10001" x="5" y="67" width="114" height="77" frameX="0" frameY="0" frameWidth="114" frameHeight="82"/>
+	<SubTexture name="tabIcons instance 10002" x="5" y="149" width="64" height="59" frameX="-22" frameY="-16" frameWidth="114" frameHeight="82"/>
+	<SubTexture name="tabIcons instance 10003" x="74" y="149" width="42" height="60" frameX="-33" frameY="-17" frameWidth="114" frameHeight="82"/>
+</TextureAtlas>

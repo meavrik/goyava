@@ -56,7 +56,6 @@ package screens
 
 			var backButton:Button = new Button();
 			backButton.styleNameList.add(Button.ALTERNATE_STYLE_NAME_BACK_BUTTON);
-			//backButton.label = "חזרה";
 			backButton.label = "";
 			backButton.addEventListener(Event.TRIGGERED, backButton_triggeredHandler);
 			header.leftItems = new <DisplayObject>
@@ -72,7 +71,7 @@ package screens
 			goBack();
 		}
 		
-		private function goBack():void 
+		protected function goBack():void 
 		{
 			//dispatchEvent(new ScreenEvent(ScreenEvent.BACK));
 			this.dispatchEventWith(Event.COMPLETE);

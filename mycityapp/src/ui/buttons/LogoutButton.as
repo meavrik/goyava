@@ -5,12 +5,13 @@ package ui.buttons
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
+	import ui.GoButton;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class LogoutButton extends Sprite 
+	public class LogoutButton extends GoButton 
 	{
 		
 		public function LogoutButton(func:Function) 

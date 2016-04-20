@@ -1,26 +1,14 @@
 package screens 
 {
-	import feathers.controls.GroupedList;
-	import feathers.controls.List;
-	import feathers.controls.PanelScreen;
-	import feathers.controls.renderers.DefaultListItemRenderer;
-	import feathers.controls.renderers.IListItemRenderer;
-	import feathers.data.HierarchicalCollection;
-	import feathers.data.ListCollection;
-	import feathers.layout.AnchorLayoutData;
-	import feathers.skins.StandardIcons;
 	import screens.enums.ScreenEnum;
-	import starling.events.Event;
-	import starling.textures.Texture;
+	import ui.GoTabList;
 	
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class ScreenMatnas extends BaseScreenMain 
+	public class ScreenMatnas extends BaseScreenMain_TabedList 
 	{
-		private var _list:List;
-		
 		public function ScreenMatnas() 
 		{
 			super();
@@ -31,46 +19,65 @@ package screens
 		{
 			super.initialize();
 			
-			this._list = new List();
-			this._list.dataProvider = new ListCollection(
-			[
-				{ label: "ארועי המתנס החודש", event: ScreenEnum.BUSINESS_SCREEN },
-				{ label: "חוגים", event: ScreenEnum.BUSINESS_SCREEN },
-				{ label: "צהרון", event: ScreenEnum.EVENTS_SCREEN },
-				{ label: "טפסים", event: ScreenEnum.EVENTS_SCREEN },
-				{ label: "טלפונים", event: ScreenEnum.MAP_SCREEN },
-			]);
-
-			var itemRendererAccessorySourceFunction:Function = this.accessorySourceFunction;
-			
-			//this._list.hasElasticEdges = true;
-			//this._list.move(0, 0);
-			this._list.clipContent = false;
-			this._list.autoHideBackground = true;
-			this._list.itemRendererFactory = function():IListItemRenderer
-			{
-				var renderer:DefaultListItemRenderer = new DefaultListItemRenderer();
-				renderer.isQuickHitAreaEnabled = true;
-				renderer.labelField = "label";
-				//renderer.accessoryPosition = DefaultListItemRenderer.ACCESSORY_POSITION_RIGHT;
-				renderer.accessorySourceFunction = itemRendererAccessorySourceFunction;
-				return renderer;
-			};
-			
-			this._list.addEventListener(Event.CHANGE, list_changeHandler);
-			this._list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			this._list.setSize(this.width, this.height);
-			this.addChild(this._list);
-		}
-		
-		private function accessorySourceFunction(item:Object):Texture
-		{
-			return StandardIcons.listDrillDownAccessoryTexture;
-		}
-		
-		private function list_changeHandler(e:Event):void 
-		{
-			
+			var dataObj:Object = 
+				[ {
+					header: "חוגים",
+					children:
+					[
+						{
+							header: "ספורט",
+							children:
+							[
+								setNewListItemData("התעמלות קרקע", "מתחם המתנס",	ScreenEnum.VIEW_INFO_SCREEN,getPhoneButton("050-5555555")),
+								setNewListItemData("חוג כדורגל", "מתחם המתנס",	ScreenEnum.VIEW_INFO_SCREEN,getPhoneButton("050-5555555")),
+								setNewListItemData("חוג בלטי", "במגרשים ",	ScreenEnum.VIEW_INFO_SCREEN, getPhoneButton("050-5555555")),
+							]
+						},
+						{
+							header: "כללי",
+							children:
+							[
+								setNewListItemData("חוג שחמט", "בית אבי",	ScreenEnum.VIEW_INFO_SCREEN, getPhoneButton("050-5555555")),
+								setNewListItemData("חוג לגו", "בית אבי",	ScreenEnum.VIEW_INFO_SCREEN, getPhoneButton("050-5555555")),
+							]
+						}
+					]	
+					
+				},
+				{
+					header: "צהרונים",
+					children:
+					[
+						setNewListItemData("צהרוני כיתות א-ג", "רח הנוקד 5",	ScreenEnum.VIEW_INFO_SCREEN, getPhoneButton("050-5555555")),
+						setNewListItemData("צהרוני גנים", "רח הנוקד 2",		ScreenEnum.VIEW_INFO_SCREEN, getPhoneButton("050-5555555")),
+						setNewListItemData("טפסים", "רישום, ביטול",		ScreenEnum.VIEW_INFO_SCREEN),
+					]
+				},
+				{
+					header: "ארועים ועידכונים",
+					children:
+					[
+						{
+							header: "ארועים",
+							children:
+							[
+								setNewListItemData("מסיבת פורים", "רח הבית 1",		ScreenEnum.VIEW_INFO_SCREEN),
+								setNewListItemData("טורניר כדורעף בנות", "רח הבית ",	ScreenEnum.VIEW_INFO_SCREEN),
+							]
+						},
+						{
+							header: "עידכונים",
+							children:
+							[
+								setNewListItemData("ביטול חוג דרמה", "רח הבית 1",	ScreenEnum.VIEW_INFO_SCREEN),
+							]
+						}
+					]
+				},
+				]
+				
+			var insideMenu:GoTabList = new GoTabList(dataObj, false);
+			addChild(insideMenu);
 		}
 		
 	}

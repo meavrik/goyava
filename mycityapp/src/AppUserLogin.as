@@ -49,17 +49,17 @@ package
 		
 		public function loginUser():void
 		{
-			/*trace("AAAAAAAAAAA ==== " + LocalStorageController.getInstance().userLoginToken);
+			//trace("AAAAAAAAAAA ==== " + LocalStorageController.getInstance().userLoginToken);
 			if (LocalStorageController.getInstance().userLoginToken)
 			{
 				Logger.logEvent(LogEventsEnum.LOGIN_WITH_KEY, LocalStorageController.getInstance().userLoginToken);
 				Player.loginWithKey(LocalStorageController.getInstance().userLoginToken, onLoginComplete, onLoginError);
 			} 
 			else
-			{*/
+			{
 				Logger.logEvent(LogEventsEnum.LOGIN_WITH_KEY, Player.current.id);
 				Player.login(AuthenticationType.KEY, Player.current.id , null, onLoginComplete, onLoginError);
-			//}
+			}
 		}
 		
 		private function onLoginError(message:String):void

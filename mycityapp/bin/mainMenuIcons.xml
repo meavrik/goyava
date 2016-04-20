@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TextureAtlas imagePath="mainMenuIcons.png">
-	<!-- Created with Adobe Flash Professional version 15.0.0.173 -->
-	<!-- http://www.adobe.com/products/flash.html -->
-	<SubTexture name="iconsMC instance 10000" x="5" y="5" width="171" height="103" pivotX="63.55" pivotY="-2"/>
-	<SubTexture name="iconsMC instance 10001" x="181" y="5" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10002" x="5" y="113" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10003" x="181" y="113" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10004" x="5" y="221" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10005" x="181" y="221" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10006" x="5" y="329" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10007" x="181" y="329" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10008" x="5" y="437" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10009" x="181" y="437" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10010" x="5" y="545" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10011" x="181" y="545" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10012" x="5" y="653" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10013" x="181" y="653" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10014" x="5" y="761" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10015" x="181" y="761" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10016" x="5" y="869" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10017" x="181" y="869" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10018" x="181" y="869" width="171" height="103"/>
-	<SubTexture name="iconsMC instance 10019" x="181" y="869" width="171" height="103"/>
+	<!-- Created with Adobe Animate version 15.1.1.13 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="iconsMC instance 10000" x="5" y="5" width="174" height="107" pivotX="63.55" pivotY="-1.3"/>
+	<SubTexture name="iconsMC instance 10001" x="184" y="5" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10002" x="5" y="117" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10003" x="184" y="117" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10004" x="5" y="229" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10005" x="184" y="229" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10006" x="5" y="341" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10007" x="184" y="341" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10008" x="5" y="453" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10009" x="184" y="453" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10010" x="5" y="565" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10011" x="184" y="565" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10012" x="184" y="565" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10013" x="5" y="677" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10014" x="184" y="677" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10015" x="5" y="789" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10016" x="184" y="789" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10017" x="5" y="901" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10018" x="5" y="901" width="174" height="107"/>
+	<SubTexture name="iconsMC instance 10019" x="5" y="901" width="174" height="107"/>
 </TextureAtlas>

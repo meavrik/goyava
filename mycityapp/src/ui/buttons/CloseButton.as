@@ -5,12 +5,12 @@ package ui.buttons
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.Texture;
-	
+	import ui.GoButton;
 	/**
 	 * ...
 	 * @author Avrik
 	 */
-	public class CloseButton extends Sprite 
+	public class CloseButton extends GoButton 
 	{
 		
 		public function CloseButton(func:Function) 

@@ -19,6 +19,8 @@ package screens.enums
 		static public const MAP_SCREEN			:String = "MapScreen";
 		static public const COMUNITY_SCREEN		:String = "ComunityScreen";
 		static public const LOST_AND_FOUND_SCREEN	:String = "lostAndFoundScreen";
+		static public const TRANSPORT_SCREEN:String = "transportScreen";
+		static public const HEALTH_SCREEN:String = "healthScreen";
 		
 		static public const MY_AREA_SCREEN:String = "myAreaScreen";
 		static public const SELL_ITEM_ADD_SCREEN:String = "sellItemAddScreen";
@@ -33,6 +35,9 @@ package screens.enums
 		static public const WELCOME_SCREEN:String = "welcomeScreen";
 		static public const VIEW_MESSAGE_SCREEN:String = "viewMessageScreen";
 		static public const MESSAGES_SCREEN:String = "messagesScreen";
+		static public const VIEW_INFO_SCREEN:String = "viewInfoScreen";
+		static public const MY_CITY_AREA_SCREEN:String = "myCityAreaScreen";
+		
 		
 		
 		

@@ -26,6 +26,11 @@ package login
 			
 		}
 		
+		public function goBack():void 
+		{
+			_screenNavigator.popToRootScreen();
+		}
+		
 		
 		override protected function initialize():void 
 		{

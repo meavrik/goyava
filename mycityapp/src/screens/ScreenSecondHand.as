@@ -1,5 +1,6 @@
 package screens 
 {
+	import assets.AssetsHelper;
 	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
 	import helpers.FormatHelper;
@@ -18,6 +19,11 @@ package screens
 			super();
 			
 			title = "לוח יד שניה";
+		}
+		
+		override protected function getIconUrl():String 
+		{
+			return AssetsHelper.SERVER_ASSETS_URL +"secondhand/table1.jpg";
 		}
 		
 		override protected function initialize():void 

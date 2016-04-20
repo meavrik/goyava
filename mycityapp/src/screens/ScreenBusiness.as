@@ -21,12 +21,11 @@ package screens
 			
 		}
 		
-
-		/*override protected function get getEntityClass():Class 
+		override protected function getIconUrl():String 
 		{
-			return BusinessEntity
-		}*/
-		
+			return "http://www.ynet.co.il/PicServer4/2015/07/17/6175935/16821140100092640360no.jpg";
+			//return "http://www.ishi-moto.co.il/images/GalB_20140607_11370138_4.jpg";
+		}
 		override protected function initialize():void 
 		{
 			super.initialize();

@@ -2,7 +2,6 @@ package screens.subScreens
 {
 	import com.gamua.flox.Entity;
 	import com.gamua.flox.Player;
-	import data.AppDataLoader;
 	import data.GlobalDataProvider;
 	import entities.SellItemEntity;
 	import events.GlobalEventController;
@@ -10,23 +9,24 @@ package screens.subScreens
 	import feathers.controls.Button;
 	import feathers.controls.GroupedList;
 	import feathers.controls.Header;
-	import feathers.controls.renderers.DefaultGroupedListItemRenderer;
-	import feathers.controls.renderers.IGroupedListItemRenderer;
 	import feathers.controls.TextInput;
 	import feathers.controls.ToggleSwitch;
+	import feathers.controls.renderers.DefaultGroupedListItemRenderer;
+	import feathers.controls.renderers.IGroupedListItemRenderer;
 	import feathers.data.HierarchicalCollection;
 	import feathers.data.ListCollection;
 	import log.Logger;
+	import screens.BaseScreenMain;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
-	import ui.buttons.LogoutButton;
 	import ui.UiGenerator;
+	import ui.buttons.LogoutButton;
 	/**
 	 * ...
 	 * @author Avrik
 	 */
 
-	public class SubScreenMyArea extends SubScreenMenu 
+	public class SubScreenMyArea extends BaseScreenMain 
 	{
 		private var nameInput:TextInput;
 		private var mailInput:TextInput;

@@ -5,17 +5,17 @@ package screens
 	import feathers.controls.Header;
 	import feathers.controls.Label;
 	import feathers.controls.PanelScreen;
-	import feathers.controls.Slider;
-	import feathers.controls.ToggleSwitch;
 	import flash.display.Bitmap;
 	import screens.enums.ScreenEnum;
-	import screens.mainMenu.MainMenuList;
 	import starling.display.DisplayObject;
 	import starling.display.Image;
 	import starling.events.Event;
 	import starling.textures.Texture;
+	import ui.GoButton;
+	import ui.GoTabList;
 	import ui.ItemCounter;
 	import ui.buttons.CallButton;
+	import ui.buttons.CityButton;
 	import ui.buttons.ProfileButton;
 	
 	/**
@@ -31,9 +31,10 @@ package screens
 		private var _usersObject		:Object;
 		private var _seconHandObject	:Object;
 		private var _bgImage			:Image;
-		private var _insideMenu			:MainMenuList;
+		private var _insideMenu			:GoTabList;
 		private var _header				:Header;
-		private var _profileButton		:ProfileButton;
+		private var _profileButton		:GoButton;
+		private var _cityButton			:GoButton;
 		private var _emergencyCallButton:CallButton;
 
 		public function ScreenMainMenu() 
@@ -46,8 +47,10 @@ package screens
 			super.initialize();
 			
 			_header = new Header();
-			_profileButton = new ProfileButton(profileButtonClick);
+			_profileButton = new ProfileButton(onProfileButtonClick);
+			_cityButton = new CityButton(onCityButtonClick);
 			_header.leftItems = new <DisplayObject>[_profileButton];
+			_header.rightItems = new <DisplayObject>[_cityButton];
 
 			var bgImg:Bitmap = new MainViewPng();
 			_bgImage = new Image(Texture.fromBitmap(bgImg));
@@ -57,7 +60,7 @@ package screens
 			_bgImage.height *= factor;
 			
 			var welcomeText:String = "בוקר טוב ";
-			title = welcomeText + GlobalDataProvider.myUserData.name;
+			title =  GlobalDataProvider.myUserData.name?welcomeText +GlobalDataProvider.myUserData.name:welcomeText +"אורח";
 			
 			this.headerFactory = this.customHeaderFactory;
 
@@ -69,48 +72,63 @@ package screens
 			var dataObj:Object = 
 				[ {
 					header: "במושבה",
+					//defaultIcon: AssetsHelper.getInstance().getImageFromTexture(AssetsHelper.TAB_ICONS, 0),
 					children:
 					[
-						addNewDataItem("עסקים במושבה", "בדיקה",		ScreenEnum.BUSINESS_SCREEN, 10,15),
-						addNewDataItem("אנשי מקצוע באזור", "בדיקה",		ScreenEnum.PROFFESION_SCREEN, 11),
-						addNewDataItem("מתנס :", "צהרונים, חוגים וארועים",	ScreenEnum.MATNAS_SCREEN, 5),
-						addNewDataItem("בתי ספר וגנים", "",			ScreenEnum.EDUCATION_SCREEN, 6),
-						addNewDataItem("בריאות", "בדיקה",			ScreenEnum.MATNAS_SCREEN, 7),
-						addNewDataItem("תחבורה", "",				ScreenEnum.MATNAS_SCREEN, 14),
-						addNewDataItem("נדל''ן", "",				ScreenEnum.REALESTATE_SCREEN, 5),
+						addNewDataItem("עסקים במושבה", "כל העסקים במקום אחד",		ScreenEnum.BUSINESS_SCREEN, 10,15),
+						addNewDataItem("אנשי מקצוע באזור", "",		ScreenEnum.PROFFESION_SCREEN, 11),
+						addNewDataItem("מתנס", "צהרונים, חוגים וארועים",	ScreenEnum.MATNAS_SCREEN, 5),
+						addNewDataItem("חינוך במושבה", "בתי ספר, גנים עירוניים ופרטיים",	ScreenEnum.EDUCATION_SCREEN, 6),
+						addNewDataItem("בריאות", "קופ''ח, טיפת חלב, מוקד",			ScreenEnum.HEALTH_SCREEN, 7),
+						addNewDataItem("נדל''ן", "מכירה והשכרה",				ScreenEnum.REALESTATE_SCREEN, 5),
+						//addNewDataItem("תחבורה", "קווי אוטובוסים ומוניות",			ScreenEnum.TRANSPORT_SCREEN, 14),
 					]	
 					
 				},
 				{
 					header: "בקהילה",
+					//defaultIcon: AssetsHelper.getInstance().getImageFromTexture(AssetsHelper.TAB_ICONS, 1),
 					children:
 					[
-						_usersObject = addNewDataItem("תושבים", "",		ScreenEnum.RESIDENTS_SCREEN, 2),
-						_seconHandObject = addNewDataItem("יד שניה", "בדיקה",ScreenEnum.SECOND_HAND_SCREEN, 0,5),
+						_seconHandObject = addNewDataItem("יד שניה", "השוק של אבן יהודה",ScreenEnum.SECOND_HAND_SCREEN, 0,5),
 						_groupObject = addNewDataItem("קבוצות", "",		ScreenEnum.GROUPS_SCREEN, 1,2),
-						addNewDataItem("ארועים", "בדיקה",			ScreenEnum.EVENTS_SCREEN, 3,1),
-						addNewDataItem("אבדות ומציאות", "בדיקה",		ScreenEnum.LOST_AND_FOUND_SCREEN, 4),
-						addNewDataItem("התנדבות בקהילה", "",			ScreenEnum.LOST_AND_FOUND_SCREEN, 17),
+						addNewDataItem("ארועים", "",			ScreenEnum.EVENTS_SCREEN, 3,1),
+						addNewDataItem("אבדות ומציאות", "",		ScreenEnum.LOST_AND_FOUND_SCREEN, 4),
+						addNewDataItem("תושבים", "",			ScreenEnum.RESIDENTS_SCREEN, 2),
+						addNewDataItem("התנדבות בקהילה", "",		ScreenEnum.LOST_AND_FOUND_SCREEN, 17),
 					]
 				},
 				{
+					//defaultIcon: AssetsHelper.getInstance().getImageFromTexture(AssetsHelper.TAB_ICONS, 2),
 					header: "אישי",
 					children:
 					[
-						addNewDataItem("הטבות ומבצעים עבורך", "",		ScreenEnum.MATNAS_SCREEN, 16),
+						addNewDataItem("הטבות ומבצעים עבורך", "",		ScreenEnum.MATNAS_SCREEN, 16,3),
 						addNewDataItem("הודעות", "",				ScreenEnum.MESSAGES_SCREEN, 15),
-						addNewDataItem("מפה", "",				ScreenEnum.MAP_SCREEN, 14),
+						addNewDataItem("עידכון פרטים אישיים", "",		ScreenEnum.MY_AREA_SCREEN, 15),
+						addNewDataItem("מפה של המושבה", "",			ScreenEnum.MAP_SCREEN, 14),
 					]
 				},
+				/*{
+					defaultIcon: AssetsHelper.getInstance().getImageFromTexture(AssetsHelper.TAB_ICONS, 3),
+					//header: "אישי",
+					children:
+					[
+
+						addNewDataItem("תחבורה", "קווי אוטובוסים ומוניות",			ScreenEnum.TRANSPORT_SCREEN, 14),
+						addNewDataItem("מפה של המושבה", "",			ScreenEnum.MAP_SCREEN, 14),
+					]
+				},*/
 				]
 			
-			this._insideMenu = new MainMenuList(dataObj);
+			this._insideMenu = new GoTabList(dataObj, true, 330);
 			this._insideMenu.move(0, _bgImage.bounds.bottom);
+			//this._insideMenu.setSize(this.stage.stageWidth, this.stage.stageHeight - _insideMenu.bounds.bottom);
 			addChild(_insideMenu);
 			
 			_emergencyCallButton = new CallButton(onEmergancyCallClick, 1);
-			_emergencyCallButton.x = stage.stageWidth - _emergencyCallButton.width-20;
-			_emergencyCallButton.y = stage.stageHeight-_emergencyCallButton.height-150;
+			_emergencyCallButton.x = stage.stageWidth - _emergencyCallButton.width - 20;
+			_emergencyCallButton.y = stage.stageHeight - _emergencyCallButton.height - 150;
 			addChild(_emergencyCallButton);
 		}
 		
@@ -120,48 +138,23 @@ package screens
 			subLabel.text = subText;
 			subLabel.styleNameList.add(Label.ALTERNATE_STYLE_NAME_DETAIL);
 
-			//var toggle:ToggleSwitch = new ToggleSwitch();
-		
-			var counter:ItemCounter = new ItemCounter();
-			counter.x = 130;
-			counter.y = 10;
-			counter.count = count
-		
+			var counter:ItemCounter
+			if (count)
+			{
+				counter = new ItemCounter();
+				counter.x = 130;
+				counter.y = 10;
+				counter.count = count
+			}
+			
 			return { 	label: text,
 						accessory: counter,
 						subText: subText,
 						event: eventName, 
+						count:count,
 						thumbnail:AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.MAIN_MENU_ICONS, iconIndex)
 					};
 		}
-		
-		/*private function onSellItemLoaded(e:Event):void 
-		{
-			_seconHandObject.label = "(" + GlobalDataProvider.sellItems.length + ")" + " יד שניה"
-			this._insideMenu.update(0);
-		}
-		
-		private function onGroupsLoaded(e:Event):void 
-		{
-			_groupObject.label = "(" + GlobalDataProvider.groups.length + ")" + " קבוצות";
-			this._insideMenu.update(1);
-		}
-		
-		private function onUsersLoaded(e:Event):void 
-		{
-			_usersObject.label = "(" + GlobalDataProvider.users.length + ")" + " תושבים"
-			this._insideMenu.update(2);
-		}
-		
-		private function onMessagesLoaded(e:Event):void 
-		{
-			if (GlobalDataProvider.myMessages.length)
-			{
-				_profileButton.messageCounter = GlobalDataProvider.myMessages.length;
-			}
-		}*/
-		
-
 
 		private function onEmergancyCallClick(e:Event):void 
 		{
@@ -175,14 +168,15 @@ package screens
 		
 		public function focus():void 
 		{
-			/*if (_list)
-			{
-				_list.selectedItem = null;
-			}*/
 			_insideMenu.focus();
 		}
 		
-		private function profileButtonClick(e:Event):void 
+		private function onCityButtonClick(e:Event):void 
+		{
+			dispatchEvent(new Event(ScreenEnum.MY_CITY_AREA_SCREEN));
+		}
+		
+		private function onProfileButtonClick(e:Event):void 
 		{
 			dispatchEvent(new Event(ScreenEnum.MY_AREA_SCREEN));
 		}
