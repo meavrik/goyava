@@ -51,6 +51,7 @@ package
 		private var _mainScreen		:ScreenMainMenu;
 		private var _drawers		:Drawers;
 		private var _drawerPanel	:DrawerPanel
+		private var _currentScreenId:String;
 		
 		public function AppScreenNavigator() 
 		{
@@ -217,6 +218,7 @@ package
 					return		
 					
 					
+					
 				case ScreenEnum.EDUCATION_SCREEN:
 					_drawers.bottomDrawerToggleEventType = ScreenEnum.VIEW_INFO_SCREEN;
 					break;
@@ -230,6 +232,8 @@ package
 					_drawers.bottomDrawerToggleEventType = ScreenEnum.VIEW_GROUP_SCREEN;
 					break;
 			}
+			
+			_currentScreenId = screenType;
 			
 			_screenNavigator.pushScreen(screenType);
 		}
@@ -247,9 +251,20 @@ package
 		}
 
 		
-		public function goBack():void 
+		public function goBack():Boolean 
 		{
-			_screenNavigator.popToRootScreen();
+			if (_currentScreenId != ScreenEnum.MAIN_SCREEN)
+			{
+				_screenNavigator.popToRootScreen();
+				_currentScreenId = ScreenEnum.MAIN_SCREEN
+				return true
+			}
+			return false;
+		}
+		
+		public function popLastScreen():void 
+		{
+			
 		}
 
 	}

@@ -62,11 +62,10 @@
     <element path="..\swc\Starling-Extension-Graphics.swc" />
     <element path="..\swc\Flox-AS3.swc" />
     <element path="ext\AirDatePicker.ane" />
-    <element path="ext\PushNotification.ane" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
-    <!-- example: <element path="..." /> -->
+    <element path="ext\PushNotification.ane" />
   </externalLibraryPaths>
   <!-- Runtime Shared Libraries -->
   <rslPaths>

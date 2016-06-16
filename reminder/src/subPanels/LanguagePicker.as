@@ -60,7 +60,7 @@ package subPanels
 			 
 			
 			 
-			customButtonStyleName = Button.ALTERNATE_NAME_QUIET_BUTTON
+			customButtonStyleName = Button.ALTERNATE_STYLE_NAME_QUIET_BUTTON
 			 
 			 addEventListener(Event.CHANGE, onLangChange);
 		}

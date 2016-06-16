@@ -57,7 +57,7 @@ package subPanels
 			this._logoutButn.addEventListener(Event.TRIGGERED, onLogoutClick);
 			this._logoutButn.label =TextLocaleHandler.getText(TextsConsts.LogoutButtonLabel);
 			this._logoutButn.move(5, 180);
-			this._logoutButn.styleNameList.add(Button.ALTERNATE_NAME_QUIET_BUTTON);
+			this._logoutButn.styleNameList.add(Button.ALTERNATE_STYLE_NAME_QUIET_BUTTON);
 			this._logoutButn.width = this._userInput.width;
 			addChild(this._logoutButn);
 			

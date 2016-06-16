@@ -14,6 +14,7 @@ package
 	import flash.events.UncaughtErrorEvent;
 	import flash.ui.Keyboard;
 	import log.Logger;
+	import panels.QuitPanel;
 	import panels.RegisterPanel;
 	import popups.PopupsController;
 	import progress.MainProgressBar;
@@ -229,11 +230,6 @@ package
 			_registerPanel = null;
 		}
 		
-		
-		
-		
-		
-		
 		private function removeProgressBar():void
 		{
 			if (_progressBar)
@@ -256,10 +252,18 @@ package
 					{
 						PopupsController.removeCurrentPopup();
 					} else
+					
+					if (_mainApp.popLastScreen())
 					{
-						//PopupsController.addPopUp(new ExitAppPanel());
-						NativeApplication.nativeApplication.exit();
+						
+					} 
+					else
+					{
+						PopupsController.addPopUp(new QuitPanel());
+						//NativeApplication.nativeApplication.exit();
 					}
+					
+				
 					
 					break; 
 				case Keyboard.MENU: 

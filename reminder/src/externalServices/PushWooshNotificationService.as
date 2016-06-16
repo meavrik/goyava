@@ -43,7 +43,7 @@ package externalServices
 				}
 				
 				// local push test
-				//_pushwoosh.scheduleLocalNotification(10, "{\"alertBody\": \"Time to collect coins!\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+				_pushwoosh.scheduleLocalNotification(10, "{\"alertBody\": \"Time to collect coins!\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
 
 			} catch (error:Error)
 			{
@@ -79,7 +79,9 @@ package externalServices
 
 						//id = _pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
 						//id = _pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"test\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
-						_pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+						id = _pushwoosh.scheduleLocalNotification(newSeconds, "{\"alertBody\": \"" + newTxt + "\", \"alertAction\":\"Collect!\", \"soundName\":\"sound.caf\", \"badge\": 5, \"custom\": {\"a\":\"json\"}}");
+						
+						trace("PUSH ID == " + id);
 					}
 					catch (err:Error)
 					{

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="cube.png">
+	<!-- Created with Adobe Animate version 15.1.1.13 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="cube instance 10000" x="5" y="5" width="84" height="47" pivotX="-2.55" pivotY="46.7"/>
+</TextureAtlas>

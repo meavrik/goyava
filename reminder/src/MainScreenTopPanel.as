@@ -43,7 +43,7 @@ package
 
 			_loginButton.defaultIcon = new Image(AssetsHelper.getInstance().getTextureByFrame(AssetsHelper.BUTTON_ICONS,2));
 			_loginButton.addEventListener(Event.TRIGGERED, onLoginClick);
-			_loginButton.styleName = Button.ALTERNATE_NAME_QUIET_BUTTON
+			_loginButton.styleName = Button.ALTERNATE_STYLE_NAME_QUIET_BUTTON
 			addChild(_loginButton);
 		}
 		
