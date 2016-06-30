@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'10/05/2016'</value>
+      <value>'28/06/2016'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -39,14 +39,12 @@
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\work\testing\swc\starling.swc</path-element>
-      <path-element>D:\work\testing\swc\feathers.swc</path-element>
       <path-element>D:\work\testing\swc\Flox-AS3.swc</path-element>
-      <path-element>D:\work\testing\swc\MetalWorksMobileTheme.swc</path-element>
       <path-element>D:\work\testing\swc\airglobal.swc</path-element>
-      <path-element>D:\work\testing\swc\Starling-Extension-Graphics.swc</path-element>
-      <path-element>D:\work\testing\swc\TopcoatLightMobileTheme.swc</path-element>
       <path-element>D:\work\testing\swc\iMaps_r11.swc</path-element>
+      <path-element>D:\work\testing\swc\feathers.swc</path-element>
+      <path-element>D:\work\testing\swc\starling.swc</path-element>
+      <path-element>D:\work\testing\swc\Starling-Extension-Graphics.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>

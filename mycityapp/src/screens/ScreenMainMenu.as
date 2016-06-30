@@ -77,7 +77,7 @@ package screens
 					[
 						addNewDataItem("עסקים במושבה", "כל העסקים במקום אחד",		ScreenEnum.BUSINESS_SCREEN, 10,15),
 						addNewDataItem("אנשי מקצוע באזור", "",		ScreenEnum.PROFFESION_SCREEN, 11),
-						addNewDataItem("מתנס", "צהרונים, חוגים וארועים",	ScreenEnum.MATNAS_SCREEN, 5),
+						addNewDataItem("המרכז הקהילתי", "צהרונים, חוגים וארועים",	ScreenEnum.MATNAS_SCREEN, 5),
 						addNewDataItem("חינוך במושבה", "בתי ספר, גנים עירוניים ופרטיים",	ScreenEnum.EDUCATION_SCREEN, 6),
 						addNewDataItem("בריאות", "קופ''ח, טיפת חלב, מוקד",			ScreenEnum.HEALTH_SCREEN, 7),
 						addNewDataItem("נדל''ן", "מכירה והשכרה",				ScreenEnum.REALESTATE_SCREEN, 5),

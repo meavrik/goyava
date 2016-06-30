@@ -56,14 +56,12 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="..\swc\starling.swc" />
-    <element path="..\swc\feathers.swc" />
     <element path="..\swc\Flox-AS3.swc" />
-    <element path="..\swc\MetalWorksMobileTheme.swc" />
     <element path="..\swc\airglobal.swc" />
-    <element path="..\swc\Starling-Extension-Graphics.swc" />
-    <element path="..\swc\TopcoatLightMobileTheme.swc" />
     <element path="..\swc\iMaps_r11.swc" />
+    <element path="..\swc\feathers.swc" />
+    <element path="..\swc\starling.swc" />
+    <element path="..\swc\Starling-Extension-Graphics.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

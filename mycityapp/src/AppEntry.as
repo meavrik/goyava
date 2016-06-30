@@ -7,7 +7,7 @@ package
 	import data.AppDataLoader;
 	import entities.FloxUser;
 	import events.GlobalEventController;
-	import feathers.themes.TopcoatLightMobileTheme;
+	import feathers.themes_v2.topcoat.TopcoatLightMobileTheme;
 	import flash.desktop.NativeApplication;
 	import flash.display.Bitmap;
 	import flash.events.KeyboardEvent;

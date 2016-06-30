@@ -35,9 +35,18 @@ package screens.consts
 								"חברה",
 								"עסקי"
 							]
-							
+		static public var azardCategories:Array = [	
+								"השחתה",
+								"לכלוך",
+								"תברואה",
+								"ביטחון",
+								"רעש",
+								"תלונה",
+								"אחר"
+							]				
 		static public var businessCategories:Array = [	]
 		static public var All:String = "הכול";
+
 		
 
 		

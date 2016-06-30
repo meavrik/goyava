@@ -10,9 +10,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
-package feathers.themes
+package feathers.themes_v2.flat
 {
-	import feathers.themes.BaseFlatTheme;
+	import feathers.themes_v2.BaseFlatTheme;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 
@@ -25,7 +25,7 @@ package feathers.themes
 	 * Flat Theme 2.0.1 theme for mobile/desktop Feathers apps.
 	 *
 	 */
-	public class FlatThemeUniSans extends feathers.themes.BaseFlatTheme
+	public class FlatThemeBariol extends feathers.themes_v2.BaseFlatTheme
 	{
 		/**
 		 * @private
@@ -39,24 +39,22 @@ package feathers.themes
 		[Embed(source="../assets/FlatTheme_atlas.png")]
 		protected static const ATLAS_BITMAP:Class;
 		
-		[Embed(source="../assets/fonts/UniSansThin.otf",fontFamily="UniSansRegular",fontWeight="normal",mimeType="application/x-font",embedAsCFF="true")]
+		[Embed(source="../assets/fonts/Bariol_Regular.otf",fontFamily="BariolRegular",fontWeight="normal",mimeType="application/x-font",embedAsCFF="true")]
 		protected static const FONT_EMBED_1:Class;
 		
-		
-		[Embed(source="../assets/fonts/UniSansHeavy.otf",fontFamily="UniSansBold",fontWeight="bold",mimeType="application/x-font",embedAsCFF="true")]
+		[Embed(source="../assets/fonts/Bariol_Regular.otf",fontFamily="BariolRegular",fontWeight="bold",mimeType="application/x-font",embedAsCFF="true")]
 		protected static const FONT_EMBED_2:Class;
 		
-		[Embed(source="../assets/fonts/UniSansThin.otf",fontFamily="UniSansRegular",fontWeight="normal",unicodeRange="U+0030-U+0039",mimeType="application/x-font",embedAsCFF="false")]
+		[Embed(source="../assets/fonts/Bariol_Regular.otf",fontFamily="BariolRegular",fontWeight="normal",unicodeRange="U+0030-U+0039",mimeType="application/x-font",embedAsCFF="false")]
 		protected static const FONT_EMBED_3_NUMBER:Class;
-
-		protected static const THEME_FONT_NAME_REGULAR:String = "UniSansRegular";
-		protected static const THEME_FONT_NAME_BOLD:String = "UniSansBold";
 		
+		protected static const THEME_FONT_NAME_REGULAR:String = "BariolRegular";
+		protected static const THEME_FONT_NAME_BOLD:String = "BariolRegular";
 
 		/**
 		 * Constructor.
 		 */
-		public function FlatThemeUniSans(scaleToDPI:Boolean = true)
+		public function FlatThemeBariol(scaleToDPI:Boolean = true)
 		{
 			super(scaleToDPI,THEME_FONT_NAME_REGULAR,THEME_FONT_NAME_BOLD);
 			this.initialize();

@@ -10,9 +10,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
-package feathers.themes
+package feathers.themes_v2.flat
 {
-	import feathers.themes.BaseFlatTheme;
+	import feathers.themes_v2.BaseFlatTheme;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 
@@ -25,7 +25,7 @@ package feathers.themes
 	 * Flat Theme 2.0.1 theme for mobile/desktop Feathers apps.
 	 *
 	 */
-	public class FlatThemeGlober extends feathers.themes.BaseFlatTheme
+	public class FlatThemeGlober extends feathers.themes_v2.BaseFlatTheme
 	{
 		/**
 		 * @private

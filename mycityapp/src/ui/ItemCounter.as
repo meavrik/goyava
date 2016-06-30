@@ -3,7 +3,6 @@ package ui
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
-	import starling.display.Graphics;
 	import starling.display.Sprite;
 	import starling.text.TextField;
 	
@@ -20,21 +19,23 @@ package ui
 		{
 			super();
 			
-			var g:Graphics = new Graphics(this);
+			/*var g:Graphics = new Graphics(this);
 			g.beginFill(0x482C00);
 			//g.lineStyle(1, 0xffffff);
 			g.drawCircle(20, 20, 20);
-			g.endFill();
+			g.endFill();*/
 			
+			/*var format:TextFormat = new TextFormat();
+			format.size = 25
+			format.color = 0xffffff;*/
 			_label = new TextField(40, 40,"");
-			//_label.hAlign = HAlign.CENTER;
-			//_label.vAlign = VAlign.CENTER;
 			_label.alignPivot();
+			//_label.format = format;
 			_label.fontSize = 25;
-			//_label.autoScale = true;
 			_label.color = 0xffffff;
 			_label.x = 20;
 			_label.y = 20;
+			
 			addChild(_label);
 			this.visible = false;
 		}

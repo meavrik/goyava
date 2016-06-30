@@ -1,4 +1,4 @@
-package feathers.themes
+package feathers.themes_v2
 {
 	import feathers.controls.Button;
 	import feathers.controls.ImageLoader;
@@ -14,9 +14,9 @@ package feathers.themes
 	import feathers.examples.componentsExplorer.screens.ToggleScreen;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalLayout;
-	import feathers.themes.FlatThemeGlober;
+	import feathers.themes_v2.FlatThemeGlober;
 
-	public class ComponentsExplorerTheme extends feathers.themes.FlatThemeGlober
+	public class ComponentsExplorerTheme extends feathers.themes_v2.FlatThemeGlober
 	{
 		public function ComponentsExplorerTheme()
 		{

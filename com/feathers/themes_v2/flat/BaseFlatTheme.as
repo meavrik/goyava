@@ -10,7 +10,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 */
-package feathers.themes
+package feathers.themes_v2.flat
 {
 	import feathers.themes.StyleNameFunctionTheme;
 	import flash.geom.Rectangle;

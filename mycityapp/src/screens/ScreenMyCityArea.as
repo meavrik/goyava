@@ -95,7 +95,7 @@ package screens
 		
 		private function onAddClick():void 
 		{
-			
+			dispatchEventWith(ScreenEnum.ADD_NEW_AZARD_SCREEN);
 		}
 		
 		private function getToggleSwitch(selected:Boolean=false):ToggleSwitch

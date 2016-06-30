@@ -13,10 +13,8 @@ package ui
 	import feathers.core.FeathersControl;
 	import feathers.data.HierarchicalCollection;
 	import feathers.data.ListCollection;
-	import feathers.skins.StandardIcons;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.textures.Texture;
 	
 	/**
 	 * ...
@@ -127,7 +125,7 @@ package ui
 			renderer.labelField = "label";
 			renderer.iconSourceField = "thumbnail";
 			renderer.accessoryField = "accessory";
-			renderer.height = 120;
+			renderer.height = Math.max(120, Math.round(stage.stageHeight / 10));
 			
 			if (itemData)
 			{
@@ -195,10 +193,10 @@ package ui
 			addChild(_tab);
 		}
 		
-		private function accessorySourceFunction(item:Object):Texture
+		/*private function accessorySourceFunction(item:Object):Texture
 		{
 			return StandardIcons.listDrillDownAccessoryTexture;
-		}
+		}*/
 		
 		private function onListItemSelect(event:Event):void
 		{

@@ -37,6 +37,7 @@ package screens.enums
 		static public const MESSAGES_SCREEN:String = "messagesScreen";
 		static public const VIEW_INFO_SCREEN:String = "viewInfoScreen";
 		static public const MY_CITY_AREA_SCREEN:String = "myCityAreaScreen";
+		static public const ADD_NEW_AZARD_SCREEN:String = "addNewAzardScreen";
 		
 		
 		

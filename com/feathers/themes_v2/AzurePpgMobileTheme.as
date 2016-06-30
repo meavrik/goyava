@@ -23,7 +23,7 @@
  OTHER DEALINGS IN THE SOFTWARE.
  */
 //modified Cedric Madelaine aka maddec for papaguiskin changed ATLAS_IMAGE + ATLAS_XML file name, added "ppg_" (for papagui) prefix to each asset name 
-package feathers.themes
+package feathers.themes_v2
 {
 	import feathers.controls.Button;
 	import feathers.controls.Callout;

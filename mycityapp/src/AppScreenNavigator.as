@@ -31,6 +31,7 @@ package
 	import screens.enums.ScreenEnum;
 	import screens.subScreens.SubScreenMyArea;
 	import screens.ScreenMyCityArea;
+	import screens.subScreens.addItem.SubScreenAdd_AzardReport;
 	import screens.subScreens.addItem.SubScreenAdd_Group;
 	import screens.subScreens.addItem.SubScreenAdd_SellItem;
 	import screens.subScreens.viewItem.SubScreenView_Business;
@@ -87,9 +88,10 @@ package
 			var subScreensArr:Array = [
 					
 					{screen:SubScreenMyArea, 			id:ScreenEnum.MY_AREA_SCREEN },
-					{screen:ScreenMyCityArea, 		id:ScreenEnum.MY_CITY_AREA_SCREEN },
+					{screen:ScreenMyCityArea, 			id:ScreenEnum.MY_CITY_AREA_SCREEN },
 					{screen:SubScreenAdd_SellItem,		id:ScreenEnum.SELL_ITEM_ADD_SCREEN},
 					{screen:SubScreenAdd_Group,			id:ScreenEnum.ADD_NEW_GROUP_SCREEN},
+					{screen:SubScreenAdd_AzardReport,	id:ScreenEnum.ADD_NEW_AZARD_SCREEN},
 			]
 
 			_screenNavigator = new StackScreenNavigator();
@@ -108,53 +110,53 @@ package
 				
 				navigatorItem = new StackScreenNavigatorItem(screen);
 				navigatorItem.addPopEvent(Event.COMPLETE);
-				if (id == ScreenEnum.MAIN_SCREEN)
+				
+				
+				switch (id) 
 				{
-					addScreenEventHandler(navigatorItem, ScreenEnum.MY_AREA_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.MY_CITY_AREA_SCREEN);
+					case ScreenEnum.MAIN_SCREEN:	
+						addScreenEventHandler(navigatorItem, ScreenEnum.MY_AREA_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.MY_CITY_AREA_SCREEN);
+						
+						addScreenEventHandler(navigatorItem, ScreenEnum.BUSINESS_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.PROFFESION_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.REALESTATE_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.EDUCATION_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.MATNAS_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.HEALTH_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.TRANSPORT_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.EVENTS_SCREEN);
+						
+						addScreenEventHandler(navigatorItem, ScreenEnum.RESIDENTS_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.SECOND_HAND_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.GROUPS_SCREEN);
+						
+						addScreenEventHandler(navigatorItem, ScreenEnum.LOST_AND_FOUND_SCREEN);
+						
+						addScreenEventHandler(navigatorItem, ScreenEnum.MESSAGES_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.MAP_SCREEN);
+						
+						addScreenEventHandler(navigatorItem, ScreenEnum.VIEW_MAIN_PHONE_CALLS);
+						break;
 					
-					addScreenEventHandler(navigatorItem, ScreenEnum.BUSINESS_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.PROFFESION_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.REALESTATE_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.EDUCATION_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.MATNAS_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.HEALTH_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.TRANSPORT_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.EVENTS_SCREEN);
+					case ScreenEnum.EDUCATION_SCREEN:
+						addScreenEventHandler(navigatorItem, ScreenEnum.VIEW_INFO_SCREEN);
+						
+					case ScreenEnum.GROUPS_SCREEN:
+						addScreenEventHandler(navigatorItem, ScreenEnum.ADD_NEW_GROUP_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.VIEW_GROUP_SCREEN);
+						break;
+						
+					case ScreenEnum.SECOND_HAND_SCREEN:
+						addScreenEventHandler(navigatorItem, ScreenEnum.SELL_ITEM_ADD_SCREEN);
+						addScreenEventHandler(navigatorItem, ScreenEnum.SELL_ITEM_VIEW_SCREEN);
+						break;
+					case ScreenEnum.BUSINESS_SCREEN:
+						addScreenEventHandler(navigatorItem, ScreenEnum.BUSINESS_ITEM_VIEW_SCREEN);
+						break;
 					
-					addScreenEventHandler(navigatorItem, ScreenEnum.RESIDENTS_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.SECOND_HAND_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.GROUPS_SCREEN);
-					
-					addScreenEventHandler(navigatorItem, ScreenEnum.LOST_AND_FOUND_SCREEN);
-					
-					addScreenEventHandler(navigatorItem, ScreenEnum.MESSAGES_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.MAP_SCREEN);
-					
-					addScreenEventHandler(navigatorItem, ScreenEnum.VIEW_MAIN_PHONE_CALLS);
 				}
 				
-				if (id == ScreenEnum.EDUCATION_SCREEN)
-				{
-					addScreenEventHandler(navigatorItem, ScreenEnum.VIEW_INFO_SCREEN);
-				}
-				
-				if (id == ScreenEnum.GROUPS_SCREEN)
-				{
-					addScreenEventHandler(navigatorItem, ScreenEnum.ADD_NEW_GROUP_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.VIEW_GROUP_SCREEN);
-				}
-				
-				if (id == ScreenEnum.SECOND_HAND_SCREEN)
-				{
-					addScreenEventHandler(navigatorItem, ScreenEnum.SELL_ITEM_ADD_SCREEN);
-					addScreenEventHandler(navigatorItem, ScreenEnum.SELL_ITEM_VIEW_SCREEN);
-				}
-				
-				if (id == ScreenEnum.BUSINESS_SCREEN)
-				{
-					addScreenEventHandler(navigatorItem, ScreenEnum.BUSINESS_ITEM_VIEW_SCREEN);
-				}
 				_screenNavigator.addScreen(id, navigatorItem);
 			}
 			
@@ -169,6 +171,14 @@ package
 				navigatorItem.pushTransition = Cube.createCubeDownTransition();
 				navigatorItem.popTransition =  Cube.createCubeUpTransition();
 
+				
+				switch (id) 
+				{
+					case ScreenEnum.MY_CITY_AREA_SCREEN:
+						addScreenEventHandler(navigatorItem, ScreenEnum.ADD_NEW_AZARD_SCREEN);
+						break;
+				}
+				
 				this._screenNavigator.addScreen(id, navigatorItem);
 			}
 

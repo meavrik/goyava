@@ -12,7 +12,7 @@ package screens
 		public function ScreenMatnas() 
 		{
 			super();
-			title = "מתנ''ס";
+			title = "המרכז הקהילתי";
 		}
 		
 		override protected function initialize():void 
