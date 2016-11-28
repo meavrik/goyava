@@ -1,18 +1,15 @@
 package game 
 {
 	import feathers.controls.Alert;
-	import feathers.controls.PanelScreen;
-	import feathers.controls.Screen;
 	import feathers.data.ListCollection;
-	import flash.globalization.DateTimeFormatter;
+	import flash.events.TimerEvent;
+	import flash.utils.Dictionary;
 	import flash.utils.Timer;
-	import starling.animation.DelayedCall;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
-	import starling.events.Event;
-	import flash.utils.Dictionary;
 	import starling.display.Sprite;
+	import starling.events.Event;
 	
 	/**
 	 * ...
@@ -20,22 +17,47 @@ package game
 	 */
 	public class Game extends Sprite 
 	{
-		static public const TILES_ON_WIDTH:int = 10;
-		static public const TILES_ON_HEIGHT:int = 10;
-
-		static public const NEW_GAME_EVENT:String = "newGame";
-		
 		private var _tiles:Dictionary
 		private var _tilesWithMines:Vector.<Tile>;
 		
 		private var _boardPH:Sprite = new Sprite();
-		private var totalMines:int;
-		private var _screenUI:GameScreen;
-		private var date:Date;
 		
-		public function Game() 
+		private var _screenUI:GameScreen;
+		private var timer:Timer;
+		private var tilesOpened:int;
+		private var tilesOpenNeeded:int;
+		private var timeStr:String;
+		private var _sec:int;
+		
+		private var totalMines:int;
+		private var tilesOnWidth:int;
+		private var tilesOnHeight:int;
+		private var _difficulty:int;
+		
+		public function Game(difficulty:int)
 		{
 			super();
+			this._difficulty = difficulty;
+			switch (_difficulty) 
+			{
+				case DifficultyLevelEnum.BEGINER:
+					tilesOnWidth = 12;
+					tilesOnHeight = 6;
+					totalMines = 10;
+					break;
+				case DifficultyLevelEnum.INTERMEDIATE:
+					tilesOnWidth = 20;
+					tilesOnHeight = 13;
+					totalMines = 40;
+					break;
+				case DifficultyLevelEnum.EXPORT:
+					tilesOnWidth = 30;
+					tilesOnHeight = 16;
+					totalMines = 99;
+					break;
+				
+			}
+			
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -47,59 +69,56 @@ package game
 		
 		private function init():void 
 		{
-			date = new Date(0, 0, 0, 0, 0, 0, 0);
-			date.setSeconds(0,0);
-			
-			var delayCall:DelayedCall = new DelayedCall(onTimeTimer, 1);
-			delayCall.repeatCount = 0;
-			Starling.juggler.add(delayCall);
-			
-			
 			_screenUI = new GameScreen();
 			_screenUI.width = stage.stageWidth;
 			_screenUI.height = stage.stageHeight;
 			addChild(_screenUI);
 			
-			totalMines = TILES_ON_WIDTH * TILES_ON_HEIGHT / 8;
+			//GameCommon.TILE_WIDTH = Math.min(Math.floor((this.stage.stageHeight-90) / tilesOnHeight), Math.floor(this.stage.stageWidth / tilesOnWidth));
+			GameCommon.TILE_WIDTH = Math.floor(this.stage.stageWidth / tilesOnWidth);
+			GameCommon.TILE_HEIGHT = Math.floor((this.stage.stageHeight - 90) / tilesOnHeight);
+			//totalMines = tilesOnWidth * tilesOnHeight / 7;
 			_screenUI.addChild(_boardPH);
 			
 			setTiles();
 			placeMines();
 			
-			
 			setTilesCounters();
 			
+			tilesOpened = 0;
+
 			_boardPH.x = (_screenUI.width - _boardPH.width)/2;
-			//_boardPH.y = Tile.TILE_SIZE * 3;
-			//startTimer();
-			
-			
 		}
 		
-		private function onTimeTimer():void 
+		private function startTimer():void
 		{
-			var newDate:Date = new Date();
-			newDate.date = newDate.date-date.date;
-			trace("AAAA === " + newDate.seconds);
-			_screenUI.setTime(newDate);
+			_sec = 0;
+			timer = new Timer(0);
+			timer.addEventListener(TimerEvent.TIMER, timerHandler);
+			timer.start();
 		}
 		
-		private function startTimer():void 
+		private function timerHandler(e:TimerEvent):void 
 		{
-			var delayCall:DelayedCall = new DelayedCall(onTimerTick,10);
-			delayCall.repeatCount = 0;
-			Starling.juggler.add(delayCall);
+			_sec++
+			timer.delay = 1000;
+			
+			if (_sec < 10) {
+				timeStr = "00" + _sec;
+			} else
+			if (_sec < 100) {
+				timeStr = "0" + _sec;
+			}
+
+			_screenUI.setTime(timeStr);
 		}
 		
 		private function onTimerTick():void 
 		{
 			var tween:Tween = new Tween(_boardPH, .5, Transitions.EASE_OUT);
-			tween.moveTo(_boardPH.x, _boardPH.y - Tile.TILE_SIZE);
+			tween.moveTo(_boardPH.x, _boardPH.y - GameCommon.TILE_WIDTH);
 			Starling.juggler.add(tween);
 		}
-		
-		
-		
 		
 		private function setTilesCounters():void 
 		{
@@ -109,15 +128,13 @@ package game
 			}
 		}
 		
-		
 		private function setTiles():void
 		{
 			_tiles = new Dictionary();
 			
-			
-			for (var i:int = 0; i < TILES_ON_WIDTH; i++) 
+			for (var i:int = 0; i < tilesOnWidth; i++) 
 			{
-				for (var j:int = 0; j < TILES_ON_HEIGHT; j++) 
+				for (var j:int = 0; j < tilesOnHeight; j++) 
 				{
 					setNewTile(i,j);
 				}
@@ -149,24 +166,59 @@ package game
 		{
 			var tile:Tile = new Tile(xpos, ypos);
 			tile.setPosition();
-			//tile.addEventListener(Tile.TILE_CLICK_MINE_FLAG_EVENT, onTileFlagClick);
-			//tile.addEventListener(Tile.TILE_CLICK_OPEN_EVENT, onTileOpenClick);
 			tile.addEventListener(Tile.BOOOM, onTileExplode);
+			tile.addEventListener(Tile.OPEN, onTileOpen);
 			_tiles[xpos + "_" + ypos] = tile;
-			_boardPH.addChild(tile);				
+			_boardPH.addChild(tile);
+			tilesOpenNeeded++;
+		}
+		
+		private function onTileOpen(e:Event):void 
+		{
+			tilesOpenNeeded--
+			if (!timer)
+			{
+				startTimer();
+			}
+			
+			if (tilesOpenNeeded <= 0)
+			{
+				endGame(true);
+			}
 		}
 		
 		private function onTileExplode(e:Event):void 
 		{
-			Alert.show("BOOOM!!", "",new ListCollection(
-			[
-				{ label: "Try again", triggered: okEndButton_triggeredHandler }
-			]));
+			endGame();
 		}
+		
+		private function endGame(won:Boolean=false):void 
+		{
+			if (timer)
+			{
+				timer.stop();
+			}
+			
+			if (won)
+			{
+				Alert.show("in "+_sec+" seconds", "YOU WON!!",new ListCollection(
+				[
+					{ label: "Play again", triggered: okEndButton_triggeredHandler }
+				]));
+			} else
+			{
+				Alert.show("BOOOM!!", "",new ListCollection(
+				[
+					{ label: "Try again", triggered: okEndButton_triggeredHandler }
+				]));
+			}
+		}
+		
+		
 		
 		private function okEndButton_triggeredHandler(e:Event):void 
 		{
-			dispatchEventWith(NEW_GAME_EVENT)
+			dispatchEventWith(GameEvents.NEW_GAME_EVENT)
 		}
 		
 		private function onTileClick(e:Event):void 
@@ -184,6 +236,8 @@ package game
 				tile = getRandomEmptyTile();
 				tile.mine = true;
 				_tilesWithMines.push(tile);
+				
+				tilesOpenNeeded--;
 			}
 		}
 		
@@ -196,8 +250,8 @@ package game
 			
 			do
 			{
-				xpos = Math.floor(Math.random() * TILES_ON_WIDTH);
-				ypos = Math.floor(Math.random() * TILES_ON_HEIGHT);
+				xpos = Math.floor(Math.random() * tilesOnWidth);
+				ypos = Math.floor(Math.random() * tilesOnHeight);
 				tile = getTileByPosition(xpos, ypos);
 			}
 			while (tile.mine);
@@ -212,6 +266,31 @@ package game
 	
 			return tile;
 		}
+		
+		
+		private function removeTimer():void 
+		{
+			if (timer)
+			{
+				timer.removeEventListener(TimerEvent.TIMER, timerHandler);
+				timer.stop();
+				timer = null;
+			}
+			
+		}
+		
+		override public function dispose():void 
+		{
+			removeTimer();
+			super.dispose();
+		}
+		
+		public function get difficulty():int 
+		{
+			return _difficulty;
+		}
+		
+		
 		
 	}
 

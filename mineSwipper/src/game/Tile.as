@@ -21,8 +21,7 @@ package game
 		private var _counter:int = 0;
 		
 		static public const BOOOM:String = "booom";
-		
-		public static var TILE_SIZE:Number = 40;
+		static public const OPEN:String = "open";
 
 		private var _mine:Boolean;
 		
@@ -51,7 +50,6 @@ package game
 			this._xpos = xpos;
 			this._ypos = ypos;
 			
-			
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToSTage);
 		}
 		
@@ -63,19 +61,19 @@ package game
 		
 		private function init():void 
 		{
-			TILE_SIZE = Math.round(stage.stageWidth / 10);
-			
-			quad = new Quad(TILE_SIZE, TILE_SIZE, 0x999999);
+			quad = new Quad(GameCommon.TILE_WIDTH, GameCommon.TILE_HEIGHT, 0x999999);
+
 			_contentPH.addChild(quad);
 			
-			quad2 = new Quad(TILE_SIZE-4, TILE_SIZE-4, 0xcccccc);
-			quad2.x = quad2.y = 2;
+			quad2 = new Quad(GameCommon.TILE_WIDTH-2, GameCommon.TILE_HEIGHT-2, 0xcccccc);
+			quad2.x = quad2.y = 1;
 			_contentPH.addChild(quad2);
 			
-			var textFormat:TextFormat = new TextFormat("Verdana", TILE_SIZE/2);
-			_counterTF = new TextField(TILE_SIZE, TILE_SIZE);
+			var textFormat:TextFormat = new TextFormat("Arial", GameCommon.TILE_WIDTH / 2);
+			textFormat.bold = true;
+			_counterTF = new TextField(GameCommon.TILE_WIDTH, GameCommon.TILE_HEIGHT);
 			_counterTF.format = textFormat;
-			_flagTF = new TextField(TILE_SIZE, TILE_SIZE, "X");
+			_flagTF = new TextField(GameCommon.TILE_WIDTH, GameCommon.TILE_HEIGHT, "X");
 			_flagTF.format = textFormat;
 			
 			addEventListener(TouchEvent.TOUCH, onTouch);
@@ -134,8 +132,8 @@ package game
 		
 		public function setPosition():void 
 		{
-			x = xpos * TILE_SIZE;
-			y = ypos * TILE_SIZE;
+			x = xpos * GameCommon.TILE_WIDTH;
+			y = ypos * GameCommon.TILE_HEIGHT;
 		}
 		
 		public function get mine():Boolean 
@@ -148,7 +146,7 @@ package game
 			_mine = value;
 			if (value)
 			{
-				mineImage = new Quad(TILE_SIZE-20, TILE_SIZE-20, 0);
+				mineImage = new Quad(GameCommon.TILE_WIDTH-20, GameCommon.TILE_WIDTH-20, 0);
 				mineImage.x = 10;
 				mineImage.y = 10;
 				
@@ -193,8 +191,11 @@ package game
 					{
 						_contentPH.addChild(mineImage);
 						dispatchEventWith(BOOOM);
+						return
 					}
 				}
+				
+				dispatchEventWith(OPEN);
 			}
 		}
 		
@@ -217,6 +218,19 @@ package game
 		{
 			_counter = value;
 			_counterTF.text = value.toString();
+			
+			switch (value) {
+					case 1:
+						_counterTF.format.color = 0x0000ff;
+						break;
+					case 2:
+						_counterTF.format.color = 0x00ff00;
+						break;
+					case 3:
+						_counterTF.format.color = 0xff0000;
+						break;
+			}
+			
 			
 			if (empty)
 			{
